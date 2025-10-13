@@ -1,0 +1,43 @@
+export const marioStrikersModals = [
+    {
+        'id':   'superMarioStrikers',
+        'img':  'Super_Mario_Strikers',
+        'content': `          
+                    <p><strong>Super Mario Strikers</strong> (スーパーマリオストライカーズ Supa Mario Sutoraikāzu), conhecido como <strong>Mario Smash Football</strong> na Europa e Austrália, é um jogo eletrônico de futsal desenvolvido pela Next Level Games para o Nintendo GameCube. O jogo foi inicialmente lançado na Europa e nos Estados Unidos pelo final de 2005, e no Japão e Austrália no início de 2006. A sequência, intitulada Mario Strikers Charged, também foi programada pela Next Level Games, porém servira apenas para o Wii. Os desenvolvedores do jogo trabalharam na série NHL um pouco antes de iniciar os trabalhos com Strikers, o que serviu como inspiração para criar o ambiente dinâmico e ação física que ocorre no jogo.</p>
+
+                    <p>Strikers é um jogo de esportes que inclui várias características e tamas da série Mario. O combate apresenta todos os aspectos e objetivos básicos de um jogo de futebol. Como não tem árbitros, os personagens podem bater e atacar seus oponentes de forma legítima, a fim de tirar a bola. Semelhante a outros jogos de esportes como Mario Power Tennis, o jogador pode usar itens empregados no Mario, como bananas ou conchas, para deter o avanço inimigo e, assim, ganhar vantagem durante o jogo. O capitão de cada equipe é capaz de realizar um Super Strikers, que, caso for realizado em ritmo adequado, pode gerar dois pontos extras para a equipe detentora da técnica. Todo time é composto por um capitão, representado por um personagem principal do Mario, e três figuras secundárias, funcionando como companheiros de campo.</p>
+
+                    <p>O jogo recebeu uma boa recepção da mídia especializada. Alcançou uma pontuação média de 76% na GameRankings. Em geral, os críticos elogiaram a acessibilidade e o modo multijogador de Strikers, mas também mencionaram a falta de mais opções de jogo, bem como, uma maior diversidade de módulos para o estado single player.</p>
+                    `,
+        'title': 'Super Mario Strikers E3 2005 Trailer',
+        'video': 'https://www.youtube.com/embed/KHU0wR9N_KU'
+    },
+    {
+        'id':   'marioStrikersCharged',
+        'img':  'Mario_Strikes_Charged',
+        'content': `          
+                    <p><strong>Mario Strikers Charged</strong> (conhecido como <strong>Mario Strikers Charged Football</strong> em línguas europeias) é um jogo de futebol Super Mario para Wii e a sequência do jogo Super Mario Strikers para Nintendo GameCube de 2005, desenvolvido pela Next Level Games e é o segundo jogo da série Mario Strikers. Até quatro jogadores podem participar deste jogo, tentando chutar a bola para o gol de outro adversário; o futebol neste jogo, no entanto, tem várias diferenças do futebol real, como a capacidade de atacar outros jogadores com uma penalidade mínima, usar itens com o tema Super Mario para dar aos jogadores uma vantagem sobre seus oponentes e jogar com os perigos do palco de forma eficaz . Este jogo dá maior ênfase aos atributos individuais dos personagens em comparação com seu precedente, não apenas atribuindo estatísticas, mas também dando aos capitães de equipe uma Super Habilidade única e o Mega Strike, uma oportunidade de marcar até seis gols. Enquanto isso, a própria equipe pode ser composta por várias espécies diferentes de Super Mario, cada uma com atributos únicos, incluindo Skillshots. Outra mecânica introduzida é o nível de potência da bola. Indicados pela cor do brilho, os chutes da bola tornam-se mais rápidos e potentes quanto mais ativa ela for, facilitando assim a marcação de gols. O jogo, assim como seu antecessor, também difere estilisticamente da maioria dos jogos Super Mario com tons de ficção científica mais realistas, desde a interface do menu até os designs dos cenários, em contraste com os temas mais comuns de desenhos animados brilhantes e caprichosos.</p>
+
+                    <p>Além dos modos single player e multiplayer local, o jogo também apresentava multiplayer regional online, que utilizava a conexão Wi-Fi da Nintendo. Ao contrário da maioria dos jogos que tinham recursos Wi-Fi, os dados do jogo de Mario Strikers Charged podiam ser copiados (mas não movidos) para um cartão SD. No entanto, não foi possível copiar todos os dados relacionados ao Wi-Fi.</p>
+                    `,
+        'title': 'Mario Strikers Charged Nintendo Wii Trailer - New Strikers',
+        'video': 'https://www.youtube.com/embed/PJZVydo57Hw'
+    },
+    {
+        'id':   'marioStrikersBattle',
+        'img':  'Mario_Strikes_Battle',
+        'content': `          
+                    <p><strong>Mario Strikers: Battle League</strong> (conhecido em línguas europeias como <strong>Mario Strikers: Battle League Football</strong>) é um jogo para Nintendo Switch. É o terceiro jogo da série Mario Strikers e o primeiro desde Mario Strikers Charged, 15 anos antes, apresentando novos equipamentos, itens e movimentos. Até oito jogadores podem jogar no modo multijogador. O jogo também apresenta um modo online Strikers Club, onde os jogadores podem hospedar clubes com até 20 jogadores e competir contra outros clubes para ganhar pontos e aumentar suas classificações. O jogo foi lançado mundialmente em 10 de junho de 2022 e recebeu três atualizações gratuitas pós-lançamento antes do final de 2022, que incluíam novos personagens jogáveis, estádios e conjuntos de equipamentos.</p>
+
+                    <p>A jogabilidade é semelhante à dos jogos anteriores de Mario Strikers, onde duas equipes de cinco (quatro jogadores e um goleiro) competem por pontos colocando a bola na rede do time adversário. Seguindo as regras do futebol de rua, não existem penalidades como as faltas, o que significa que os jogadores podem enfrentar os adversários no campo. Como nos jogos anteriores, itens e movimentos especiais são usados para mudar o rumo do jogo. Ao jogar ofensivamente, os jogadores se concentram em levar a bola até o gol, passando-a ou arremessando-a para seus companheiros de equipe, e realizando combos com seus companheiros para fazer chutes poderosos. Ao jogar defensivamente, os jogadores usarão várias técnicas para recuperar a bola, incluindo itens e também abordá-los. Alguns movimentos, como passes livres, chutes carregados e desarmes, possuem medidores que indicam quando são mais poderosos, tornando necessário o tempo para ter o melhor desempenho no jogo. Também existe a capacidade de esquiva, o que permitirá aos jogadores escapar rapidamente de um atacante que se aproxima. Sincronizar perfeitamente uma esquiva de um tackle recompensará o jogador com um ligeiro aumento de velocidade.</p>
+
+                    <p>Uma nova técnica introduzida neste jogo é chamada Team Tackle. Se um jogador atacar seu próprio companheiro de equipe, ele o enviará rapidamente pelo palco. Isso pode ser usado tanto defensivamente, usando Team Tackle em um adversário e roubando a bola dele, ou ofensivamente, aproximando o companheiro do gol.</p>
+
+                    <p>Semelhante ao Super Strike de Super Mario Strikers e Mega Strike de Mario Strikers Charged, o novo Hyper Strike atua como o movimento especial do jogo e é ativado de maneira semelhante ao último. Ao contrário desses movimentos, no entanto, os Hyper Strikes devem primeiro ser obtidos coletando um Strike Orb que aparece ocasionalmente no campo. Além disso, em vez de apenas ter diferenças estéticas, o Hyper Strike de cada personagem possui diferentes propriedades relacionadas à jogabilidade, tornando-os semelhantes aos Special Shots de Mario Sports Mix. Se cronometrados perfeitamente, os Hyper Strikes são capazes de contornar os goleiros, garantindo o gol.</p>
+
+                    <p>Outro novo conceito introduzido neste jogo é a customização. Além das opções de customização estética, como a cor do time, os equipamentos podem ser adquiridos na loja do jogo com Moedas, que permitem ao jogador ajustar diversos atributos como velocidade de movimento, chutes curvos, resistência a roubo da bola, e mais. Ao selecionar personagens, o jogador pode escolher se deseja equipar seu personagem com equipamentos ou não.</p>
+                    `,
+        'title': 'Mario Strikers: Battle League Football | Official Gameplay Overview Trailer',
+        'video': 'https://www.youtube.com/embed/-fDte7xoNr8'
+    }
+]
