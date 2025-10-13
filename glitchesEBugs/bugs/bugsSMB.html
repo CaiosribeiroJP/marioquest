@@ -1,0 +1,459 @@
+<h2 class="text-warning text-center">Super Mario Bros</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Credits Warp</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/disappearing-power-ups.gif">
+<p>No Super Mario Bros, quando há mais de um power-up na tela (por exemplo, dois cogumelos ou uma flor de fogo), o 
+    primeiro desaparece assim que o segundo aparece.
+    Ou seja: 
+    Você faz dois blocos com power-ups próximos, e quando o segundo item sai do bloco, o primeiro simplesmente 
+    some.</p>
+<p>O Super Mario Bros foi feito para o NES, que tinha limitações severas de hardware — incluindo a quantidade de 
+    sprites ativos simultaneamente e memória disponível para armazenar dados dos inimigos e objetos.
+    O jogo tem uma lista de sprites ativos na memória, onde cada slot guarda as informações de um objeto, como: 
+    Tipo (Goomba, Fire Flower, etc.);
+    Posição X/Y;
+    Velocidade;
+    Estado (ativo, coletado, etc.).
+    Essa lista tem número limitado de slots (geralmente 5).
+    E — muito importante — os power-ups compartilham o mesmo slot de “objeto especial”.
+    Então:
+    Quando o primeiro power-up é criado, ele usa o slot reservado.
+    Quando o segundo power-up é gerado, ele substitui o anterior, fazendo o primeiro desaparecer.</p>
+<p>O problema é que o código não permite mais de um power-up ativo ao mesmo tempo — por design, não por bug 
+    acidental.
+    Isso economizava memória e processamento no NES, que tinha apenas 2 KB de RAM e muito pouco espaço de sprite 
+    rendering.
+    Mas, do ponto de vista do jogador, isso se manifesta como um glitch visual, já que o primeiro item “desaparece 
+    magicamente” sem motivo aparente.</p>
+<br>
+<br>
+
+<h3><i>Frozen flag</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_Flagpole_Glitch.gif">
+<p>Normalmente, quando Mario encosta no mastro da bandeira (flagpole) no final da fase: 
+    A bandeira desce.
+    Mario escorrega para o chão.
+    O jogo toca a música e corta o controle do jogador.
+    O timer para e a pontuação é calculada.
+    No glitch conhecido como Frozen Flag, Mario encosta no mastro, mas a bandeira não desce — ela fica congelada 
+    no topo.
+    Apesar disso, o jogo reconhece o toque no mastro e faz Mario seguir para o castelo como se tudo estivesse 
+    normal.</p>
+<p>No Super Mario Bros, o final da fase é controlado por um código de evento que depende de colisões e posições 
+    específicas: 
+    Quando Mario colide com o tile do mastro, o jogo define uma flag na memória: 
+    <p>MarioTouchedFlagpole = true</p>
+    Em seguida, o jogo ativa a animação da bandeira descendo e muda o estado de Mario para “flagpole slide”.
+    A cada frame, o jogo move a bandeira 1 pixel para baixo até atingir o limite.
+    Quando a bandeira chega ao fim, o jogo:
+    Faz Mario andar automaticamente até o castelo.
+    Faz o timer parar e o jogo prepara a próxima fase.</p>
+<p>O Frozen Flag Glitch quebra essa sequência porque Mario ativa o evento de toque no mastro, mas nunca realmente aciona o evento da bandeira descendo.
+    Isso acontece quando Mario colide com o tile da bandeira e o bloco do mastro ao mesmo tempo, ou seja, duas colisões na mesma frame.
+    O jogo, então: 
+    <p>Define a flag MarioTouchedFlagpole = true </p>
+    <p>Mas nunca define a flag FlagShouldMove = true</p>
+    O resultado: 
+    Mario entra na animação normal do final de fase (como se tivesse descido o mastro),
+    Mas a bandeira fica congelada no topo — o “Frozen Flag”.</p>
+<p>O NES é um sistema frame-based, ou seja, tudo acontece em ciclos muito rápidos (60 vezes por segundo).
+    No exato frame em que o glitch é executado:
+    Mario está posicionado entre dois blocos: o do mastro e o bloco lateral do castelo.
+    O motor de colisão do jogo lê as colisões de cima para baixo.
+    Como Mario “entra” no mastro pelo canto, o jogo registra o toque mas pula a rotina de movimentar a bandeira, 
+    porque o código de detecção de colisão não espera que ele toque o mastro dessa forma.
+    O código mais ou menos faz isso:
+    <p>if MarioTouchesFlagpole then</p>
+    <p>SetMarioSliding()</p>
+    <p>MoveFlagDown()</p>
+    Mas no glitch, o segundo comando (MoveFlagDown()) é pulado, porque a posição de Mario sai da área da flagpole 
+    antes do próximo frame.
+    Isso faz com que: 
+    A bandeira nunca receba atualização de posição.
+    O jogo ainda interprete o toque como válido e inicia o fim da fase.
+    O tempo e a movimentação de Mario funcionem normalmente.</p>
+<p>Há uma variação do glitch onde o jogador usa um Bullet Bill (projétil) para ser empurrado até o mastro:
+    Quando o Bullet Bill empurra Mario no frame certo, ele toca o mastro sem que o jogo detecte o contato 
+    completo com a bandeira.
+    Isso aciona o evento de final de fase (Mario começa a andar sozinho e o tempo conta para pontuação),
+    Mas, novamente, a bandeira não se move, permanecendo congelada.</p>
+<br>
+<br>
+
+<h3><i>Minus World</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_How_to_Get_to_Minus_World.gif">
+<p>O Minus World é uma fase secreta e infinita de Super Mario Bros, acessada a partir do Mundo 1-2 por meio de um glitch.
+    Quando o jogador executa o truque corretamente, ele entra em um cano que o leva para uma fase chamada 
+    “World -1” (ou “World 36-1” em algumas versões).
+    Essa fase é, na verdade, uma cópia corrompida do Mundo 7-2, mas com o destino de saída configurado 
+    incorretamente — o que faz o jogo recarregar a mesma fase infinitamente, prendendo o jogador para sempre.</p>
+<p>No Mundo 1-2, o jogador deve: 
+    Ir até o fim da fase, onde há o cano de saída para a superfície.
+    Quebrar os blocos acima desse cano.
+    Pular de um jeito específico para “atravessar” a parede sem realmente entrar no cano normalmente.
+    Se feito com o timing certo, Mario entra parcialmente no cano pelo lado, e o jogo confunde de qual tubo ele 
+    está saindo.
+    O resultado: 
+    O jogo tenta carregar o nível associado ao cano de saída, mas usa o endereço de memória errado — levando 
+    Mario ao “Mundo -1”.</p>
+<p>No Super Mario Bros, os canos de transição (os que levam a outros lugares) são definidos por tabelas de 
+    destino na memória.
+    Quando Mario entra em um cano, o jogo faz o seguinte:
+    Lê a posição de Mario no mapa.
+    Procura na tabela o índice do cano correspondente.
+    Usa esse índice para: 
+    Carregar o ID da próxima fase.
+    Definir a posição inicial.
+    Mudar o mundo e nível na tela (ex: 1-2 → 1-3).
+    Mas… 
+    quando o glitch é ativado, Mario entra em um cano “por fora”, sem que o índice correto seja definido.
+    O jogo, então: 
+    Lê dados de memória aleatórios (garbage data).
+    Interpreta esses bytes como o ID do mundo e do nível.
+    Exibe o texto “World -1”, porque o byte lido corresponde ao valor 255 (0xFF), que o jogo interpreta como -1 
+    em número com sinal.</p>
+<p>O motor de colisão e warp do jogo foi feito com a suposição de que Mario sempre entraria corretamente por cima 
+    do cano.
+    Quando ele entra pelo lado, o código que define o cano ativo nunca é executado, e o jogo acaba usando valores 
+    residuais na memória — ou seja, o último dado válido armazenado.
+    Em termos simples:</p>
+    <p>if MarioEnteredPipe then</p>
+        <p>LoadPipeDestinationData()</p>
+    <p>else</p>
+        <p>UsePreviousValuesInRAM()</p>
+    No glitch, o LoadPipeDestinationData() nunca é chamado, e o jogo usa o que já estava na RAM — geralmente 
+    bytes da fase atual (1-2), interpretados como um destino inválido.
+    Esses bytes apontam para: 
+    O layout da fase 7-2, mas
+    Um warp que leva de volta a si mesmo → criando o loop infinito</p>
+<p>No “Minus World”, o nível que o jogo carrega tem uma porta de saída incorreta (por causa dos dados corrompidos).
+    Quando você tenta sair da fase, o jogo: 
+    Usa o mesmo valor de destino que já está na RAM,
+    E recarrega o mesmo nível novamente.
+    Isso cria o loop infinito que prende Mario para sempre.</p>
+<p>Na versão japonesa (Famicom Disk System), o Minus World é diferente — são três fases distintas, e é possível 
+    terminá-las normalmente.
+    O nome “World -1” vem do fato de o byte 255 (0xFF) ser interpretado como -1 em números com sinal.
+    É um erro legítimo de leitura de memória, não algo programado de propósito.
+    Em ROM hacks e ports modernos, o glitch muitas vezes foi corrigido ou usado propositalmente como easter egg.</p>
+<br>
+<br>
+
+<h3><i>Mushroom jump glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_Jumping_in_Midair_Glitch.gif">
+<p>O jogador precisa pegar um power-up (Cogumelo ou Flor de Fogo) enquanto está no ar — por exemplo, saltando para 
+    tocar o item.
+    No exato momento em que Mario entra na animação de transformação, o jogo congela temporariamente o controle 
+    do jogador, mas mantém o último comando de botão registrado.
+    Se o jogador pressionar o botão de pulo (A ou B) durante essa transição, o jogo “lembra” do comando, mas só 
+    aplica o efeito depois que a transformação termina.
+    Quando o jogo retoma o controle normal, ele executa o comando de pulo armazenado — mesmo que Mario não esteja 
+    tocando o chão — e isso faz com que ele salte no ar, criando o “salto duplo” ilusório.</p>
+<p>O glitch acontece por causa de uma falha na rotina de atualização de estados de Mario no código do jogo:
+    Durante a animação de transformação, o jogo pausa a física (gravidade e colisões) de Mario.
+    No entanto, o registrador de entrada de botões ainda é atualizado.
+    O comando de pulo é armazenado em uma variável temporária antes que o estado de “em transformação” bloqueie 
+    os movimentos.
+    Quando o estado volta a “normal”, essa variável não é redefinida imediatamente, fazendo com que o pulo 
+    aconteça sem verificar se Mario está no chão.
+    Em resumo: o jogo “esquece” de verificar se Mario pode pular antes de executar o comando armazenado.</p>
+<p>Se o glitch for feito com uma Flor de Fogo, o som do tiro de fireball substitui o som do pulo, porque o jogo 
+    ainda está em meio à sequência de transformação e tenta tocar os dois sons quase ao mesmo tempo.
+    O glitch também está presente em Super Mario All-Stars, pois o motor de jogo recriado para o SNES mantém a 
+    mesma lógica de transformação.</p>
+<br>
+<br>
+
+<h3><i>Over the flagpole</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_W3-3_Glitch1.gif">
+<p>Em condições normais, o final de uma fase de Super Mario Bros. é limitado por dois elementos:
+    O mastro da bandeira (flagpole), que detecta colisão com Mario.
+    Um bloco invisível (invisible wall) posicionado no topo da escada, para evitar que o jogador pule acima da 
+    bandeira.
+    O glitch ocorre em fases onde esse bloco invisível não foi posicionado corretamente — ou seja, há espaço 
+    suficiente entre o topo da escada e o limite superior da tela para Mario saltar por cima da bandeira, 
+    escapando da “zona de término” da fase.</p>
+<p>O jogo foi programado para: 
+    Detectar o término da fase somente quando Mario colide com o mastro da bandeira.
+    Não criar uma barreira física após o mastro — o cenário simplesmente continua.
+    Ou seja: 
+    Nada impede Mario de continuar andando após o mastro.
+    O jogo nunca verifica se o jogador passou “do fim” porque, tecnicamente, o mastro é o fim.
+    Então, quando o jogador consegue subir alto o suficiente (geralmente usando escadas ou plataformas móveis) e 
+    pular além do topo do mastro, ele entra em uma área onde:
+    Não há colisões programadas;
+    Não há eventos de término de fase;</p>
+<p>A rotina de colisão com o mastro funciona assim:
+    <p>IF (Mario.x == Flagpole.x) AND (Mario.y >= FlagBase)</p>
+        <p>-> Iniciar sequência de término da fase</p>
+    Mas o jogo não verifica se Mario ultrapassou Flagpole.x sem colidir — então se o jogador passa direto, a flag 
+    nunca é ativada e o jogo continua.
+    Além disso, o flagpole é um sprite, não um objeto sólido. Ele só serve para detectar colisão — então o espaço 
+    acima dele é “livre”.
+    Se o jogador atinge esse espaço com um salto suficientemente alto (como no World 1-1 ou 3-3), ele escapa da 
+    colisão completamente.</p>
+<p>No famoso caso da fase 1-1, o truque usa a física de um Koopa Troopa que cai e fica parcialmente travado no chão.
+    Isso muda a forma como o jogo atualiza as colisões no topo da escada — permitindo que Mario atinja um ponto 
+    de salto mais alto do que o normal.
+    Ao realizar o salto preciso: 
+    Mario entra em uma posição de pixel exata onde o bloco invisível não existe.
+    O jogo o coloca acima do topo da bandeira, permitindo ultrapassar o limite.</p>
+<p>Após o mastro, o jogo não contém mais eventos, blocos ou colisões significativas:
+    O chão se estende continuamente com tiles repetidos.
+    Não há código para encerrar a fase automaticamente.
+    O fundo e os blocos começam a se “embaralhar” graficamente após certo ponto, pois o mapa de tiles não tem 
+    dados carregados além da zona final.
+    Por isso, o jogador só pode: 
+    Correr infinitamente até o tempo acabar, ou
+    Usar cheats para continuar e ver os gráficos corrompidos no final da área.</p>
+<br>
+<br>
+
+<h3><i>Red Shell out of thin air</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_W4-1_Glitch1.gif">
+<p>No caso mais comum (Mundo 3-1):
+    O jogador encontra um Koopa Troopa verde andando abaixo de um conjunto de blocos de tijolo.
+    Mario acerta o bloco por baixo, atingindo o Koopa por meio da colisão.
+    O Koopa é derrotado e se transforma em um casco verde virado de cabeça para baixo.
+    Poucos quadros depois, o jogo começa a atualizar o estado desse Koopa para fazê-lo sair do casco.
+    Se, nesse exato momento, o jogador acerta novamente o mesmo bloco, o jogo tenta acessar o mesmo espaço de 
+    memória do Koopa — mas com uma rotina diferente (a dos blocos), o que altera os dados do inimigo na RAM.
+    O valor hexadecimal que representa “Koopa verde” (por exemplo 02) é sobrescrito por outro valor (como 03), que 
+    o jogo interpreta como “Koopa vermelho”.
+    Resultado: o casco muda de cor ou surge como um casco vermelho novo “do nada”.</p>
+<p>Esse glitch é um caso clássico de corrupção de dados temporários na RAM do NES.
+    O Super Mario Bros. usava uma tabela de sprites limitada, onde cada inimigo ativo era controlado por um slot 
+    de memória contendo informações.</p>
+<p>Quando o jogador acerta um bloco, o jogo também usa os mesmos registradores temporários para controlar o 
+    movimento do bloco e os efeitos gráficos (como moedas ou power-ups).
+    O erro ocorre porque: 
+    O jogo não “limpa” a memória temporária antes de reutilizá-la para outro propósito.
+    Se o tempo de execução entre as duas ações (Koopa sendo atingido e bloco sendo ativado) coincide exatamente, 
+    os dados do Koopa são parcialmente sobrescritos pelos dados do bloco.
+    Esses bytes modificados mudam o “ID do inimigo”, transformando-o em um casco vermelho, um Spiny Egg, ou outro 
+    objeto definido no mapa de sprites.</p>
+<p><p>; Pseudocódigo simplificado</p>
+    <p>Koopa.type = GREEN   ; 02h</p>
+    <p>If (blockHit && Koopa.state == recovering)</p>
+        <p>Koopa.type = valueFrom(blockRoutine) ; sobrescreve 02h → 03h</p>
+    Isso gera a troca visual e comportamental: 
+    O sprite verde passa a ser vermelho,
+    E o jogo não sabe que isso é um erro — apenas exibe o novo tipo normalmente.</p>
+<p>Mundos 4-1 e 6-1:
+    O glitch também ocorre quando um Spiny Egg lançado por um Lakitu cai exatamente sobre um bloco que Mario 
+    acerta.
+    O mesmo conflito de atualização acontece: o jogo tenta atualizar o Spiny Egg e o bloco no mesmo quadro, 
+    resultando na criação de um casco vermelho.
+    Super Mario All-Stars (SNES): 
+    Mesmo sendo uma versão reprogramada, o glitch permanece — porque a lógica de gerenciamento de inimigos e 
+    blocos foi mantida fiel ao original.</p>
+<br>
+<br>
+
+<h3><i>Jumping damage glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_Jumping_Damage_Glitch.gif">
+<p>O jogador vai até a área do World 1-1 com os dois Goombas e um buraco logo depois dos blocos altos.
+    Ele deve subir nos blocos, esperar os Goombas aparecerem, e então: 
+    Recuar levemente.
+    Esperar o primeiro Goomba se aproximar do buraco.
+    Correr e pular da beirada no momento certo.
+    Se o tempo for exatamente perfeito, Mario sobe tão alto que sua posição vertical sai momentaneamente da área 
+    visível da tela (off-screen).
+    Nesse breve instante, o jogo lê incorretamente os valores de posição vertical e colisão, interpretando que 
+    Mario entrou em contato com o Goomba — mesmo sem tocá-lo visualmente.
+    O resultado é que Mario morre instantaneamente (se for pequeno) ou perde o power-up (se for Super Mario), 
+    como se tivesse colidido com o inimigo.</p>
+<p>Esse glitch é resultado de uma falha no cálculo de coordenadas entre a posição do jogador e a posição dos 
+    inimigos, causada pelo overflow de posição vertical (Y) quando Mario sai da tela superior.
+    Em termos técnicos: 
+    O Super Mario Bros. armazena as posições verticais e horizontais de Mario e dos inimigos em valores de 8 bits 
+    (0–255).
+    Quando Mario salta alto o suficiente para sair da tela, o valor de sua coordenada Y ultrapassa o limite 
+    máximo (255).
+    O processador reinicia o valor (overflow), fazendo parecer que Mario está abaixo do chão na mesma posição Y 
+    que o Goomba.
+    Como o jogo só verifica se as caixas de colisão (hitboxes) de Mario e do inimigo têm coordenadas próximas, 
+    ele “acredita” que houve contato — e aplica dano.</p>
+<p><p>Mario.Y = 255 (máximo)</p>
+    <p>Mario salta → Mario.Y = 260</p>
+    <p>Mas o valor 260 não existe → volta a 4 (overflow)</p>
+    <p>Goomba.Y = 4</p>
+    <p>→ Jogo acha que Mario e Goomba se tocaram</p>
+    <p>→ Dano aplicado</p>
+    Ou seja: o jogo literalmente “pensa” que Mario caiu em cima do inimigo, quando na verdade ele está acima da 
+    tela.</p>
+<p>Esse glitch não pode acontecer em qualquer ponto da fase, porque: 
+    Depende de um Goomba ou inimigo ativo na memória, próximo o suficiente horizontalmente.
+    Precisa que Mario suba acima do topo da tela, o que só ocorre com blocos altos e pulo preciso.
+    O cálculo de colisão só é executado se ambos estiverem “carregados” no mesmo segmento de memória — se o 
+    inimigo estiver muito longe, o glitch não acontece.
+    O trecho de World 1-1 atende a todas essas condições, por isso ele é o local clássico para realizar o glitch.</p>
+<br>
+<br>
+
+<h3><i>Magic Mushroom glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_W1-1_Glitch2.gif">
+<p>Em World 1-1, há um trecho onde um ? Block libera um Mushroom perto de um buraco (gap).
+    O jogador deve estar na forma pequena (Small Mario) e bater no bloco para liberar o cogumelo.
+    O cogumelo então anda para o lado e cai no buraco, desaparecendo da tela.
+    O jogador, logo em seguida, pula para o topo da tela (no nível dos blocos).
+    Se o tempo for exato, Mario se transforma em Super Mario, mesmo sem ter tocado o cogumelo visivelmente.</p>
+<p>O erro acontece por causa de como o NES gerencia a posição vertical dos objetos (sprites) em Super Mario 
+    Bros., sem rolagem vertical.
+    O jogo só “apaga” (ou descarrega) um objeto quando o último pixel do sprite sai completamente da área visível 
+    da tela.
+    Até esse momento, o objeto continua existindo logicamente na memória, mesmo que não seja mais desenhado na 
+    tela.</p>
+<p>Quando o Mushroom começa a cair no buraco: 
+    Ele ainda tem coordenadas válidas (Y = 239, o limite inferior da tela).
+    O jogo ainda o considera ativo, porque apenas verifica se ele saiu totalmente da tela.
+    Enquanto o cogumelo está nessa “zona invisível”, o jogo ainda verifica colisões horizontais com Mario.
+    Se Mario estiver acima da tela (por exemplo, pulando sobre os blocos), a rotina de colisão não checa se ele 
+    realmente vê o cogumelo — ela só compara as coordenadas X e Y.
+    Se ambas coincidirem por alguns pixels (o que pode ocorrer devido ao “wrap” de posição vertical), o jogo 
+    entende que houve contato, e aplica o efeito:
+    <p>Mario.state = SUPER</p>
+    <p>Play sound “power-up”</p>
+    O resultado: Mario se transforma, mesmo que o cogumelo já tenha “caído no buraco”.</p>
+<p>O Super Mario Bros. original não tem rolagem vertical nas fases horizontais.
+    Isso significa que:
+    O jogo não atualiza a posição dos sprites fora da área visível verticalmente.
+    Se um objeto cai por baixo da tela, ele continua “existindo” até sumir totalmente.
+    Esse espaço é uma espécie de “limbo de colisão”, onde objetos invisíveis ainda podem interagir brevemente com 
+    Mario.</p>
+<p>Esse glitch só pode ocorrer em locais onde: 
+    Há um buraco logo abaixo de um ? Block com cogumelo, e
+    Mario pode ficar no topo da tela, mantendo o mesmo alinhamento horizontal (X) do item.
+    O ponto do World 1-1 é perfeito, pois a borda superior e o buraco estão na distância exata para esse 
+    comportamento acontecer antes que o cogumelo seja completamente descarregado da memória.</p>
+<br>
+<br>
+
+<h3><i>Sliding glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_Glitch_Unmovingmario.gif">
+<p>Para ativar o glitch, o jogador deve: 
+    Estar com o Fire Mario (Mario com flor de fogo).
+    Assim que o nível começar — ou logo após sair de um cano — pular e atirar uma bola de fogo imediatamente.
+    Se o tempo for exato, Mario poderá se mover normalmente, mas seus pés não se mexem, dando a impressão de que 
+    ele está deslizando pelo chão.
+    O efeito dura apenas alguns segundos, ou até que Mario leve dano ou o jogo atualize novamente sua animação.</p>
+<p>Esse glitch ocorre por uma falha na sincronização das animações de movimento no momento em que o jogo carrega 
+    o estado de Mario.
+    Quando o jogador entra em uma nova área, o jogo inicializa várias variáveis, incluindo:
+    A posição de Mario,
+    Seu estado atual (normal, Super ou Fire),
+    E a animação ativa (andar, pular, atirar, etc.).
+    Ao pular e atirar exatamente nesse instante, o comando de disparar o fogo substitui a animação de andar antes 
+    que ela seja corretamente ativada.
+    O resultado: o jogo atualiza o deslocamento de Mario no mapa (ele anda), mas não atualiza o sprite de suas 
+    pernas, deixando-o com a mesma pose — o que faz parecer que ele está “deslizando”.
+    Em termos técnicos, é uma espécie de race condition (condição de corrida): duas ações — carregar a animação e 
+    disparar a bola de fogo — acontecem quase ao mesmo tempo, e o jogo prioriza uma delas incorretamente.</p>
+<p></p>
+<br>
+<br>
+
+<h3><i>Vine teleportation</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/Smb_vinewrap.gif">
+<p>Esse glitch pode ser feito em qualquer parte de Super Mario Bros. onde há uma videira (vine) — aquelas plantas 
+    que Mario pode subir.
+    O jogador deve subir a videira exatamente no canto esquerdo da tela, ou seja, quando ela está encostada na 
+    borda visível da tela.
+    Ao tocar a videira nesse ponto e começar a subir, Mario é instantaneamente teletransportado para o lado 
+    direito da tela.
+    Ele continua subindo normalmente, mas agora aparece no lado oposto, como se tivesse “atravessado” o mapa 
+    horizontalmente.
+    Esse glitch também ocorre na versão Super Mario All-Stars do SNES — ou seja, mesmo o remake não corrigiu o 
+    problema.</p>
+<p>O erro vem da maneira como Super Mario Bros. trata as coordenadas horizontais (a posição de Mario no eixo X).
+    O jogo armazena a posição de Mario em um valor limitado, que representa sua localização relativa à tela, e 
+    não ao mundo inteiro.
+    A área visível da tela vai de 0 (extrema esquerda) até 255 (extrema direita) — isso porque o processador do 
+    NES usa números de 8 bits para guardar essas coordenadas.
+    Quando Mario toca a videira exatamente no ponto X = 0, o jogo tenta calcular sua nova posição ao “subir” na 
+    planta.
+    Só que, por um erro na rotina de cálculo, ele subtrai 1 desse valor (por exemplo, para ajustar a colisão).
+    👉 Mas como o valor já é 0, e o NES trabalha com números de 8 bits, ele “dá a volta” — o valor passa de 0 
+    para 255.
+    Ou seja: 
+    <p>0 - 1 = 255 (em 8 bits)</p>
+    E o valor 255 representa o extremo direito da tela!
+    Então o jogo entende que Mario está na outra ponta do mapa e o teletransporta para o lado direito.</p>
+<p>Tipo de erro: overflow de coordenada em 8 bits.
+    Causa: a posição X de Mario é calculada de forma incorreta quando está no limite esquerdo.
+    Efeito: o valor “volta” para o outro extremo da tela, criando o efeito de teletransporte.
+    Corrigido? ❌ Não — o glitch permanece até na versão Super Mario All-Stars.</p>
+<br>
+<br>
+
+<h3><i>Walking through walls</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_Walking_Through_Walls_Glitch.gif">
+<p>Esse glitch pode ser feito em praticamente qualquer fase que tenha paredes logo acima do chão (ou seja, blocos 
+    ou estruturas sólidas que não começam diretamente no nível do piso).
+    O jogador deve rolar a tela até que a parede desejada esteja parcialmente visível, de forma que apenas metade 
+    do corpo de Mario possa encaixar-se nela.
+    Então, o jogador precisa pular e pressionar o botão direcional para a esquerda, repetidamente.
+    Se feito com o tempo e a posição corretos, Mario “escorrega” para dentro da parede, atravessando o bloco e 
+    podendo até acessar áreas normalmente inalcançáveis — como o teto das fases de castelo.</p>
+<p>O bug vem do funcionamento interno do sistema de detecção de colisão do NES, que é muito simples para 
+    economizar processamento.
+    Normalmente, o jogo faz o seguinte a cada quadro: 
+    Move Mario horizontalmente (com base na pressão do direcional).
+    Depois, verifica se Mario está colidindo com algum bloco sólido.
+    Se sim, ele empurra Mario para fora da parede — geralmente, um pixel de cada vez — até que não haja 
+    sobreposição.
+    O problema é que, ao pular e pressionar contra a parede, o jogo às vezes atualiza a posição vertical de Mario 
+    antes da horizontal, ou vice-versa, dependendo do quadro.
+    Quando isso acontece: 
+    Mario pode ficar “encaixado” dentro do canto do bloco por alguns frames;
+    O código de correção de colisão tenta empurrá-lo na direção errada (geralmente para dentro, e não para fora);
+    O resultado é que Mario atravessa o bloco inteiro, emergindo do outro lado como se tivesse “passado por 
+    dentro da parede”.
+    Esse comportamento é acentuado quando a tela não está totalmente rolada — ou seja, quando o jogador tenta 
+    atravessar uma parede que está no limite esquerdo da câmera, pois as coordenadas de colisão ficam 
+    parcialmente fora da área ativa de verificação.</p>
+<p>Tipo de erro: falha de sincronização no sistema de detecção de colisões.
+    Causa: ordem incorreta de atualização entre movimento horizontal e vertical, aliada ao posicionamento na 
+    borda da tela.
+    Efeito: Mario atravessa paredes sólidas, podendo chegar a partes ocultas ou ao teto das fases.
+    Corrigido? ❌ Não — o glitch existe nas versões originais do NES e também em Super Mario All-Stars.</p>
+<br>
+<br>
+
+<h3><i>Wall jump glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb/SMB_Wall_Jump_Glitch.gif">
+<p>Durante o jogo: 
+    Mario deve estar se movendo em direção a uma parede ou tubo com velocidade suficiente.
+    Quando ele toca a parede no momento exato em que está caindo ou deslizando, o jogo reconhece por um único 
+    frame (1/60 de segundo) que seu pé “encostou” em uma superfície sólida.
+    Se o jogador pressionar o botão de pulo nesse exato frame, Mario executa um salto completo, mesmo estando 
+    encostado lateralmente — o que é impossível em condições normais.
+    O resultado visual é que Mario salta para longe da parede, como se usasse ela de apoio — exatamente como em 
+    jogos modernos que têm o wall jump como mecânica proposital.</p>
+<p>Para entender o motivo, é preciso olhar como o NES tratava o cálculo de colisões em Super Mario Bros..
+    O mapa é feito de blocos individuais, e cada um é testado separadamente para saber se é sólido. Quando Mario 
+    encosta em uma parede: 
+    O jogo tenta “empurrar” Mario para fora da parede um pixel por vez, até que não haja sobreposição.
+    Porém, durante esse processo, parte do sprite de Mario pode invadir ligeiramente o bloco (1 pixel ou menos).
+    Se esse pixel “invadido” estiver na altura do pé de Mario, o jogo registra momentaneamente que há uma 
+    superfície sólida abaixo dele — como se ele estivesse de pé.
+    Ou seja, por um instante minúsculo, o jogo acha que há chão onde na verdade há uma parede.
+    Se o jogador pressiona o botão de pulo nesse frame, o código de salto é ativado, permitindo que Mario salte 
+    “a partir” da parede.
+    Esse comportamento é consistente em vários jogos 2D da era 8-bit e 16-bit, pois todos reutilizavam uma versão 
+    semelhante do código de colisão da Nintendo, o que explica por que o mesmo glitch aparece também em: 
+    Super Mario Bros. 3, 
+    Super Mario World, 
+    Super Mario World 2: Yoshi’s Island</p>
+<p>Tipo de erro: falha na detecção de colisão lateral (hitbox x tilemap).
+    Causa: o jogo registra erroneamente uma “superfície de apoio” no momento em que Mario encosta lateralmente em 
+    um bloco.
+    Efeito: permite que Mario pule de paredes ou tubos, mesmo sem haver uma plataforma.
+    Corrigido? ❌ Não — o comportamento persiste até Super Mario World, onde o sistema de colisão ainda permitia 
+    pequenos erros de posição por pixel.</p>
+<br>
+<br>
+

@@ -1,0 +1,628 @@
+<h2 class="text-warning text-center">Super Mario Bros 3</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Gray Tanooki Mario</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-HammerTanooki3.png">
+<p>O jogador deve estar com Tanooki Mario (a forma que pode virar estátua).
+    Ao entrar descendo por um cano, se o jogador pressionar o direcional para a direita exatamente nesse momento, 
+    Mario muda de cor: 
+    Ele se torna cinza, mas não vira a estátua — mantém a habilidade de andar normalmente.
+    Assim que Mario sai do cano, ele volta à cor normal, encerrando o efeito.
+    Uma variação ocorre com o Hammer Mario: 
+    Se o jogador pegar a Hammer Suit e se transformar em Statue Mario antes de entrar no cano, Mario ficará 
+    monocromático (cinza), como se fosse de pedra.
+    Devido às propriedades de Statue Mario, ele não pode voltar pelo cano que o levou à sala, ficando preso 
+    temporariamente.</p>
+<p>O glitch surge devido à forma como o NES armazena o estado de power-up, forma especial e cor de Mario: 
+    Cada power-up tem uma flag de estado e uma tabela de cores associada.
+    Quando Mario entra no cano, o jogo tenta alterar seu estado para o próximo ambiente (transição de tela).
+    Se o jogador pressiona uma direção exatamente no momento em que a transição ocorre, o jogo atualiza 
+    parcialmente os bytes de estado e cor: 
+    A cor do sprite é alterada (cinza),
+    Mas o código que transforma Mario em estátua não é ativado, ou é parcialmente ignorado.
+    O resultado é Mario visualmente cinza, mas funcionalmente ainda Tanooki ou Hammer Mario.
+    Isso é basicamente um “estado corrompido temporário”, causado por race conditions entre a rotina de entrada 
+    do jogador, a transição de tela e a atualização de sprite.</p>
+<p>O glitch ocorre em World 3-8 ou 6-10.
+    Mario atinge o bloco que faz a Vine (Beanstalk) crescer.
+    Enquanto a Vine ainda está se expandindo, o jogador move a tela (scroll) para longe do bloco, fazendo com que 
+    a Vine cresça fora da tela.
+    Quando o jogador volta para o bloco da Vine, a parte superior da Vine não aparece, ou seja, ela é “cortada”.</p>
+<p>O glitch acontece por causa de como o jogo desenha e atualiza os objetos na tela: 
+    Objetos têm estados locais limitados: 
+    Cada objeto (como a Vine) só armazena seu estado ativo se estiver próximo do jogador ou da área visível da 
+    tela.
+    Scroll do jogo e renderização: 
+    O Super Mario Bros. 3 só processa objetos dentro da “janela de renderização”. Se a Vine cresce fora da tela, 
+    o jogo não atualiza a posição da parte superior, porque ela está fora da área ativa.
+    Consequência: 
+    Quando o jogador volta, o jogo desenha apenas a parte que estava ativa na memória, cortando a parte superior 
+    que deveria ter sido exibida.
+    É como se a Vine tivesse sido “gerada parcialmente” e o jogo nunca completou o desenho dela.</p>
+<p>Causa: O jogo só processa objetos ativos na tela.
+    Efeito: Objetos que crescem parcialmente fora da tela podem ter suas extremidades cortadas ou desaparecidas.
+    Glitch similar: Muitos outros glitches de “object cutoff” em Mario vêm do mesmo princípio: o jogo não mantém 
+    estado completo de objetos fora da tela.</p>
+<br>
+<br>
+
+<h3><i>Vine cutoff</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/200px-Cut_vine.png">
+<p>O glitch ocorre em World 3-8 ou 6-10.
+    Mario atinge o bloco que faz a Vine (Beanstalk) crescer.
+    Enquanto a Vine ainda está se expandindo, o jogador move a tela (scroll) para longe do bloco, fazendo com que 
+    a Vine cresça fora da tela.
+    Quando o jogador volta para o bloco da Vine, a parte superior da Vine não aparece, ou seja, ela é “cortada”.</p>
+<p>O glitch acontece por causa de como o jogo desenha e atualiza os objetos na tela:
+    Objetos têm estados locais limitados:
+    Cada objeto (como a Vine) só armazena seu estado ativo se estiver próximo do jogador ou da área visível da 
+    tela.
+    Scroll do jogo e renderização:
+    O Super Mario Bros. 3 só processa objetos dentro da “janela de renderização”. Se a Vine cresce fora da tela, 
+    o jogo não atualiza a posição da parte superior, porque ela está fora da área ativa.
+    Consequência:
+    Quando o jogador volta, o jogo desenha apenas a parte que estava ativa na memória, cortando a parte superior 
+    que deveria ter sido exibida.
+    É como se a Vine tivesse sido “gerada parcialmente” e o jogo nunca completou o desenho dela.</p>
+<p>Causa: O jogo só processa objetos ativos na tela.
+    Efeito: Objetos que crescem parcialmente fora da tela podem ter suas extremidades cortadas ou desaparecidas.
+    Glitch similar: Muitos outros glitches de “object cutoff” em Mario vêm do mesmo princípio: o jogo não mantém 
+    estado completo de objetos fora da tela.</p>
+<br>
+<br>
+
+<h3><i>Air walking</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-AirwalkingSMB3.png">
+<p>O glitch só funciona com Raccoon Mario ou Tanooki Mario. 
+    É necessário um nível com quicksand (areia movediça). 
+    O jogador deve correr e encher a Power Meter (ou usar o P-Wing). 
+    Depois, Mario deve tocar a quicksand e pular imediatamente. 
+    Resultado: Mario parece “andar no ar”, subindo e descendo sem tocar o chão.</p>
+<p>O glitch é resultado da interação entre a física de voo e a quicksand:
+    Quicksand altera a física:
+    A areia movediça normalmente reduz a velocidade de Mario e altera sua velocidade vertical e horizontal.
+    Quando Mario toca a areia, seu estado de “no chão” é momentaneamente modificado.
+    Flying mechanic ativa:
+    Raccoon/Tanooki Mario tem a habilidade de voar quando a Power Meter está cheia.
+    Se ele toca a areia e salta no instante certo, a física de voo sobrepõe a física da quicksand.
+    Resultado visual:
+    Mario sobe no ar enquanto o jogo ainda aplica os efeitos da quicksand.
+    Ele parece “andar” no ar, porque está alternando entre os estados de “no chão” e “voando”.
+    Compatibilidade:
+    Funciona tanto na versão original quanto no Super Mario All-Stars, porque o código de física de voo e 
+    quicksand permaneceu praticamente o mesmo.</p>
+<p>Causa: A quicksand altera o estado de Mario, e o pulo ativo ativa a física de voo.
+    Efeito: Mario flutua no ar, criando a ilusão de “air walking”.
+    Requisitos:
+    Ser Raccoon ou Tanooki Mario,
+    Power Meter cheia ou P-Wing ativo,
+    Salto imediatamente após tocar a quicksand</p>
+<br>
+<br>
+
+
+<h3><i>Boom Boom clip</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-Boomboomwallbug.png">
+<p>O glitch envolve Boom Boom, o chefe de alguns castelos.
+    Durante a luta, Mario pode “clipar” através de Boom Boom e atravessar barreiras que normalmente bloqueiam o 
+    progresso.
+    Isso geralmente acontece quando Mario ataca Boom Boom ou o interage de uma forma específica no momento exato 
+    em que Boom Boom se move ou muda de estado.
+    O efeito final é que Mario parece passar pelo chefe ou pelo cenário, quebrando as restrições normais do jogo.</p>
+<p>O glitch é causado por como o jogo processa colisões e sprites de inimigos:
+
+    Estado de colisão de Boom Boom:
+
+    Cada inimigo tem um hitbox (área de colisão) que determina onde Mario pode ou não passar.
+
+    Quando Boom Boom muda de estado (por exemplo, atacando ou recuando), o jogo atualiza a hitbox de forma síncrona, mas há frames em que a hitbox não corresponde à posição visual do sprite.
+
+    Mario atacando ou tocando Boom Boom:
+
+    Se Mario interage com Boom Boom no frame exato da mudança de hitbox, o jogo não detecta colisão corretamente.
+
+    Isso permite que Mario “clipe” através do sprite ou barreira.
+
+    Timing crítico:
+
+    O glitch depende de frames específicos.
+
+    Qualquer atraso ou avanço no timing impede que o clip aconteça.
+
+    Sem correção em All-Stars:
+
+    A lógica de colisão e hitboxes permanece a mesma na versão All-Stars, então o glitch também funciona lá.</p>
+<p>Causa: Desalinhamento temporário entre hitbox de Boom Boom e sprite visual.
+
+Efeito: Mario atravessa o chefe ou barreiras do nível.
+
+Requisitos:
+
+Timing exato na interação com Boom Boom
+
+Entender os padrões de movimento e ataque do chefe</p>
+<br>
+<br>
+
+<h3><i>Donut Lift clip</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/SMB3_-_Donut_Lift_Glitch.png">
+<p>O glitch ocorre com os Donut Lifts, aquelas plataformas que caem quando Mario pisa nelas.
+
+Cenário típico: Mario está em cima de um Donut Lift que está caindo.
+
+Se houver outro Donut Lift diretamente abaixo, Mario passa através da plataforma inferior em vez de pousar nela.
+
+Efeito: Mario “cai” através da plataforma, ignorando a colisão.
+
+Esse glitch foi corrigido na versão Super Mario All-Stars, então não funciona lá.</p>
+<p>O glitch é causado por como o jogo gerencia colisões de plataformas móveis:
+
+Colisão de plataformas em queda:
+
+Cada Donut Lift tem uma flag de estado indicando se está “ativa” ou “caindo”.
+
+O jogo só verifica colisões de Mario com plataformas estáveis ou previamente fixadas no chão.
+
+Prioridade de colisão:
+
+Quando Mario está em cima de um Donut Lift em queda, o jogo prioriza a colisão com a plataforma atual e não recalcula a colisão corretamente com a plataforma abaixo.
+
+Isso significa que o jogo ignora a segunda plataforma durante a atualização de posição de Mario.
+
+Resultado visual e físico:
+
+Mario parece “cair no vazio”, mesmo que haja uma plataforma logo abaixo.
+
+É um efeito de sincronização: a colisão entre Mario e a segunda plataforma nunca é processada naquele frame.</p>
+<p>Causa: Prioridade de colisão e atualização de plataformas em queda; o jogo ignora plataformas abaixo de uma em queda.
+
+Efeito: Mario passa através da segunda plataforma, criando o “Donut Lift Clip”.
+
+Correção: Na versão All-Stars, o código de colisão foi ajustado para sempre verificar todas as plataformas abaixo de Mario, impedindo o glitch.</p>
+<br>
+<br>
+
+<h3><i>Fly through wall</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-WallthroughSMB3.png">
+<p>O glitch permite que Mario “voe” através de paredes sólidas usando o poder de voo do Raccoon Mario ou Tanooki Mario.
+
+Normalmente, paredes bloqueiam completamente o avanço de Mario.
+
+Com o glitch, Mario consegue penetrar na parede e aparecer do outro lado, ignorando as colisões normais do cenário.</p>
+<p>Mario deve ser Raccoon ou Tanooki.
+
+Deve ter a Power Meter cheia ou usar um P-Wing para voar.
+
+Mario voa em direção à parede com o movimento correto e alinha-se com certos pixels ou frames da colisão.
+
+Quando a posição de Mario se sobrepõe exatamente com a hitbox da parede durante o voo, ele atravessa.</p>
+<p>O glitch ocorre devido a como o jogo gerencia colisões durante o voo:
+
+Hitboxes e física de voo:
+
+Cada bloco sólido tem uma hitbox que impede Mario de passar.
+
+Quando Mario está voando, sua hitbox é tratada de forma ligeiramente diferente, porque o jogo prioriza a detecção de voo para aplicar movimentos de subida/descida.
+
+Frames críticos e pixel-perfect:
+
+Durante o voo, se Mario se move rapidamente e a colisão é avaliada apenas em alguns frames específicos, o jogo pode não atualizar corretamente a colisão com a parede.
+
+Isso permite que Mario “clip” dentro da parede.
+
+Limitação do código antigo:
+
+O Super Mario Bros. 3 foi programado com rotinas de colisão simplificadas, que não cobrem todos os casos de sobreposição rápida entre hitboxes.
+
+É por isso que glitches de clip, como este, são possíveis.</p>
+<p>Causa: Falha na atualização de colisão entre Mario em voo e blocos sólidos.
+
+Efeito: Mario atravessa paredes, aparecendo do outro lado.
+
+Requisitos:
+
+Raccoon ou Tanooki Mario,
+
+Power Meter cheia ou P-Wing ativo,
+
+Alinhamento preciso e timing correto</p>
+<br>
+<br>
+
+<h3><i>Magic Whistle glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-WarpWhistle_Glitch.png">
+<p>Glitch exclusivo da versão Famicom.
+
+Requer que o jogador use o P-Wing para voar até áreas normalmente inacessíveis.
+
+Passos principais:
+
+No fim do World 5-1, após entrar no cano final do estágio, Mario voa para cima, até o topo dos blocos atrás do cano.
+
+Correndo sobre esses blocos, Mario ativa um área secreta que normalmente fica no início do estágio.
+
+O som da caixa de tesouro se reproduz, mas a caixa aparece em um local glitched.
+
+Ao voltar para o chão e completar o estágio, Mario encontra uma caixa de tesouro em um lado do estágio.
+
+É possível coletar seu conteúdo, mas o texto de fim de fase (“COURSE CLEAR! YOU GOT A CARD”) aparece corrompido ou glitched.
+
+Além disso, inimigos como Walking Piranha e cartas aparecem com gráficos bugados ou fora do lugar.</p>
+<p>O glitch é resultado de como o jogo trata dados de objetos e a memória do estágio:
+
+Manipulação de áreas fora da tela:
+
+Mario voa para uma região que não deveria ser acessível normalmente, ativando endereços de memória reservados para outros elementos do estágio.
+
+Isso faz com que a área secreta do início do estágio seja “clonada” temporariamente em outro lugar.
+
+Ativação de caixas e sons:
+
+O jogo toca o som da caixa de tesouro porque a rotina de spawn da caixa é chamada, mas a posição real da caixa é corrompida devido à posição glitched de Mario.
+
+Textos e inimigos corrompidos:
+
+Quando Mario retorna ao estágio normal, o jogo tenta atualizar a tela com objetos que foram movidos para posições não previstas.
+
+Isso causa glitches nos gráficos dos inimigos e nos textos de fim de fase.
+
+Limitação do Famicom:
+
+O console original não lida bem com múltiplos objetos fora da tela ao mesmo tempo, então as rotinas de atualização podem sobrepor dados ou endereços de memória, criando o efeito glitched.</p>
+<p>Causa: Acesso a regiões não mapeadas da memória do estágio e execução de rotinas de objetos fora da tela.
+
+Efeito:
+
+Área secreta aparece em local errado
+
+Inimigos e caixas aparecem glitched
+
+Texto de fim de fase corrompido
+
+Requisitos:
+
+Versão Famicom,
+
+P-Wing ou voo ativado,
+
+Timing e posicionamento precisos,</p>
+<br>
+<br>
+
+<h3><i>Mario water walk</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-SMB3_Warp_Glitch.png">
+<p>O glitch permite que Mario “ande sobre a água”, em vez de nadar.
+
+Normalmente, quando Mario entra na água, ele muda de estado e passa a nadar.
+
+Com o glitch, Mario mantém o estado de “em terra firme”, podendo correr ou até pular como se estivesse em uma superfície sólida.
+
+Esse comportamento pode acontecer em níveis com seções de água rasas ou bordas de blocos tocando a água.</p>
+<p>Existem variações, mas geralmente acontece assim:
+
+Mario corre ou cai na beira da água, vindo de um bloco sólido.
+
+Ele toca a água exatamente no limite entre o bloco e a superfície da água.
+
+O jogo não atualiza o estado de Mario para “nadando” nesse frame.
+
+Mario continua sendo tratado como se estivesse em pé sobre o chão, mesmo estando sobre a água.
+
+Em algumas versões, o glitch também pode acontecer ao sair de um cano ou plataforma móvel diretamente sobre a água.</p>
+<p>O glitch ocorre devido à ordem em que o jogo verifica colisões e tipos de terreno:
+
+Verificação de chão antes da água:
+
+O jogo verifica se há bloco sólido sob Mario antes de checar se ele está tocando a água.
+
+Se Mario estiver entre o limite dos dois, o jogo primeiro detecta o chão e pula a verificação da água.
+
+Erro de atualização de estado:
+
+O estado de Mario (“em terra” ou “nadando”) é atualizado uma vez por frame.
+
+Se Mario tocar a água no mesmo frame em que o jogo ainda o considera em solo, o estado não muda — e ele continua em modo “andar”.
+
+Resultado:
+
+Mario pode andar e pular sobre a água até que o jogo recalcule corretamente sua colisão, o que normalmente acontece quando ele se move um pouco mais para dentro da água ou pula.</p>
+<p>Causa: O jogo checa primeiro colisões com blocos sólidos e só depois com água; o estado de Mario não muda a tempo.
+
+Efeito: Mario anda ou corre sobre a água, ignorando a física de nado.
+
+Requisitos:
+
+Estar na borda entre bloco e água,
+
+Timing preciso no movimento ou salto,
+
+Em algumas versões, usar P-Wing ou impulso também ajuda</p>
+<br>
+<br>
+
+<h3><i>Shell in wall</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/200px-Shell_in_wall.png">
+<p>Em certas situações, é possível fazer uma Giant Koopa Shell (e às vezes uma casca normal) entrar dentro de uma parede sólida.
+
+A casca parece ficar parcialmente presa ou atravessar completamente o bloco, algo que não deveria acontecer nas regras normais do jogo.
+
+O glitch ocorre tanto na versão original do NES/Famicom quanto na Super Mario All-Stars (SNES).</p>
+<p>O método exato varia um pouco, mas o comportamento é sempre o mesmo:
+
+Mario chuta ou joga uma casca em direção a uma parede ou bloco.
+
+Em algumas condições de velocidade, ângulo e posição do sprite, a casca entra parcialmente dentro da parede.
+
+Ela pode ficar presa, atravessar completamente ou até sair do outro lado.
+
+Essas condições são difíceis de reproduzir com precisão, por isso o glitch é considerado imprevisível — depende de timing, posição e física de colisão.</p>
+<p>Esse glitch ocorre por causa de limitações no sistema de detecção de colisões do jogo:
+
+Atualização de posição em blocos grandes (frames discretos):
+
+No Super Mario Bros. 3, a posição dos objetos é atualizada em passos fixos por frame (sem interpolação).
+
+Se uma casca estiver se movendo muito rápido, ela pode “pular” por cima da detecção de colisão entre dois frames.
+
+Resultado: o jogo não percebe que houve uma parede no meio do caminho e coloca a casca parcialmente dentro dela.
+
+Hitboxes simplificadas:
+
+As cascas e blocos sólidos usam caixas de colisão retangulares que nem sempre correspondem perfeitamente aos sprites.
+
+Em certas combinações de pixels (por exemplo, colisão na borda do bloco), a colisão é registrada de forma incorreta, permitindo o “clip”.
+
+Prioridade de atualização:
+
+O jogo atualiza movimento antes da correção de colisão.
+
+Isso significa que, se a casca já estiver dentro do bloco quando a checagem ocorre, o jogo não sabe como ejetá-la corretamente, e ela permanece “presa” lá.</p>
+<p>Causa: Falha na detecção de colisão por atualização em frames discretos e hitboxes simplificadas.
+
+Efeito: A casca entra ou atravessa uma parede sólida.
+
+Requisitos:
+
+Velocidade alta da casca (Giant Shells facilitam isso),
+
+Contato na borda de blocos ou timing específico,
+
+Funciona tanto no NES/Famicom quanto no SNES (All-Stars)</p>
+<br>
+<br>
+
+<h3><i>Continuous somersault</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/SMB3_Somersault.gif">
+<p>Ocorre em World 3-8 (como Raccoon Mario) e World 6-10.
+
+Mario precisa começar o nível com uma Starman (estrela de invencibilidade).
+
+Ele não pode estar como Small Mario nem usando a Frog Suit.
+
+Durante o efeito da Starman, Mario deve quebrar um bloco com uma Beanstalk e subir pela videira.
+
+Quando o efeito da estrela acaba, Mario continua fazendo o movimento de cambalhota (somersault) mesmo sem a Starman ativa.
+
+O efeito só termina quando Mario cai da videira e toca o chão.</p>
+<p>Entre na fase com Starman.
+
+Corra até o bloco com a Beanstalk e quebre-o rapidamente antes da estrela acabar.
+
+Suba imediatamente pela videira.
+
+Quando o efeito da estrela terminar, Mario mantém a animação de somersault infinita enquanto estiver na videira.</p>
+<p>O glitch ocorre por causa de uma falha na atualização do estado de animação de Mario — basicamente, o jogo “se esquece” de encerrar o movimento da cambalhota:
+
+Estado de animação durante Starman:
+
+Quando Mario está sob o efeito da estrela, seu estado de animação muda para “somersault” sempre que ele salta.
+
+Esse estado especial sobrepõe as animações normais (como pular, cair ou escalar).
+
+Subindo a Beanstalk interrompe a atualização de estado:
+
+Quando Mario começa a subir na videira, o jogo pausa a atualização de sua animação normal — ele fica em um “estado fixo” de escalada.
+
+Como ele começou a escalar enquanto ainda estava no modo Starman, o jogo não redefine o estado de somersault.
+
+Fim do Starman sem redefinição:
+
+O efeito da Starman acaba, mas Mario ainda está escalando, então o jogo não executa o comando que encerra a animação especial.
+
+O resultado: ele continua girando indefinidamente até sair da videira.
+
+Fim do glitch:
+
+Assim que Mario cai da videira e toca o chão, o jogo recalcula o estado de animação — e o movimento de somersault finalmente é encerrado.</p>
+<p>Causa: A animação de “somersault” da Starman não é redefinida porque Mario entra no estado de escalada antes que o efeito acabe.
+
+Efeito: Mario continua girando (somersault) indefinidamente enquanto está na videira.
+
+Requisitos:
+
+Starman ativa,
+
+Quebrar um bloco com uma Beanstalk,
+
+Subir na videira antes do fim da Starman,
+
+Ser Raccoon Mario (ou Tanooki Mario),
+
+Término: Ao cair e tocar o chão.</p>
+<br>
+<br>
+
+<h3><i>Somersault floating</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/200px-Somersault.png">
+<p>Mario precisa estar com uma Super Leaf, ou seja, transformado em Raccoon Mario.
+
+O jogador deve pegar uma Starman, que dá invencibilidade temporária.
+
+Enquanto o efeito da estrela estiver ativo, Mario deve pular e usar o comando para flutuar (pressionando o botão de salto repetidamente).
+
+No exato momento em que o efeito da Starman acabar, Mario deve ainda estar flutuando no ar.
+
+Se o tempo for perfeito, Mario continua com a animação de mortal (somersault) — que normalmente aparece só quando está invencível — enquanto ainda está no modo de flutuação do Raccoon Mario.
+O resultado é que ele parece estar planando e girando ao mesmo tempo, algo que nunca acontece normalmente.</p>
+<p>O jogo lida com os movimentos e animações do Mario através de flags de estado (pequenas variáveis que dizem em qual modo ele está — correndo, pulando, nadando, invencível etc.).
+
+Quando o Starman está ativo:
+
+O jogo força a animação de mortal para todos os pulos.
+
+Quando o Starman acaba:
+
+O jogo deveria resetar a animação de volta ao estado normal de Raccoon Mario (a flutuação).
+
+No entanto, se o jogador ainda estiver no ar usando a física de flutuação, o jogo mantém o estado de animação anterior (mortal) até que Mario toque o chão, porque o código que reseta a animação só é chamado quando o personagem aterrissa.
+
+Ou seja:
+
+O jogo continua achando que Mario está “pulando com Starman”, mesmo que o poder já tenha acabado — até ele pousar.</p>
+<p>Causa: Falha de sincronização entre as flags de “invencibilidade” e “flutuação”.
+
+Versões afetadas: Todas as versões conhecidas de Super Mario Bros. 3.
+
+Efeito: Mario mantém a animação de mortal enquanto plana até tocar o chão.</p>
+<br>
+<br>
+
+<h3><i>Wall jump glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/200px-WalljumpSMB3.gif">
+<p>O jogador deve fazer Mario pular contra uma parede ou cano.
+
+Se o movimento e o ângulo forem exatos, o pé de Mario “encosta” de leve na quina da parede.
+
+Nesse momento, o jogo entende que Mario está em contato com uma superfície sólida, permitindo que ele pule novamente.
+
+Assim, Mario consegue “pular” na parede e ganhar altura — algo que normalmente só aconteceria se ele estivesse no chão.</p>
+<p>O motivo está na forma como Super Mario Bros. 3 (e muitos jogos antigos) detecta colisões.
+
+Cada objeto do cenário — blocos, chão, canos, etc. — é formado por blocos de 16x16 pixels.
+O jogo verifica constantemente se as coordenadas dos pés de Mario estão dentro de um bloco sólido.
+
+Quando Mario pula contra uma parede:
+
+Ele é empurrado para fora do bloco sólido na próxima atualização de quadro (frame);
+
+Mas por um instante, parte do sprite (geralmente o pé) entra alguns pixels dentro da parede;
+
+Nesse exato frame, o jogo detecta o pé tocando a “quina” inferior do bloco, o mesmo tipo de detecção usada para o chão;
+
+O código de física entende isso como se Mario estivesse aterrissando em uma plataforma, e habilita novamente o pulo.
+
+Portanto:
+
+O jogo pensa que Mario está “no chão” por um frame, mesmo estando na parede — e por isso permite outro salto.</p>
+<p>Causa: Colisão imprecisa entre o pé de Mario e o canto de blocos 16×16.
+
+Condição: Movimento contra a parede no ângulo certo faz Mario entrar levemente nela.
+
+Efeito: O jogo ativa a flag de “no chão” por um frame, permitindo outro pulo.
+
+Versões afetadas: Todas as versões de Super Mario Bros. 3, tanto no NES/Famicom quanto no Super Mario All-Stars.</p>
+<br>
+<br>
+
+<h3><i>White Block invincibility</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/220px-InvincibleGlitchSMB3.png">
+<p>Esse glitch só pode ser feito na versão original de NES/Famicom (não funciona em Super Mario All-Stars).
+
+Em World 5-7, há um cano com uma Venus Fire Trap (aquela planta que cospe fogo).
+
+Perto desse cano há um White Block — um bloco branco sobre o qual Mario pode se agachar para “entrar” atrás do cenário.
+
+O jogador deve:
+
+Pular no White Block,
+
+Se agachar por cerca de 5 segundos para ativar o modo “atrás da cena”,
+
+E então pular dentro do cano com a planta enquanto ainda está nesse estado.
+
+Se feito corretamente, Mario sai do cano antes do efeito acabar, e o jogo o deixa preso no estado de invisibilidade — onde nada pode tocá-lo, incluindo inimigos e power-ups.</p>
+<p>O bug ocorre por causa de como o jogo lida com o estado “atrás da cena” (behind scenery).
+
+Quando Mario se agacha em um White Block, o jogo altera um bit no código de colisão, mudando sua camada de interação:
+
+Ele passa do plano frontal (onde estão inimigos e objetos)
+
+Para o plano de fundo (onde ficam o cenário e decorações).
+
+Esse estado tem um temporizador que normalmente termina após alguns segundos, retornando Mario ao plano frontal.
+
+Mas o que acontece aqui é:
+
+Quando Mario entra em um cano, o jogo pausa e retoma seu estado físico de forma especial;
+
+Se ele entra no cano enquanto ainda está “atrás da cena”, o jogo esquece de redefinir a flag que indica que ele está no plano de fundo;
+
+Assim, ao sair do cano, Mario ainda está marcado como “no plano de fundo”, mas agora está se movendo normalmente — só que nada pode interagir com ele.
+
+Em termos simples:
+
+O jogo acredita que Mario ainda está “atrás do cenário”, mas ele está andando no plano principal — tornando-o completamente invencível.</p>
+<p>Causa: Flag de “atrás do cenário” (behind scenery) não é redefinida após usar o cano.
+
+Condição: Entrar em um cano com planta enquanto o efeito do White Block ainda está ativo.
+
+Efeito: Mario fica no plano de fundo permanentemente — nada colide com ele.
+
+Limitação: Só ocorre no NES/Famicom original. Corrigido em Super Mario All-Stars.</p>
+<br>
+<br>
+
+<h3><i>Wrong Warp glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smb3/SMB3glitchpipe.png">
+<p>O glitch ocorre em World 7-1, um estágio repleto de canos e Piranha Plants.
+
+O jogador deve manipular cuidadosamente a posição e o número de sprites ativos (inimigos, projéteis, etc.).
+
+Essa manipulação altera valores na memória do jogo, que determinam como e onde os objetos são carregados.
+
+Quando tudo está posicionado corretamente, o jogador deve forçar Mario a entrar parcialmente em um cano invisível — segurando ↓ (baixo) enquanto faz o clip através de um cano normal.
+
+Mario então é sugado para um cano inexistente, que leva a uma área corrompida (normalmente abaixo da fase).
+
+Lá, o jogador toca um bloco invisível, e o jogo executa dados da memória como se fossem instruções de código — um fenômeno conhecido como Arbitrary Code Execution (ACE).
+
+Se o setup foi feito corretamente, o código “bugado” executado leva Mario direto à sala da Princesa Toadstool, pulando o restante do jogo.</p>
+<p>Esse bug acontece por causa de como o NES gerencia a memória de sprites e objetos dentro das fases.
+
+Cada objeto na tela (inimigos, blocos móveis, etc.) ocupa um “slot de sprite” em uma tabela de memória.
+O jogo atualiza essa tabela a cada frame, definindo:
+
+A posição X e Y do sprite;
+
+O tipo de objeto;
+
+O comportamento (movimento, colisão, etc.).
+
+Em condições normais, o jogo nunca lê dados fora dessa tabela.
+Mas quando o jogador manipula os sprites de maneira precisa (por exemplo, carregando e descarregando inimigos fora da tela em momentos específicos), os valores da memória “vazam” — ou seja, o jogo lê dados de regiões indevidas da RAM como se fossem parte da fase.
+
+Quando Mario entra no cano bugado:
+
+O jogo tenta buscar o destino do cano em um endereço de memória;
+
+Como esse endereço foi corrompido pelos valores dos sprites, ele aponta para uma posição completamente errada;
+
+Assim, Mario “warpa” (teletransporta) para uma parte inválida da fase — normalmente uma região abaixo da tela — e o motor do jogo começa a executar dados de nível como se fossem instruções.
+
+Esse processo é exatamente o mesmo tipo de bug que dá origem ao famoso Arbitrary Code Execution, usado por speedrunners para terminar o jogo em segundos.</p>
+<p>Causa: Corrupção de memória via manipulação de slots de sprites.
+
+Condição: Sprites configurados em posições específicas em World 7-1, depois um clip pelo cano inicial.
+
+Efeito: Mario entra em um “cano invisível” e o jogo executa dados inválidos como código.
+
+Resultado: Teleporte direto para a sala final da princesa (ou travamento, se feito incorretamente).
+
+Versões afetadas: NES (tanto americana quanto japonesa).
+
+Corrigido em: Super Mario All-Stars (parcialmente) e Super Mario Advance 4 (totalmente).</p>
+<br>
+<br>
+

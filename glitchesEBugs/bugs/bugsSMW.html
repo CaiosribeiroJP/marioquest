@@ -1,0 +1,309 @@
+<h2 class="text-warning text-center">Super Mario World</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Credits Warp</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/credits-wrap.gif">
+<p>Um dos glitches mais impressionantes: jogadores conseguem manipular a memória do jogo para forçar o console a 
+    pular para a tela de créditos (ou até executar “código” construído pelo jogador), encerrando o jogo sem vencer 
+    normalmente.</p>
+<p>Speedrunners usam sprites, conchas, caixas de item e Yoshi para colocar valores específicos em áreas da RAM que 
+    a rotina de saída de fase vai ler. Ao organizar estes valores (bytes) de maneira precisa, a rotina acaba 
+    “lendo” um endereço/valor que faz o jogo saltar para a rotina de créditos ou para outra parte do código — ou 
+    seja, o jogador “escreve” bytes úteis na RAM usando objetos do jogo.</p>
+<p>SMW (como muitos jogos de SNES) usa estruturas fixas em RAM para representar itens/sprites e tem rotinas que 
+    interpretam esses bytes quando o jogo muda de estado (por exemplo, ao sair de fase). O glitch explora o fato 
+    de que certas rotinas não verificam completamente os limites/valores, permitindo que valores criados por 
+    entradas de jogo (posição X das caixas, IDs de sprite, etc.) sejam reinterpretados como ponteiros/paramêtros — 
+    resultando em “wrong jump” para código diferente. Em termos simples: você “engana” a rotina de saída com dados 
+    que ela assume válidos.</p>
+<br>
+<br>
+
+<h3><i>Wrong Warp</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/wrong-warp.gif">
+<p>Warps errados que teletransportam Mario para áreas que não deveriam ser alcançáveis na jogabilidade normal (às vezes direto para a tela de 
+    final/créditos). Usado em speedruns para pular grandes trechos.</p>
+<p>Certas ações (entrar/saír de tubos repetidamente, mudar subníveis um número específico de vezes, ou manipular o contador de subníveis) 
+    fazem a tabela/índice que o jogo usa para escolher o destino do warp apontar para a entrada errada. Ao “rodar” esse índice além do 
+    esperado, o jogo passa a ler uma posição de memória diferente e assim faz o warp errado.</p>
+<p>O jogo mantém contadores e índices de subníveis/saídas em RAM. Esses valores, quando incrementados/decrementados de maneiras não previstas, 
+    podem transbordar (ou apontar para offsets inesperados) e, como as rotinas de warp usam esses índices sem validação forte, o resultado é 
+    uma tabela consultada no lugar errado — por isso você aparece em outro local.</p>
+<br>
+<br>
+
+<h3><i>Double block activation</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/double_hit.gif">
+<p>Duplicar/posicionar blocos ou manipular caixas de item para obter power-ups que não deveriam aparecer naquele 
+    ponto (ex.: conseguir Yoshi wing, que encerra a fase ao voar). Muito usado para skips.</p>
+<p>No cartucho, para economizar espaço, o conteúdo de uma caixa de item pode depender da posição X onde ela foi 
+    colocada (uma mesma rotina interpreta a caixa diferentemente dependendo da coordenada). Duplicando um bloco 
+    (por técnicas de manipulação de colisão) você altera a posição lógica do bloco no mapa, fazendo ele 
+    “referenciar” outro conteúdo pré-definido. Assim surge um item inesperado.</p>
+<p>A otimização do jogo para economizar ROM leva a tabelas indexadas por coordenadas; quando a referência muda 
+    (por duplicação ou deslocamento), a rotina de geração do item escolhe outro item do conjunto possível. Essa 
+    dependência implícita posição→conteúdo é explorada propositalmente pelos jogadores.</p>
+<br>
+<br>
+
+<h3><i>Shell Jump</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/shell_jump.gif">
+<p>Técnica onde Mario usa uma concha jogada contra uma parede de forma que a concha ricocheteia sob seus pés 
+    permitindo um novo salto — permite alcançar áreas impossíveis com um salto normal. Apesar de ser 
+    frequentemente classificada como “técnica” (não sempre um bug), é uma exploração das mecânicas de colisão que 
+    dá comportamento inesperado.</p>
+<p>no pico do salto, jogue a concha contra a parede; a concha rebate e, por causa das frames em que Mario não 
+    pode interagir com a concha, ela reaparece sob os pés de Mario no momento certo para “empurrá-lo” para cima — 
+    permitindo um segundo salto onde normalmente não seria possível.</p>
+<p>Há janelas de frames onde a concha está “inacessível” e a física/colisão do shell pode posicioná-la exatamente 
+    de forma que o detector de colisão do jogador a reconheça sob os pés no frame seguinte — a engine aplica a 
+    resposta de colisão como se Mario tivesse sido apoiado por algo sólido. É um efeito colateral das regras de 
+    prioridade de sprite/colisão.</p>
+<br>
+<br>
+    
+<h3><i>Switch Block glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/pswtich_stun.gif">
+<p>Yoshi pode engolir objetos/sprites (como frutas, cascas e o P-Switch).
+    Normalmente, quando Yoshi engole algo, esse sprite é removido da RAM e substituído pelo estado de “dentro da 
+    boca do Yoshi”.
+    Mas, se Mario pegar o item no mesmo frame em que Yoshi tenta engolir:
+    O jogo “duplica” a ação: o P-Switch some da tela, mas o slot de memória dele não é limpo corretamente.
+    Esse slot fica marcado como se fosse um “sprite atordoado” (stunned), mas o P-Switch não tem esse estado 
+    programado.</p>
+<p>O Super Mario World guarda todos os inimigos e objetos ativos em slots de sprite na RAM.
+    Cada sprite tem rotinas diferentes para os estados: andando, pulando, atordoado, etc.
+    O P-Switch não possui uma rotina de “stun”. Quando o jogo tenta chamar essa rotina, ele acaba lendo bytes de 
+    dados errados da memória (valores de outro sprite).
+    Resultado: o P-Switch “se transforma” em outro objeto/sprite completamente inesperado (pode virar moeda, 
+    chave, bloco invisível, Yoshi, etc.).
+    Isso é o Stun Glitch: transformar um sprite em outro ao aplicar nele um estado inexistente.</p>
+<br>
+<br>
+    
+<h3><i>Springboard Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/stun_glitch.gif">
+<p>Normalmente, Yoshi pode pegar inimigos e objetos com a língua.
+    Alguns objetos (como o Springboard, o “trampolim”) não foram programados para ter estado de “dentro da boca 
+    do Yoshi”.
+    Quando Yoshi segura a mola na boca, o jogo precisa “simular” que ela é um sprite normal atordoado.
+    O problema: a mola não tem dados de “stun”, então o jogo passa a ler endereços de memória errados.
+    Assim, quando a mola é cuspida ou interage com o ambiente, ela pode:
+    virar outro objeto (como chave, moeda, bloco invisível);
+    bugar a colisão;
+    ou até travar/crashar o jogo, dependendo do slot de memória que foi lido.</p>
+<p>O Super Mario World armazena todos os sprites em slots na RAM.
+    Cada sprite tem um conjunto de rotinas para estados diferentes (andar, morrer, atordoar, etc.).
+    O Springboard não tem rotina para o estado “carregado pelo Yoshi”.
+    Quando o jogo tenta rodar esse código, ele acaba executando dados de outro sprite (ou lixo da RAM), criando 
+    transformações e efeitos estranhos.
+    Isso é, de novo, uma variação do Stun Glitch.</p>
+<br>
+<br>
+    
+<h3><i>Yoshi-Springboard Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Springboard_glitch.gif">
+<p>O jogador posiciona o Yoshi em cima de um springboard (o trampolim).
+    Enquanto está montado no Yoshi, Mario faz Yoshi engolir o springboard.
+    O jogo ainda reconhece que Mario está “em cima” do springboard, mesmo ele não estando mais lá fisicamente, 
+    porque o Yoshi está segurando o objeto “dentro da boca”.
+    Isso permite que Mario dê saltos infinitos, como se o springboard estivesse sempre embaixo dele.</p>
+<p>Esse glitch acontece por causa de como o Super Mario World trata colisões e estados de objetos:
+    O springboard tem uma hitbox ativa que define a altura do pulo de Mario.
+    Quando Yoshi engole o springboard, o objeto deveria desaparecer, mas o jogo não atualiza imediatamente a sua 
+    hitbox.
+    Resultado: Mario continua recebendo o “efeito de pulo” do springboard, mesmo que ele não esteja visível na 
+    tela.
+    Isso cria uma inconsistência: Mario pode abusar desse estado bugado para continuar saltando infinitamente.</p>
+<br>
+<br>
+    
+<h3><i>Goal Tape Swap</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Goal_tape_swap.gif">
+<p>O Goal Tape Swap é um glitch que ocorre quando você cruza a linha de chegada (Goal Tape) em uma posição ou 
+    momento não usual, fazendo com que o jogo confunda o número do item que deveria aparecer ou altere a 
+    pontuação e bônus exibidos.
+    Na prática, isso permite que você:
+    Troque ou "substitua" os itens que deveriam aparecer no fim da fase.
+    Manipule a pontuação ou os bônus recebidos.
+    Às vezes, até alterar os sprites ou efeitos visuais do goal tape.</p>
+<p>No Super Mario World, o fim da fase é tratado assim:
+    Quando Mario toca a linha de chegada:
+    O jogo verifica a posição de Mario e qual flag (estado) de objetivo foi acionada.
+    Ele decide qual item dar (Yoshi, 1-Up, pontos extras, etc.).
+    O valor é determinado por uma tabela na memória.
+    O glitch acontece quando Mario atinge a linha de chegada de forma “não convencional”:
+    Pular exatamente em uma posição específica.
+    Segurar um power-up ou estado especial (como cape) que afete a colisão.
+    Ativar múltiplos sprites ou efeitos ao mesmo tempo.
+    Isso faz o jogo ler um valor errado na tabela, trocando o item ou bônus que aparece.</p>
+    <p>O Super Mario World não valida rigorosamente todas as entradas ao finalizar a fase:
+    Ele assume que Mario vai cruzar a linha em um ponto específico, mas quando isso não acontece, ele lê dados 
+    incorretos na memória.
+    Os sprites ou objetos do goal tape são carregados com base em endereços de memória relativos.
+    Alterar a posição ou o estado de Mario faz o jogo “apontar” para outro endereço de memória, resultando na 
+    troca de item ou na exibição de algo inesperado.
+    Em resumo, é uma exploração de memória e lógica de colisão do jogo, sem precisar de cheat externo.</p>
+<br>
+<br>
+    
+<h3><i>Item Swap Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Key_Glitch.gif">
+<p>Mario está montado no Yoshi.
+    Um objeto (como um casco, bloco, P-Switch ou até moeda) está bem próximo.
+    O jogador faz Yoshi tentar engolir o objeto e, ao mesmo tempo, Mario solta outro item que ele estava 
+    carregando.
+    O jogo se confunde e “mistura” as propriedades dos dois itens → o item solto herda dados incorretos.
+    No GIF, você vê Yoshi puxando algo e Mario soltando, e o jogo troca os identificadores de item, resultando em 
+    objetos estranhos ou até em sprites corrompidos.</p>
+<p>O motor do jogo trata cada objeto (item, inimigo, power-up) como uma entrada na tabela de sprites da memória. 
+    Essa tabela é limitada (apenas alguns slots).
+    Quando Yoshi estica a língua, o jogo tenta reservar um slot de sprite para “armazenar” o objeto que ele vai 
+    engolir.
+    Ao mesmo tempo, quando Mario solta um item, o jogo também precisa alocar/atualizar um slot de sprite.
+    Se esses dois eventos acontecem no mesmo frame, o jogo confunde qual dado pertence a qual objeto.
+    Resultado: surge um “novo objeto bugado”, porque os dados se sobrepõem.
+    Dependendo da situação, isso pode gerar:
+    Objetos invisíveis;
+    Power-ups que não deveriam aparecer;
+    Sprites híbridos (parte de um casco, parte de outro objeto);
+    Até crashes e softlocks se a memória for corrompida demais.</p>
+<br>
+<br>
+    
+<h3><i>Message Block Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Message_box_glitch.gif">
+<p>Mario está montado no Yoshi.
+    Yoshi tenta engolir um objeto que não deveria ser engolido (por exemplo, parte de um bloco de mensagem 
+    ativado incorretamente).
+    O jogo, em vez de processar o objeto normal, ativa a rotina do bloco de mensagem.
+    O bloco de mensagem tenta carregar um texto da ROM, mas como o objeto “engolido” não era válido, ele acessa 
+    endereços errados na memória.
+    Isso gera comportamentos estranhos:
+    Itens aleatórios aparecem;
+    Gráficos bugados (tiles inválidos) surgem;
+    Em alguns casos, Mario pode até ser teleportado.</p>
+<p>O bug acontece porque os blocos de mensagem em SMW são programados de forma diferente dos outros blocos:
+    Um bloco de mensagem, ao ser ativado, interrompe a rotina do jogo para carregar o texto da caixa de diálogo.
+    Essa rotina usa ponteiros de memória específicos para buscar a mensagem.
+    Quando Yoshi interage com o bloco como se fosse um “item na boca”, o jogo passa valores errados como se 
+    fossem ponteiros.
+    O resultado é que o jogo lê “dados aleatórios” da ROM ou RAM, interpretando-os como itens, power-ups ou até 
+    sprites.
+    É literalmente um caso de memory misalignment: o jogo busca coisas em lugares errados porque a rotina do bloco 
+    de mensagem não foi feita para ser chamada dessa forma.</p>
+<br>
+<br>
+    
+<h3><i>climbing in mid-air</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Spider_mario.gif">
+<p>Mario está “subindo” sem tocar em nada sólido:
+    Ele parece escalar o topo do cano mesmo estando no ar, sem que haja uma plataforma ou bloco de suporte.
+    Uso de Yoshi:
+    Mario está montado em Yoshi, o que muda a colisão do personagem. Yoshi tem colisões levemente diferentes que 
+    podem ser exploradas para glitching.</p>
+<p>Mario está “subindo” sem tocar em nada sólido:
+    Ele parece escalar o topo do cano mesmo estando no ar, sem que haja uma plataforma ou bloco de suporte.
+    Uso de Yoshi:
+    Mario está montado em Yoshi, o que muda a colisão do personagem. Yoshi tem colisões levemente diferentes que 
+    podem ser exploradas para glitching.
+    Câmera e detecção de colisão:
+    O jogo verifica colisões por pixels em blocos sólidos, sprites de inimigos e objetos.
+    Se Mario toca simultaneamente em um ponto “inválido” do mapa (como a borda de um cano ou um bloco 
+    parcialmente fora da tela) enquanto pressiona um movimento específico, o jogo interpreta que ele está apoiado 
+    e permite movimentos que normalmente seriam impossíveis.
+    A “subida” é na verdade um bug de detecção de colisão:
+    O jogo permite que Mario suba um bloco vertical ou cano se ele estiver em contato com uma borda que não está 
+    corretamente mapeada como sólida ou se o movimento de Yoshi empurra Mario para dentro de uma área considerada 
+    “walkable” pelo motor de colisão.</p>
+<p>Problema de rounding e física do jogo:
+    SMW usa valores de posição em pixels e velocidade em subpixels. Pequenas inconsistências na detecção de 
+    colisão podem “enganar” o motor, fazendo Mario flutuar ou subir paredes.
+    Interação com Yoshi:
+    Yoshi muda a caixa de colisão e pode empurrar Mario para dentro de áreas onde normalmente ele não poderia ir. 
+    Isso é crucial para que o glitch funcione nesse caso.
+    Timing exato:
+    Geralmente esse glitch requer apertar direções ou pular em um timing específico para que o motor de física 
+    calcule erroneamente a posição de Mario e permita o movimento.</p>
+<br>
+<br>
+    
+<h3><i>Yoshification Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Glitchy_Yoshi.gif">
+<p>O Yoshification é um glitch que permite que Mario ganhe Yoshi ou um efeito de montaria mesmo em situações que normalmente não seria possível, ou transforma itens ou inimigos em Yoshi de formas não intencionais.
+    Basicamente, ele manipula a forma como o jogo trata a colisão entre Mario e sprites.</p>
+<p>No Super Mario World:
+    Yoshi é tratado como um sprite especial, que é “montável” por Mario.
+    Quando Mario toca Yoshi:
+    O jogo verifica se ele pode “montar” Yoshi.
+    Isso envolve checar o estado de Mario, o tipo de Yoshi, e se ele já está em cima de outro Yoshi ou power-up.
+    O glitch acontece quando:
+    Mario pega itens ou toca inimigos de maneira específica, normalmente com um power-up ou cape.
+    O jogo acidentalmente ativa a lógica de montaria de Yoshi para um objeto que não é Yoshi.
+    Isso faz com que:
+    Um inimigo seja “Yoshificado”.
+    Mario ganhe Yoshi de forma inesperada.
+    Alguns efeitos visuais estranhos apareçam.</p>
+<p>O glitch funciona por causa de como o Super Mario World gerencia sprites e colisões:
+    Cada sprite (inimigo, item, Yoshi) tem um tipo e um ponteiro de memória.
+    A função que monta Mario em Yoshi não valida rigidamente se o sprite é realmente Yoshi.
+    Em situações específicas, um sprite que não deveria ser “montável” é interpretado como Yoshi, ativando a 
+    lógica normal de montaria.
+    Resumindo: o glitch explora uma falta de verificação de tipo de sprite no código do jogo.</p>
+<br>
+<br>
+    
+<h3><i>Infinite Time Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Timer_glitch.gif">
+<p>O Infinite Time Glitch permite que o contador de tempo de uma fase não diminua, dando a Mario tempo ilimitado 
+    para completar a fase.
+    Normalmente, cada fase começa com um contador de tempo, e o jogo subtrai 1 unidade a cada frame, mas esse 
+    glitch quebra a lógica de decremento.</p>
+<p>No Super Mario World:
+    O contador de tempo é armazenado na memória do SNES como um valor inteiro.
+    A cada frame:
+    O jogo verifica se o tempo é maior que 0.
+    Se for, ele subtrai 1.
+    O glitch ocorre quando:
+    O valor de tempo é manipulado por overflow ou por colisão com algum sprite específico, como:
+    Saltar sobre o goal tape em momentos exatos.
+    Usar power-ups ou Yoshi em certos pontos da fase.
+    O decremento normal não é chamado, ou é chamado em um endereço de memória errado.
+    O resultado:
+    O tempo para de diminuir ou fica travado em um valor muito alto.</p>
+<p>O glitch funciona porque:
+    O Super Mario World não valida todas as operações do contador de tempo.
+    Ele assume que apenas a rotina normal de decremento será executada.
+    Quando Mario interage com certos objetos ou power-ups em posições específicas, o ponteiro de memória que 
+    controla o tempo é alterado, mas a rotina de decremento não é executada.
+    É uma exploração do código de tempo e do gerenciamento de memória do SNES, ou seja, uma falha de lógica no 
+    programa do jogo.</p>
+<br>
+<br>
+    
+<h3><i>Yoshi Clip Glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smw/Yoshi_clip.gif">
+<p>O Yoshi Clip é um glitch que permite que Mario, montado em Yoshi, atravesse paredes ou limites de fases que normalmente seriam sólidos.
+    Na prática, ele explora uma falha na colisão entre sprites e tiles, usando Yoshi como intermediário.</p>
+<p>No Super Mario World:
+    Mario e Yoshi são tratados como sprites separados, mas Yoshi segue Mario e ajusta sua posição conforme o 
+    estado dele.
+    Cada tile do mapa tem propriedades de colisão (sólido, passável, morte, etc.).
+    O glitch acontece quando:
+    Mario pula em uma posição exata enquanto está montado em Yoshi.
+    O código de colisão do jogo calcula a posição de Yoshi antes da de Mario, criando uma situação onde Yoshi 
+    “empurra” Mario através de um tile sólido.
+    Em termos de memória:
+    A rotina de colisão não valida corretamente limites entre sprites e tiles.
+    Mario acaba em um tile que normalmente seria bloqueado, mas o jogo não corrige a posição.</p>
+<p>O glitch funciona porque:
+    O SNES processa a colisão em duas etapas:
+    Primeiro Yoshi.
+    Depois Mario.
+    Quando Mario está montado, a posição dele é ajustada em relação a Yoshi, e não diretamente ao tile.
+    Se Yoshi estiver parcialmente fora de um tile sólido ou em um ponto específico, Mario pode “clipear” dentro 
+    ou através da parede.
+    Em resumo, é uma exploração de uma ordem específica de cálculo de colisão e posição.</p>
+

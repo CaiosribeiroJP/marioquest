@@ -1,0 +1,411 @@
+<h2 class="text-warning text-center">Super Mario 64 DS</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Multiple caps freeze</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_SL_Glitch2.png">
+<p>O glitch “Multiple Caps Freeze” em Super Mario 64 DS permite que o jogador colecione múltiplos Caps de forma duplicada, eventualmente causando lentidão ou até travamento do jogo.</p>
+<p>No curso Snowman's Land, jogue uma crate no Snowman enquanto ele estiver usando um cap (boné especial).
+
+Colete o cap lançado pelo Snowman.
+
+Quando você derrotar o Snowman novamente, o número de caps que ele fornece será duplicado.
+
+Repetindo o processo várias vezes, o jogador pode acumular uma grande quantidade de caps.
+
+Após cerca de 16 caps, o jogo começa a ficar lento.
+
+Na Versão 1, quando muitos caps são coletados, o jogo pode travar completamente.
+
+Na Versão 2, após coletar 64 caps, o contador reseta para 8 caps, evitando o travamento.
+
+É possível limitar o glitch removendo objetos móveis (como inimigos ou moedas) do nível, fazendo com que o Snowman pare de gerar caps duplicados.</p>
+<p>O glitch acontece devido a como o jogo gerencia os caps e slots de memória para objetos:
+
+Cada cap que Mario coleta é registrado na memória do jogo.
+
+Ao derrotar o Snowman novamente, o jogo não reinicia corretamente o contador de caps, resultando em duplicação.
+
+A duplicação repetida sobrecarrega o motor do jogo, porque muitos objetos estão sendo criados e atualizados simultaneamente.
+
+Em consoles DS mais antigos (Versão 1), o excesso de caps causa lag e eventual travamento por saturar a memória ou processamento do motor do jogo.
+
+Na Versão 2, uma limitação de contagem de caps foi implementada para prevenir travamentos completos.
+
+Em termos simples:
+
+O jogo não gerencia corretamente a quantidade de caps duplicados, causando lentidão e possivelmente crash quando a memória ou o motor do jogo ficam sobrecarregados.</p>
+<p>Causa: Duplicação de caps devido a reinicialização incorreta do contador de objetos.
+
+Condição: Snowman usando cap + coletar cap repetidamente.
+
+Efeito: Lentidão, travamento ou reset do contador de caps.
+
+Versões afetadas: Super Mario 64 DS, com diferenças entre Versão 1 e 2.
+
+Risco: Pode corromper o save, especialmente na Versão 1.</p>
+<br>
+<br>
+
+<h3><i>Permanently crushed</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/256px-SM64DS_Permanently_Crushed.png">
+<p>O glitch “Permanently Crushed” em Super Mario 64 DS faz com que Mario fique preso na posição de esmagado, impedindo praticamente todas as ações, exceto mover a câmera.</p>
+<p>Vá para Shifting Sand Land com qualquer personagem exceto Yoshi.
+
+Receba dano até ficar com dois wedges de vida restantes.
+
+Pegue uma Crate que ainda tenha moedas dentro.
+
+Leve a Crate até a área com Tox Boxes.
+
+Seja esmagado por um Tox Box enquanto carrega a Crate.
+
+Se feito corretamente, Mario fica preso na posição esmagada:
+
+Não consegue se mover, pular, socar ou entrar na visão em primeira pessoa.
+
+Pode apenas mover a câmera.
+
+O Tox Box não causa mais dano adicional.
+
+Para sair do glitch, o jogador deve pausar o jogo e sair do curso.</p>
+<p>O glitch ocorre devido a como o jogo processa colisões e estado de objetos:
+
+O motor do jogo trata Mario e os Tox Boxes como objetos separados com restrições de colisão.
+
+Ao carregar uma Crate com moedas ainda dentro, o jogo entra em um estado de sobreposição de objetos quando Mario é esmagado pelo Tox Box.
+
+Essa sobreposição faz com que o estado de esmagamento seja registrado permanentemente, bloqueando as funções de movimento de Mario.
+
+O motor do jogo não possui rotinas para corrigir esse estado até que o curso seja reiniciado.
+
+Em termos simples:
+
+Mario é “esmagado” de forma que o jogo continua considerando-o preso, bloqueando quase todas as ações até que o nível seja reiniciado.</p>
+<p>Causa: Sobreposição de Mario com um Tox Box enquanto carrega uma Crate com moedas.
+
+Condição: Mario com dois wedges de vida, carregando Crate, esmagado pelo Tox Box.
+
+Efeito: Mario fica permanentemente preso na posição esmagada; só a câmera pode se mover.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: Pausar o jogo e sair do curso.</p>
+<br>
+<br>
+
+<h3><i>Floating Penguin</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64_DS_Penguin_Floating_Glitch.png">
+<p>O glitch “Floating Penguin” em Super Mario 64 DS faz com que o pinguim bebê carregado por Mario flutue acima dele após a coleta da Power Star.</p>
+<p>No curso Cool, Cool Mountain, jogue com qualquer personagem exceto Yoshi.
+
+Pegue um dos pinguins bebês (Li’l Penguin) para carregar.
+
+Com o pinguim em mãos, colete a Power Star da missão Li’l Penguin Lost.
+
+Ao tocar a Star enquanto segura o pinguim, o bebê flutua acima de Mario, permanecendo suspenso no ar.</p>
+<p>O glitch ocorre devido à interação entre a coleta da Star e os objetos carregados:
+
+Ao coletar uma Star, o jogo congela temporariamente o fundo e certos objetos do cenário, pausando updates normais de física para Mario e o ambiente.
+
+O pinguim em mãos é considerado um objeto “carregado” por Mario.
+
+Como a Star congela a física do fundo, o pinguim não é reposicionado corretamente no solo ou na lógica de colisão, fazendo com que flutue acima de Mario até que outros eventos ou movimento sejam processados.
+
+Em termos simples:
+
+O congelamento de objetos causado pela Star impede que a física do pinguim seja aplicada corretamente, fazendo ele “levitar” no ar.</p>
+<p>Causa: Congelamento de física de fundo durante a coleta da Power Star.
+
+Condição: Segurar um pinguim bebê enquanto coleta a Star.
+
+Efeito: Pinguim flutua acima de Mario.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: O pinguim volta ao normal ao mover Mario ou completar outras ações do nível.</p>
+<br>
+<br>
+
+<h3><i>Yoshi's mirrored tongue</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64_DS_Yoshi_Mirror_Glitch.png">
+<p>O glitch “Yoshi's Mirrored Tongue” em Super Mario 64 DS faz com que a língua do Yoshi apareça brevemente saindo do espelho na Sala do Espelho.</p>
+<p>Entre na Mirror Room (Sala do Espelho) como Yoshi.
+
+Pressione o botão de usar a língua (normalmente o botão B) próximo ao espelho.
+
+A língua do Yoshi aparecerá atravessando o espelho por alguns frames antes de desaparecer.</p>
+<p>O glitch ocorre devido a como o jogo renderiza objetos espelhados:
+
+Na Mirror Room, o modelo de Yoshi é espelhado no lado oposto do espelho.
+
+Quando a língua é ativada, o motor do jogo processa a animação baseada no modelo espelhado, mas não faz checagem correta de colisão com o próprio espelho.
+
+Isso faz com que a língua clipe através da superfície refletiva, aparecendo do outro lado por alguns frames antes de desaparecer.
+
+Em termos simples:
+
+O glitch é causado pelo modelo espelhado de Yoshi “atravessando” o espelho, porque o jogo não restringe a animação da língua ao lado correto da sala.</p>
+<p>Causa: Colisão incorreta da língua de Yoshi com o espelho devido ao modelo espelhado.
+
+Condição: Jogar como Yoshi na Mirror Room e usar a língua.
+
+Efeito: Língua atravessa o espelho por alguns frames.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: O efeito é temporário e desaparece automaticamente; não afeta jogabilidade.</p>
+<br>
+<br>
+
+<h3><i>Fence flying</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64_DS_Fence_Flying_1.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_fence-flying-glitch-2.png">
+<p>O glitch “Fence Flying” em Super Mario 64 DS faz com que o jogador seja lançado muito alto no ar, podendo controlar parcialmente a descida ou acabar caindo fora dos limites do nível.</p>
+<p>No curso Bob-omb Battlefield, existem três métodos principais usando cânhões:
+
+Cânhão alto próximo ao Koopa Troopa:
+
+Mire para a base da ilha flutuante e dispare.
+
+Se mirar ligeiramente abaixo, a animação de aterrissagem será repetida até atingir a cerca.
+
+Ao tocar a cerca, o jogador passa através dela e voa para cima.
+
+Cânhão perto da Chain-Chomp:
+
+Mire totalmente à direita e depois lentamente para baixo até ver alguns pixels de uma árvore.
+
+Pode ser usado para passar pelo primeiro cânhão no Big Bob-omb no Summit, normalmente bloqueado por uma tampa.
+
+Cânhão perto da árvore e tijolo vermelho:
+
+Mire o mais para baixo e para a esquerda possível, depois dispare.
+
+Funciona apenas na Versão 1 do jogo.
+
+Dica: Segure o botão de disparo o tempo todo. O jogador será empurrado através da cerca e lançado muito alto no ar, podendo controlar parcialmente o ponto de aterrissagem. Se sair dos limites do nível, Mario perde uma vida após alguns segundos.</p>
+<p>O glitch ocorre por uma interação entre a física do cânhão e a colisão com a cerca:
+
+O jogo processa a cerca como um obstáculo sólido, mas em certas condições de direção e ângulo de disparo, Mario “entra” parcialmente dentro da cerca.
+
+Isso faz com que o motor interprete que ele ainda está em movimento ascendente, sobrepondo a física de aterrissagem.
+
+Como resultado, Mario é lançado além do limite normal de colisão da cerca, permitindo voar alto no ar.
+
+Em termos simples:
+
+Mario “clipa” através da cerca devido à física do cânhão e ângulo de disparo, e o motor do jogo continua aplicando força de movimento para cima sem restringir corretamente sua posição.</p>
+<p>Causa: Interação da física do cânhão com a colisão da cerca.
+
+Condição: Usar o ângulo correto em um dos três cânhões, segurando o botão de disparo.
+
+Efeito: Mario é lançado para o ar, podendo controlar a descida ou sair dos limites do nível.
+
+Versões afetadas: Super Mario 64 DS (Versão 1 para alguns métodos).
+
+Solução: O efeito termina quando Mario aterrissa ou sai dos limites do mapa.</p>
+<br>
+<br>
+
+<h3><i>Metal on the inside</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_CG_Glitch4.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_CG_Glitch2.png">
+<p>O glitch “Metal on the Inside” em Super Mario 64 DS permite que Mario ande submerso em água do castelo de forma não intencional, mantendo certas habilidades como o Triple Jump.</p>
+<p>Primeiro, o jogador deve realizar o Underground Pool Glitch (glitch da piscina subterrânea).
+
+Ao entrar no porão do castelo, volte imediatamente através da porta pela qual entrou.
+
+Mario se encontrará fora do castelo, caminhando na água do fosso (moat).
+
+Normalmente, pular termina o glitch, mas se o jogador for a locais específicos com fundo de lama:
+
+Saída do The Secret Under the Moat
+
+Pequeno lago próximo ao canhão
+
+Nesses pontos, é possível realizar um Triple Jump enquanto ainda está “submerso”, mantendo a física de água aplicada parcialmente.</p>
+<p>O glitch ocorre devido à sobreposição incorreta entre áreas de colisão e física de Mario:
+
+Ao usar o Underground Pool Glitch, Mario é reposicionado de forma não convencional no espaço do jogo, cruzando limites do castelo e do fosso.
+
+O motor do jogo mantém o estado de água (“submerso”) em certas áreas, mesmo que ele esteja fisicamente fora da piscina normal.
+
+Isso permite que o jogador realize movimentos de superfície como Triple Jump, mas ainda conte como se estivesse na água.
+
+Em termos simples:
+
+Mario “entra” em uma zona de água não reconhecida pelo motor do jogo, permitindo movimentos que normalmente só seriam possíveis em terra firme ou água.</p>
+<p>Causa: Reposicionamento incorreto após o Underground Pool Glitch e colisão parcial com o fosso do castelo.
+
+Condição: Passar pelo porão do castelo após o glitch, ir a áreas específicas do fosso.
+
+Efeito: Mario pode andar ou pular em áreas submersas de forma não intencional, incluindo Triple Jump.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: Sair dessas áreas ou pular normalmente encerra o glitch.</p>
+<br>
+<br>
+
+<h3><i>Chill Bully out of bounds</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_SL_Glitch1.png">
+<p>O glitch “Chill Bully Out of Bounds” em Super Mario 64 DS permite que o Chill Bully (ou o Big Bully) seja empurrado para fora da área normal do mapa, criando comportamentos inesperados como flutuar sobre a água ou afundar no gelo/lava.</p>
+<p>No curso Snowman's Land, jogando como Wario, o jogador deve:
+
+Pegar uma Power Flower de um ? Block.
+
+Enfrentar o Chill Bully como Metal Wario.
+
+Empurre o Chill Bully para fora da plataforma e para fora da água gelada.
+
+Estranhamente, ele voltará para a água se não for atacado.
+
+Se empurrado para o lago congelado, ele afundará no fundo.
+
+O mesmo glitch pode ser feito com o Big Bully em Lethal Lava Land.
+
+Lá, o Big Bully tem mais chance de queimar na lava, pois há menos lugares para empurrá-lo.</p>
+<p>O glitch acontece por causa da física e colisões do jogo:
+
+Como Metal Wario é mais pesado, ele pode aplicar força suficiente para mover o Bully para posições fora do mapa ou limites normais.
+
+O motor do jogo não calcula corretamente os limites da água ou lava para inimigos quando empurrados com força anormal.
+
+Isso faz com que o Bully flutue, afunde ou entre em estados não previstos pelo programador.
+
+Em termos simples:
+
+O Bully é empurrado além dos limites normais do mapa, e o jogo não consegue lidar corretamente com sua física ou colisão, causando comportamentos estranhos.</p>
+<p>Causa: Interação da força de Metal Wario com a física do Bully e limites da área.
+
+Condição: Usar Metal Wario para empurrar um Chill ou Big Bully em áreas restritas.
+
+Efeito: O Bully sai do mapa, flutua ou afunda, comportando-se de forma inesperada.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: O Bully eventualmente volta à água/lava ou é reiniciado pelo estado do mapa; não afeta permanentemente o jogo.</p>
+<br>
+<br>
+
+<h3><i>Light Chuck-Ya</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_Light_Chuckya_Glitch.png">
+<p>O glitch “Light Chuck-Ya” em Super Mario 64 DS permite que Mario ou Luigi carregue um Chuck-Ya como se fosse um objeto leve, podendo levá-lo a áreas normalmente inacessíveis.</p>
+<p>Jogando como Mario ou Luigi, vá para um nível com Heave-Hos e Chuck-Yas, como Battle Fort.
+
+Pegue o Chuck-Ya enquanto corre para fora de uma plataforma.
+
+Se feito corretamente, você continuará segurando o Chuck-Ya, mesmo no ar.
+
+Dirija-se a um Heave-Ho e permita que ele te jogue ou vire no ar, sem sofrer dano de queda.
+
+Depois desse procedimento, o Chuck-Ya passa a se comportar como um objeto pequeno e leve, podendo ser carregado ou posicionado em lugares fora do alcance normal.</p>
+<p>O glitch acontece devido à interação da física do Chuck-Ya com os Heave-Hos:
+
+Normalmente, o Chuck-Ya tem massa e colisão padrão que impede ser carregado para fora de certas áreas.
+
+Ao pegar o Chuck-Ya enquanto Mario/ Luigi sai de uma plataforma, o jogo não recalcula sua posição e massa corretamente, mantendo a referência de que o jogador o segura.
+
+Quando o Heave-Ho o arremessa sem dano de queda, o jogo reescreve a física do objeto como se fosse pequeno e leve, permitindo levar o Chuck-Ya a locais normalmente inacessíveis.
+
+Em termos simples:
+
+O glitch explora uma falha na atualização da física e colisão do Chuck-Ya quando manipulado em conjunto com Heave-Hos, tornando-o leve e transportável de forma incomum.</p>
+<p>Causa: Interação simultânea do Chuck-Ya no ar e do Heave-Ho, com recalculação incorreta de massa e colisão.
+
+Condição: Pegar o Chuck-Ya enquanto sai de uma plataforma e ser lançado por um Heave-Ho sem sofrer dano.
+
+Efeito: Chuck-Ya se torna leve, podendo ser levado a áreas inacessíveis.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: Recolocar ou largar o Chuck-Ya restaura seu comportamento normal.</p>
+<br>
+<br>
+
+<h3><i>Twin Power Stars</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_Double_Stars_Glitch.png">
+<p>O glitch “Twin Power Stars” em Super Mario 64 DS permite que dois Power Stars apareçam ao mesmo tempo em Big Boo Battle, permitindo que o jogador colete ambos, embora apenas um conte para a contagem total de estrelas.</p>
+<p>No nível Big Boo Battle, colete todas as Red Coins, mas deixe a primeira para coletar por último.
+
+Quando o último Red Coin for coletado:
+
+A animação de aparecimento da Star ocorre, mas apenas a parede da sala inicial será exibida.
+
+Ao ir para a sala final:
+
+Dois Power Stars aparecem acima do marcador de estrela.
+
+As estrelas se sobrepõem, com uma clipando sobre a outra.
+
+O jogador pode coletar ambas as Stars, mas apenas a primeira adiciona à contagem de Stars; a segunda é apenas visual e não tem efeito.</p>
+<p>O glitch acontece por causa da sequência incorreta de coleta das Red Coins:
+
+O jogo normalmente verifica quando todas as Red Coins são coletadas para disparar a animação da Star.
+
+Ao coletar a primeira Red Coin por último, o motor do jogo confunde a posição da animação, criando um duplicado visual da Star no local errado.
+
+A segunda Star é apenas um clone visual, sem lógica de contagem de Star, porque o jogo já registrou que a Star “real” foi coletada.
+
+Em termos simples:
+
+O glitch explora a ordem de coleta das Red Coins, fazendo o jogo gerar uma Star duplicada visualmente, mas sem efeito funcional.</p>
+<p>Causa: Coleta das Red Coins em ordem não padrão.
+
+Condição: Deixar a primeira Red Coin para coletar por último.
+
+Efeito: Dois Power Stars aparecem; apenas um conta para a contagem total.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: Não há impacto permanente; apenas um efeito visual estranho.</p>
+<br>
+<br>
+
+<h3><i>Yoshi carrying an invisible object</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64ds/SM64DS_BoB_Glitch1.png">
+<p>O glitch “Yoshi carrying an invisible object” em Super Mario 64 DS permite que Yoshi segure um objeto invisível, criando efeitos visuais estranhos e, em alguns casos, travando o jogo.</p>
+<p>Jogando como Yoshi, vá para uma área com pelo menos dois Goombas.
+
+Engula um Goomba para transformá-lo em um Yoshi Egg.
+
+Enquanto pula sobre o outro Goomba, pressione B (ou o botão de lançar o ovo) ao mesmo tempo.
+
+O Yoshi Egg explode, e Yoshi acaba segurando um objeto invisível em suas mãos.
+
+Efeitos adicionais que podem ocorrer:
+
+HUD (interface do jogo) e partes do nível podem ficar invisíveis, mas ainda podem ser interagidas.
+
+Se permanecer muito tempo no nível, o jogo pode travar.
+
+Tentar sair do nível ou entrar em outro curso também pode causar crash.
+
+Raramente, o glitch pode alterar dados de colisão do nível.</p>
+<p>O glitch acontece devido a uma falha na lógica de objetos de Yoshi:
+
+O motor do jogo não espera que Yoshi use suas mãos; na versão final, ele nunca manipula objetos diretamente com elas.
+
+Quando o Yoshi Egg explode enquanto Yoshi pula sobre outro Goomba, o jogo não consegue atualizar corretamente o objeto que Yoshi está “segurando”.
+
+Como resultado, Yoshi mantém uma referência a um objeto que não existe, tornando-o invisível.
+
+A manipulação incorreta de memória pode afetar HUD, colisões e renderização, causando crashes ou freezes se o jogador permanecer na área.
+
+Em termos simples:
+
+O glitch explora objetos “fantasmas” na memória de Yoshi, criando efeitos visuais estranhos e instabilidade do jogo.</p>
+<p>Causa: Explosão de um Yoshi Egg enquanto Yoshi pula sobre outro Goomba.
+
+Condição: Jogar como Yoshi; pelo menos dois Goombas na área; sincronizar salto e botão de lançar.
+
+Efeito: Yoshi segura objeto invisível; HUD e partes do nível podem desaparecer; risco de crash.
+
+Versões afetadas: Super Mario 64 DS.
+
+Solução: Reiniciar o nível ou desligar o jogo.</p>
+<br>
+<br>
+

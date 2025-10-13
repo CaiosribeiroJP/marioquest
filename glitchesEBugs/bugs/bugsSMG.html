@@ -1,0 +1,524 @@
+<h2 class="text-warning text-center">Super Mario Galaxy</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Eternal explosion</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Freezeflame_Fire_Glitch.png">
+<p>O glitch “Eternal Explosion” em Super Mario Galaxy é um bug visual impressionante que cria uma explosão de fogo permanente no cenário — um efeito que deveria desaparecer após alguns segundos, mas que, por um erro na programação, permanece ativo até o final da fase.</p>
+<p>O jogador entra na missão “Freezeflame’s Blistering Core” da Freezeflame Galaxy.
+
+Avançando até a área final, há pequenos inimigos de fogo chamados Li’l Cinders.
+
+O jogador deve pegar um Fire Flower para usar bolas de fogo.
+
+Quando um Li’l Cinder estiver caindo na lava, o jogador precisa acertá-lo com uma bola de fogo exatamente nesse instante.
+
+Se o timing for perfeito, ocorre uma explosão de fogo onde o inimigo caiu… mas, em vez de desaparecer, a explosão fica presa na tela, ardendo eternamente até o jogador sair do nível.</p>
+<p>O bug é causado por uma falha na sequência de destruição do inimigo e na limpeza de efeitos visuais (VFX) associada ao Li’l Cinder.
+Quando um inimigo como esse morre, o jogo executa uma série de etapas internas:
+
+Remove o modelo do inimigo (para ele desaparecer);
+
+Reproduz a animação de explosão (efeito de fogo temporário);
+
+Apaga a partícula da explosão após alguns frames;
+
+Libera a memória associada àquele efeito.
+
+No glitch, porém, o momento exato em que o inimigo toca a lava e é atingido pela bola de fogo faz com que duas rotinas de morte sejam acionadas simultaneamente:
+
+A rotina da morte na lava, que destrói o inimigo e cria um pequeno efeito de fogo;
+
+E a rotina da morte por ataque de Mario, que também tenta criar outro efeito de fogo no mesmo local.
+
+Essas duas ações entram em conflito, e o resultado é que o efeito de fogo não recebe o comando de “destruição” — ficando preso no estado “ativo” indefinidamente.</p>
+<p>O jogo tenta apagar o inimigo duas vezes ao mesmo tempo, e isso faz com que a explosão que deveria desaparecer nunca seja encerrada.
+Como os efeitos visuais em Super Mario Galaxy são independentes dos inimigos depois de criados, o fogo continua sendo desenhado pelo motor gráfico sem nenhuma referência para desligá-lo.</p>
+<p>Esse tipo de falha é conhecido como “VFX persistence bug” — um erro comum em jogos 3D quando o evento de destruição de partículas é interrompido antes do ciclo terminar.
+O motor gráfico do jogo (baseado em uma engine própria da Nintendo usada também em Mario Galaxy 2) mantém o efeito ativo em memória até o final da fase, já que não há um gatilho para removê-lo.</p>
+<p>O jogador atira uma bola de fogo em um Li’l Cinder exatamente quando ele cai na lava.
+
+As duas rotinas de morte (lava + ataque de Mario) se sobrepõem.
+
+A explosão de fogo nunca recebe o comando para desaparecer.
+
+O resultado é uma explosão eterna, visível até o término da fase.</p>
+<br>
+<br>
+
+<h3><i>Misplaced Comet Star icon</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Wrongly_placed_Prankster_Comet.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Wrongly_placed_Comet_Star_icon.png">
+<p>Esse glitch, chamado “Misplaced Comet Star Icon”, acontece em Super Mario Galaxy e está relacionado a um erro no sistema que controla os ícones dos Prankster Comets — aqueles cometas que aparecem em órbita de certas galáxias e ativam desafios especiais (como Speed Runs ou Daredevil Runs).</p>
+<p>O jogador precisa entrar na Engine Room e:
+
+Coletar as três estrelas não secretas da primeira galáxia.
+
+Depois, coletar duas estrelas da segunda galáxia.
+
+E mais duas estrelas da terceira galáxia.
+
+Quando um Prankster Comet aparece em órbita — normalmente sobre a segunda ou terceira galáxia — o ícone do cometa pode, erroneamente, aparecer na primeira galáxia, onde o cometa não está realmente ativo.
+
+Ou seja, o jogo mostra o ícone do cometa no lugar errado, confundindo o jogador sobre onde o desafio realmente está disponível.</p>
+<p>O bug é causado por um erro de indexação na memória.
+
+O jogo mantém uma lista interna com o estado de cada galáxia — incluindo quais estrelas foram coletadas e se um Prankster Comet está ativo.
+
+Quando várias estrelas são obtidas em sequência em diferentes galáxias, o sistema de atualização do mapa pode associar incorretamente o índice do ícone ao índice da galáxia anterior.
+
+Assim, o jogo “puxa” o ícone de um cometa ativo, mas o exibe sobre a galáxia errada — geralmente a última galáxia totalmente completada, que nesse caso é a primeira.
+
+Em resumo, é um pequeno erro de sincronização entre o estado lógico do cometa e o ícone visual mostrado no mapa. O cometa está ativo, mas o marcador aparece deslocado.</p>
+<br>
+<br>
+
+<h3><i>Falling through lava</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/180px-SMG_InLava.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/180px-SMG_FellThroughLava.png">
+<p>Esse glitch, conhecido como “Falling Through Lava”, acontece em Super Mario Galaxy, especificamente no Tower Planet da fase Bowser’s Galaxy Reactor. Ele faz com que Mario ou Luigi atravessem a lava e acabem sendo sugados para fora do planeta — algo impossível em condições normais.</p>
+<p>O jogador precisa cair na lava bem ao lado de uma das plataformas verdes móveis.
+
+Se Mario (ou Luigi) atingir o canto certo entre a lava e a plataforma, o jogo o coloca parcialmente dentro da geometria da plataforma.
+
+Durante a animação de dor (quando ele corre em círculos em chamas), o personagem escorrega para baixo, ficando preso sob a superfície da lava.
+
+Quando o jogador usa o movimento de Spin, Mario é lançado para fora da área de colisão do planeta e acaba sendo puxado pelo buraco negro próximo.</p>
+<p>Esse erro acontece por causa de uma falha na detecção de colisão entre três elementos do cenário:
+
+a superfície da lava (que causa dano),
+
+o limite sólido da plataforma verde,
+
+e o campo de gravidade que mantém Mario preso ao planeta.
+
+Quando Mario encosta exatamente entre esses dois objetos — lava e plataforma — o motor do jogo não consegue decidir qual colisão priorizar:
+
+a da lava, que o empurra para cima,
+
+ou a da plataforma, que o impede de atravessar.
+
+O resultado é que o personagem “escapa” para fora da malha de colisão e fica preso em uma camada de gravidade incorreta, abaixo da superfície.
+Ao girar (Spin), o movimento força uma atualização da física, e o jogo tenta reposicionar Mario fora do planeta — o que faz ele cair no vazio e ser sugado pelo buraco negro.</p>
+<p>Resumindo: o glitch acontece porque a interseção entre duas superfícies sólidas e o campo de gravidade cria uma área onde a colisão falha, permitindo que Mario atravesse o chão e saia completamente do mapa.</p>
+<br>
+<br>
+
+<h3><i>Floating Toad</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Floating_Toad_Glitch.png">
+<p>Esse glitch é conhecido como “Floating Toad” (Toad flutuante) e acontece na missão Tarantox’s Tangled Web, em Super Mario Galaxy. Ele faz com que o Toad verde pareça flutuar no ar, mesmo sem nenhuma plataforma sustentando-o.</p>
+<p>O jogador deve ir até o último planeta, onde acontece a luta contra Tarantox.
+
+Usando o Sling Star (ou Sling Pod), o jogador pode lançar o Toad verde para cima da pequena plataforma quebrável.
+
+Depois, Mario deve se lançar também na mesma plataforma usando o Sling Pod, fazendo com que ela se quebre ao impacto.
+
+Quando isso acontece, o Toad que estava em cima da plataforma não cai junto — ele fica parado no ar, aparentemente flutuando.</p>
+<p>Esse erro acontece por causa da forma como o jogo gerencia a posição e a colisão dos NPCs (personagens não jogáveis).
+
+O Toad, como outros NPCs do jogo, não tem física própria — ele depende da superfície sob seus pés para definir onde deve ficar.
+
+Quando a plataforma é destruída, o jogo remove o modelo visual da plataforma, mas não atualiza imediatamente a colisão ou o “ponto de apoio” do Toad.
+
+O resultado é que o Toad mantém sua posição anterior, mesmo que a plataforma já não exista mais.
+
+Em termos técnicos, o Toad ainda está “ancorado” a um nó de colisão que foi deletado, mas que ainda persiste por um breve instante na memória. Como o motor de física de Super Mario Galaxy não recalcula a gravidade dos NPCs constantemente (diferente de Mario), ele não detecta a ausência de chão — deixando o Toad “flutuando” no ar.</p>
+<p>O jogo não atualiza o estado físico dos NPCs instantaneamente.
+
+O Toad continua preso à posição anterior da plataforma destruída.
+
+Como o sistema de gravidade e colisão não é reavaliado, ele permanece suspenso até a área ser recarregada.</p>
+<p>Esse é um bom exemplo de como Super Mario Galaxy prioriza otimização de desempenho sobre precisão física completa — os objetos “estáticos” (como Toads) só têm suas posições recalculadas quando realmente necessário, o que pode gerar esse tipo de comportamento visual curioso.</p>
+<br>
+<br>
+
+<h3><i>Hit warps</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Space_Junk_Glitch_Starshroom.png">
+<p>Esse glitch é conhecido como “Hit Warp” e acontece quando Mario (ou Luigi) realiza um Long Jump (salto longo) e bate em uma parede durante o movimento. Em vez de simplesmente cair no chão normalmente, ele acaba sendo teletransportado para a altura do ponto onde colidiu com a parede, criando um “salto fantasma” vertical.</p>
+<p>O jogador executa um Long Jump em direção a uma parede ou superfície curva.
+
+Durante o salto, Mario colide com a parede, o que faz o jogo aplicar uma força de “recuo” (knockback).
+
+Quando Mario cai de volta no chão, o motor do jogo “corrige” a posição do personagem, redefinindo sua coordenada vertical (Y) para o ponto de colisão — e não para o chão real.
+
+O resultado é que Mario “salta” magicamente para cima, reaparecendo no mesmo nível de altura em que bateu na parede, como se tivesse sido teletransportado.</p>
+<p>Esse erro é causado por uma inconsistência no sistema de colisão e gravidade de Super Mario Galaxy, que precisa lidar com superfícies curvas, planetas pequenos e múltiplas direções de gravidade.
+
+Em resumo técnico:
+
+Quando Mario bate em uma parede durante um Long Jump, o jogo grava a posição exata da colisão (em coordenadas X, Y e Z).
+
+Mas o motor de física do jogo não redefine corretamente o valor vertical (Y) quando ele cai.
+
+Ao tocar o solo novamente, o jogo tenta ajustar sua posição com base na última altura registrada da colisão.
+
+Assim, o personagem “é puxado” de volta para a altura da batida, criando o efeito de “warp vertical”.
+
+Esse tipo de erro acontece porque Super Mario Galaxy usa um sistema de gravidade dinâmica: cada planeta tem seu próprio “centro gravitacional”. Quando o jogador muda rapidamente de direção (como num Long Jump curvado), o jogo pode confundir qual é a gravidade local e qual eixo deve usar como referência — e isso faz o warp acontecer.</p>
+<p>Esse glitch mostra bem como o sistema de física e gravidade esférica de Super Mario Galaxy — inovador na época — também gerava comportamentos imprevisíveis quando o motor de colisão tentava reconciliar posições em planetas com curvaturas e ângulos diferentes.</p>
+<br>
+<br>
+
+<h3><i>Inside the Beacon</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Inside_Beacon.png">
+<p>Esse glitch é conhecido como “Inside the Beacon” e acontece quando Mario, usando o Red Star (que lhe dá o poder de voar), atravessa o farol (Beacon) no centro do observatório, entrando dentro da estrutura como se ela não tivesse colisão.</p>
+<p>O jogador ativa o Red Star, que transforma Mario em Flying Mario e permite que ele voe livremente pelo observatório.
+
+Se o jogador voar até o topo do Beacon (o grande farol azul onde as Power Stars se acumulam) e tentar passar bem pelo centro superior, Mario atravessa o modelo 3D do farol, ficando preso dentro dele.
+
+Dentro da estrutura, ele pode se mover um pouco, mas não há saída visível — ele está dentro de um espaço que normalmente o jogador nunca deveria acessar.</p>
+<p>Esse erro ocorre por causa de uma falha na detecção de colisão (collision detection) do modelo do Beacon.
+
+Tecnicamente, o farol é feito de duas partes no jogo:
+
+A superfície externa visível (a parte azul translúcida que emite luz).
+
+Um núcleo interno invisível, que serve como ponto de origem para o efeito de energia.
+
+Porém, o modelo do farol não possui uma “hitbox” sólida em seu topo — ou seja, o jogo não define corretamente que aquela área deve bloquear o jogador.
+Quando Mario está em modo de voo, ele ignora parte das verificações de colisão normais, porque o jogo prioriza o movimento livre no ar, permitindo que ele atravesse objetos com colisão imperfeita ou mal posicionada.
+
+Assim, quando ele chega no topo do Beacon:
+
+O jogo tenta aplicar a física de voo.
+
+Mas o Beacon não tem uma barreira sólida na parte superior.
+
+Então o motor de colisão não encontra resistência e Mario passa direto pelo modelo, ficando “preso” dentro do volume interno.</p>
+<p>O modelo 3D do Beacon não possui colisão no topo.
+
+O modo de voo com o Red Star reduz a checagem de colisão para evitar interrupções durante o voo.
+
+A combinação dos dois faz com que Mario atravesse o Beacon e acabe dentro dele.</p>
+<p>Esse tipo de bug é comum em jogos 3D — especialmente onde há modelos decorativos com colisão parcial. Como o Beacon é apenas um objeto visual (com shaders de luz) e não uma plataforma jogável, os desenvolvedores não aplicaram uma malha de colisão completa, o que permite o glitch.</p>
+<br>
+<br>
+
+<h3><i>Mario flinging</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Dusty_Dune_Superjump_glitch.png">
+<p>O glitch conhecido como “Mario Flinging” em Super Mario Galaxy ocorre quando Mario é lançado violentamente para o ar ou em direções aleatórias por causa de erros na detecção de colisão e compressão de física do jogo. Ele pode ser reproduzido em diferentes galáxias, como Toy Time Galaxy e Dusty Dune Galaxy, e o efeito visualmente parece que o personagem foi “catapultado” pelo próprio jogo.</p>
+<p>No Toy Time Galaxy
+
+O jogador escolhe a missão Fast Foes of Toy Time.
+
+Mario deve entrar no buraco de um dos Tox Boxes (os grandes blocos que se movem e tentam esmagar o jogador).
+
+Quando o Tox Box se move e colide com o chão ou paredes enquanto Mario está dentro dele, o jogo tenta reposicionar Mario para evitar que ele fique preso.
+
+O sistema de física entra em conflito — o jogo tenta ao mesmo tempo empurrar Mario para fora e manter sua posição dentro do Tox Box — e isso gera uma força acumulada.
+
+O resultado é que Mario é lançado violentamente para fora, podendo até ser esmagado no ar ou fazer a câmera ser empurrada junto com ele.</p>
+<p>O jogador entra na fase Blasting through the Sand.
+
+Mario chega ao planeta com o interruptor de areia, que ativa uma sequência temporizada.
+
+Se Mario ficar parado e pular várias vezes durante a contagem, o jogo tenta corrigir a posição dele entre o solo que se move e o campo gravitacional do planeta.
+
+Quando o tempo acaba, o jogo reseta o estado físico do planeta (interrompendo a animação e a gravidade local), mas ainda há forças armazenadas na simulação física de Mario.
+
+Assim, ele é arremessado violentamente para o ar, como se uma mola invisível o empurrasse.</p>
+<p>O que causa esse glitch é uma combinação de falhas no sistema de colisão (collision handling) e tensões acumuladas na simulação física — um efeito comum em jogos com motores de física complexos.
+
+Em Super Mario Galaxy, cada objeto sólido tenta evitar interpenetração, ou seja, o jogo move o personagem rapidamente se detectar que ele está dentro de outro objeto.
+
+Porém, quando dois sistemas de física (como o chão móvel, os Tox Boxes ou plataformas temporizadas) colidem ao mesmo tempo com Mario, o motor entra em conflito sobre para onde empurrá-lo.
+
+Isso causa o chamado “physics explosion” — uma falha em que as forças acumuladas são liberadas de uma vez, lançando o personagem para longe.
+
+Em resumo:
+
+O jogo tenta “desprender” Mario de uma colisão impossível e, sem saber qual direção escolher, o lança com uma força exagerada.</p>
+<br>
+<br>
+
+<h3><i>Orbit death</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Orbit_Death_Glitch.png">
+<p>O glitch conhecido como “Orbit Death” em Super Mario Galaxy ocorre quando Mario ou Luigi acabam orbitando um planeta de forma anormal e, eventualmente, morrem caindo através do planeta ou para fora de seus limites. Esse glitch é particularmente notável na fase Beware of Bouldergeist, na Ghostly Galaxy, em planetas ocos com núcleo elástico.</p>
+<p>O jogador deve chegar ao planeta oco com núcleo elástico na fase.
+
+Mario ou Luigi realizam um Long Jump enquanto seguram a direção para frente.
+
+Se feito corretamente, o personagem entra em uma trajetória de órbita não intencional ao redor do planeta, sendo “prendido” em um movimento circular pelo sistema de física do jogo.
+
+Durante essa órbita, o motor de física tenta manter Mario preso à superfície do planeta enquanto ele se move rapidamente.
+
+Eventualmente, devido a pequenas inconsistências nos cálculos de gravidade e colisão, Mario passa através do planeta ou é ejetado do planeta, resultando na morte automática.</p>
+<p>O que permite o Orbit Death é uma combinação de gravidade planetária simulada, colisão com superfícies curvas e correções de posição do motor de física:
+
+Cada planeta em Super Mario Galaxy possui um campo gravitacional local que força Mario a permanecer na superfície.
+
+Quando Mario realiza um Long Jump em um ponto específico e segura a direção para frente, ele atinge uma velocidade e ângulo que o motor de física não consegue corrigir corretamente.
+
+Isso faz com que a trajetória circular da órbita se torne instável, e o jogo não consegue calcular corretamente a posição de Mario em relação à superfície, permitindo que ele “fure” o planeta ou seja expelido.
+
+Em termos simples:
+
+O jogo tenta manter Mario na órbita do planeta, mas forças combinadas de movimento e colisão ultrapassam a capacidade do motor de física, levando à morte do personagem.</p>
+<br>
+<br>
+
+<h3><i>Sand Mario glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Deep_Dark_Inside_Starshroom_Glitch.png">
+<p>O glitch “Sand Mario” em Super Mario Galaxy permite que Mario ou Luigi fiquem parcialmente submersos na areia e acabem “nadando” sob o terreno, acessando áreas que normalmente seriam inacessíveis. Ele ocorre na Deep Dark Galaxy, na primeira missão, perto do canhão fixo na praia.</p>
+<p>O jogador deve entrar no canhão fixo na praia.
+
+Apontar o canhão para a área onde o guarda-sol se conecta ao poste, indo o máximo possível para a direita.
+
+Se executado corretamente, Mario ficará parcialmente dentro da lawn chair (cadeira de praia) e afundado na areia.
+
+O jogador deve agachar e andar para frente, e Mario cairá sob a areia, iniciando a natação subterrânea.
+
+Alternativamente, é possível que um crab (caranguejo) empurre Mario enquanto ele está parcialmente na cadeira, permitindo que ele entre na areia ao se agachar.
+
+Dentro da areia, Mario pode explorar áreas escondidas:
+
+Dentro do Red Starshroom
+
+Dentro de uma palmeira
+
+Dentro de vasos
+
+Nadando sob o portão, ele alcança a mesma área fora dos limites vista no glitch “falling through the hill”.
+
+Se Mario nadar longe demais ou muito fundo, ele perderá a vida automaticamente.</p>
+<p>O glitch ocorre devido a interações incomuns entre colisão, terreno e física do jogo:
+
+Mario fica parcialmente preso dentro de uma malha de objeto (cadeira ou guarda-sol) que o motor de colisão não trata como sólido de maneira padrão.
+
+Ao se agachar e mover para frente, o jogo não consegue corrigir sua posição vertical corretamente, fazendo com que Mario caia abaixo da superfície da areia.
+
+Uma vez sob a superfície, Mario entra em um estado de “natação” forçada, porque o motor de física entende que ele está dentro de um volume de terreno não mapeado, permitindo que ele interaja com objetos subterrâneos.
+
+Isso também permite o acesso a áreas fora dos limites, como o interior do Red Starshroom, devido à ausência de restrições de colisão submersas.
+
+Em resumo: o glitch explora limitações do sistema de colisão e da física do terreno, permitindo que Mario “atravesse” o solo e explore partes do nível que não deveriam ser acessíveis.</p>
+<br>
+<br>
+
+<h3><i>Spheroid planet clips</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Through_the_Planet.png">
+<p>O glitch “Spheroid Planet Clips” em Super Mario Galaxy faz com que Mario ou Luigi caiam através do chão de um planeta, muitas vezes ficando “presos” dentro dele ou orbitando seu centro invisível, e às vezes causando comportamentos estranhos na câmera. Ele pode ser realizado em vários planetas e missões.</p>
+<p>Existem diversas formas de ativar o glitch:
+
+Drip Drop Galaxy – Spiny Cheep-Cheep
+
+Abrir o baú que contém o Spiny Cheep-Cheep.
+
+Se o Porcupuffer atingir Mario/Luigi e o pressionar contra o chão, o personagem pode cair através do piso do planeta e nadar nele.
+
+O glitch termina quando Mario/Luigi nada de volta à superfície ou perde a vida.
+
+Good Egg Galaxy – Rock Planet (Purple Comet)
+
+Girar perto de um protuberância metálica com Star Bit.
+
+Mario/Luigi cai dentro do planeta e começa a orbitar seu centro invisível, com a câmera se comportando de forma errática.
+
+Só é possível sair do glitch saindo do nível.
+
+Melty Molten Galaxy – Stone Octagon Planet (Through the Meteor Storm)
+
+Ficar próximo do primeiro Thwomp.
+
+Quando ele bate no chão, Mario/Luigi cai instantaneamente pelo planeta e pode entrar em um buraco negro.
+
+Snow Cap Galaxy – Star Bunnies in the Snow
+
+Capturar dois Star Bunnies e usar Fire Mario/Fire Luigi perto de um desfiladeiro alto.
+
+Atirar um fireball no coelho faz Mario/Luigi cair através do planeta com a câmera se movendo aleatoriamente.
+
+Para encerrar, esperar o timer ou sair da missão.
+
+Snow Cap Galaxy – Cabeça do Boneco de Neve
+
+Atirar fireball na parte inferior do boneco de neve e correr por baixo.
+
+Quando a cabeça do boneco cai, empurra Mario para dentro do planeta.</p>
+<p>O glitch explora limitações do motor de colisão dos planetas esféricos.
+
+Alguns objetos ou inimigos aplicam forças que não são corretamente processadas pelo sistema de colisão, permitindo que o personagem atravesse o chão do planeta.
+
+No caso de órbita, Mario/Luigi são presos pelo motor do jogo a uma posição central invisível, que seria o “centro físico” do planeta, mas sem colisão visível.
+
+A câmera é afetada porque o motor tenta rastrear o personagem em um espaço não mapeado, resultando em movimentos aleatórios ou inesperados.
+
+Cada variação do glitch depende da interação entre impactos de objetos, física de inimigos e bordas do planeta, que o motor não corrige, criando áreas “fora dos limites”.</p>
+<br>
+<br>
+
+<h3><i>Stuck at Launch Star</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Gravity_Blocks_Glitch.png">
+<p>O glitch “Stuck at Launch Star” em Super Mario Galaxy faz com que Mario ou Luigi fiquem presos em um loop ao usar um Launch Star, impossibilitando o progresso normal do nível.</p>
+<p>Localização: Gusty Garden Galaxy, missão Gravity Scramble.
+
+Passo a passo:
+
+O jogador deve executar um Long Jump no canto esquerdo da base do terceiro grupo de blocos.
+
+Se feito corretamente, Mario/Luigi caem de volta nos planetoides próximos ao Launch Star.
+
+Esses blocos têm gravidade alterada pelo design do nível.
+
+Ao usar o Launch Star, o jogador é lançado, mas por causa da alteração da gravidade, ele cai imediatamente de volta ao Launch Star, repetindo o ciclo.
+
+Consequência:
+
+Mario/Luigi ficam presos em um loop infinito, sem conseguir avançar no nível.
+
+A única forma de continuar é perder uma vida ou reiniciar o nível.</p>
+<p>O glitch explora inconsistências na física de gravidade aplicada aos blocos do nível.
+
+Normalmente, o Launch Star lança o jogador de acordo com a gravidade local do planetoide de destino.
+
+Após o Long Jump na posição específica:
+
+O motor do jogo atribui temporariamente gravidade invertida ou corrompida ao planetoide.
+
+Isso faz com que, ao pousar, Mario/Luigi seja automaticamente reposicionado no ponto de lançamento, criando um loop infinito.
+
+É um exemplo clássico de como interações específicas entre física e colisão do jogo podem criar estados “fora do normal”, que o motor não consegue resolver sozinho.</p>
+<br>
+<br>
+
+<h3><i>Stuck on umbrella</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Umbrella_Glitch.png">
+<p>O glitch “Stuck on Umbrella” em Super Mario Galaxy faz com que Mario fique preso em uma posição encolhida sobre o guarda-sol, mas ainda seja possível movê-lo.</p>
+<p>Localização: Deep Dark Galaxy (qualquer missão, exceto as de cometa).
+
+Passo a passo:
+
+O jogador deve entrar em um cannon.
+
+Atirar Mario em uma seção vermelha específica do guarda-sol na praia.
+
+Se feito corretamente, Mario fica enrolado/encolhido sobre o guarda-sol, mas ainda é possível controlá-lo parcialmente.
+
+Para encerrar o glitch, basta parar de movimentar o controle analógico, momento em que Mario retorna à posição normal.</p>
+<p>O glitch explora problemas de colisão e modelagem do guarda-sol:
+
+O guarda-sol tem uma área de colisão não usual ou corrompida na seção vermelha.
+
+Quando Mario entra nessa área através do cannon, o motor do jogo não consegue calcular corretamente a posição do modelo de Mario.
+
+Como resultado, ele é reposicionado em uma posição encolhida “preso” sobre o objeto, mas o motor ainda mantém a capacidade de movimentação, pois os controles continuam ativos.
+
+Basicamente, é uma interação entre física, colisão e detecção de posição do personagem, criando um estado temporário fora do esperado.</p>
+<br>
+<br>
+
+<h3><i>Far chatting</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SMG_Far_Chatting_Glitch.png">
+<p>O glitch “Far Chatting” em Super Mario Galaxy permite que Mario/Luigi interaja com um Toad mesmo que ele esteja em outro planeta, criando a ilusão de uma conversa à distância.</p>
+<p>Localização: Space Junk Galaxy, na missão de libertar o Toad do Sling Pod no Stone Planet.
+
+Passo a passo:
+
+O jogador deve resgatar o Toad de um Sling Pod.
+
+Se Toad ficar preso em outro Sling Pod em um planeta diferente, o jogo ainda considera que ele está próximo de Mario/Luigi.
+
+Mesmo distante, o jogador pode apertar o botão de interação para “conversar” com Toad.</p>
+<p>O glitch explora uma falha na detecção de proximidade do NPC:
+
+O jogo mantém uma flag ou estado de Toad “próximo do jogador” enquanto ele está preso no Sling Pod.
+
+Esse estado não é atualizado quando Toad é lançado para outro planeta, então o motor do jogo ainda permite a interação como se estivesse próximo.
+
+Em termos simples, é um erro de sincronização entre posição física e estado de interação do personagem.</p>
+<br>
+<br>
+
+<h3><i>Swim in Loopdeeswoop Galaxy</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-SwimmingInLoopdeeswoopGalaxyGlitch.png">
+<p>O glitch “Swim in Loopdeeswoop Galaxy” em Super Mario Galaxy permite que Mario/Luigi acesse uma área da pista de corrida onde normalmente não seria possível nadar, aproveitando mecânicas de física e colisão.</p>
+<p>Localização: Loopdeeswoop Galaxy, próximo ao Coach.
+
+Passo a passo:
+
+O jogador deve se posicionar ao lado do Coach.
+
+Executar um Backflip, girar no ar (spin) e em seguida fazer um Ground Pound em cima do Coach.
+
+Mario/Luigi é lançado para fora, quicando na direção do hoop em formato de Shine Sprite.
+
+Ao aterrissar em uma das esferas da estrutura, o jogador pode fazer Long Jumps e girar para acessar a pista de corrida principal.
+
+A partir daí, o jogador consegue “nadar” na pista, algo que normalmente não seria permitido.</p>
+<p>O glitch explora falhas na detecção de colisão e física de lançamento:
+
+O Ground Pound sobre o NPC (Coach) gera uma força que ignora temporariamente o limite da pista.
+
+As esferas do hoop funcionam como plataformas “rebatíveis”, permitindo o jogador ganhar altura e velocidade suficiente para atravessar limites da área.
+
+O jogo não bloqueia a entrada de Mario/Luigi em áreas que normalmente seriam inacessíveis, então o movimento de longo alcance combinado com colisão errática permite nadar fora da pista.</p>
+<br>
+<br>
+
+<h3><i>Unactivated Megaleg</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-Megaleg_glitch.png">
+<p>O glitch “Unactivated Megaleg” em Super Mario Galaxy permite que o jogador explore a área de Megaleg sem que o chefe seja ativado, ignorando as mecânicas de ataque automáticas como os Bullet Bills e o movimento das engrenagens.</p>
+<p>Localização inicial: Primeiro planeta onde Megaleg aparece.
+
+Passo a passo:
+
+Encontrar a gaiola de vidro que contém a Launch Star.
+
+Executar um Triple Jump saindo da gaiola.
+
+O segundo salto deve acertar o topo da gaiola.
+
+No terceiro salto, girar (spin) no ponto mais alto.
+
+Se feito corretamente, Mario/Luigi cai na “lua” de Megaleg sem ativá-lo.
+
+Consequências:
+
+Megaleg permanece inativo: nenhum Bullet Bill é disparado e as engrenagens não se movem.
+
+O jogador pode explorar toda a área livremente.
+
+Caso Mario/Luigi vá para o ponto de aterrissagem normal da Launch Star, a cutscene é acionada e Megaleg é ativado normalmente.</p>
+<p>O glitch explora mecânicas de colisão e ativação de eventos do jogo:
+
+Megaleg só é ativado quando Mario/Luigi atinge a área de trigger da Launch Star.
+
+Ao usar o Triple Jump e o spin, o jogador alcança a superfície da lua sem passar pelo trigger, ignorando o evento de ativação.
+
+O jogo mantém Megaleg inativo porque a cutscene e os scripts de ataque dependem do trigger, que não foi alcançado.</p>
+<br>
+<br>
+
+<h3><i>Underwater Bee Mario</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg/200px-Bee_Mario_Underwater.png">
+<p>O glitch “Underwater Bee Mario” em Super Mario Galaxy permite que Mario ou Luigi usem o Bee Mushroom enquanto estão submersos, algo que normalmente não é permitido pelo jogo.</p>
+<p>Missão: Selecionar The Silver Stars of Sea Slide na Sea Slide Galaxy.
+
+Passo a passo:
+
+Do ilha inicial, lançar a concha no cristal que contém o Bee Mushroom.
+
+Antes que o Mushroom caia pela segunda vez, virar a câmera para longe da ilha.
+
+Mergulhar na água e nadar de volta para a ilha, ainda olhando para longe.
+
+Virar a câmera de volta em direção à ilha.
+
+Resultado:
+
+O Bee Mushroom aparece debaixo d’água.
+
+Mario/Luigi podem se transformar em Bee Mario/Luigi enquanto nadam normalmente.</p>
+<p>O glitch explora a forma como o jogo trata spawn de objetos e transformações:
+
+Normalmente, o Bee Mushroom só pode ser coletado em terra firme e fora da água.
+
+Virar a câmera fora da visão da ilha impede que o jogo registre corretamente a colisão e spawn do Mushroom.
+
+Ao voltar para a visão da ilha, o jogo reconhece o Mushroom como coletável, mesmo estando submerso.
+
+O resultado é que o jogador obtém os poderes do Bee Mario sem as restrições de terreno, permitindo nadar com habilidades aéreas.</p>
+<br>
+<br>
+

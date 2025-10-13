@@ -1,0 +1,288 @@
+<h2 class="text-warning text-center">Super Mario 3D World</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Clear Pipe hitbox glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Invisible_Platform_Glitch.jpg">
+<p>O glitch do Clear Pipe hitbox em Super Mario 3D World ocorre no nível Tricky Trapeze Theater e envolve o Cat Mario (ou Cat Peach/Toad).</p>
+<p>Condição necessária:
+
+O jogador deve estar usando o Cat Suit.
+
+O glitch acontece próximo ao final do nível, na Clear Pipe à esquerda.
+
+Execução do glitch:
+
+O jogador desliza pela borda esquerda do Clear Pipe.
+
+Ao chegar ao “fundo” do pipe, parece que Mario está em pé sobre uma plataforma invisível.
+
+Na realidade, não existe uma plataforma visível; o que acontece é que o hitbox (caixa de colisão) do Clear Pipe é maior que o modelo visual do objeto.
+
+O jogo mantém o personagem em “colisão” com o pipe, dando a ilusão de estar flutuando ou parado no ar.</p>
+<p>Cada objeto no jogo possui uma hitbox, que é a área que determina colisões.
+
+No caso do Clear Pipe, os desenvolvedores definiram uma hitbox maior do que o modelo visual para garantir que o jogador caísse corretamente no pipe sem escapar da colisão.
+
+O Cat Suit altera a física do personagem (permitindo deslizar pelas paredes e agarrar bordas).
+
+A combinação do Cat Mario deslizando e a hitbox maior faz com que ele “trave” em uma posição que o modelo do pipe não cobre visualmente.</p>
+<p>Tipo de falha: Discrepância entre modelo visual e hitbox.
+
+Causa: Hitbox maior do Clear Pipe + física do Cat Mario.
+
+Efeito principal: Mario parece estar parado no ar, sobre uma plataforma invisível.
+
+Nota: Não é prejudicial ao progresso; é apenas um efeito visual/colisório inesperado.</p>
+<br>
+<br>
+
+<h3><i>Invisible water*</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Invisible_Water_Glitch.jpg">
+<p>O glitch da água invisível em Super Mario 3D World acontece no nível Super Bell Hill, logo após a bandeira de checkpoint, próximo à piscina com moedas.</p>
+<p>Condição necessária:
+
+O jogador deve estar perto da borda do canto do estágio, próximo à piscina de água visível.
+
+Execução do glitch:
+
+O jogador realiza um Long Jump (pulo longo) para fora do estágio.
+
+Ao cair, Luigi (ou outro personagem) entra em um estado de natação, mesmo que não haja água visível.
+
+Ele pode nadar nesse espaço invisível, que tecnicamente é uma extensão da física da água do jogo, mas fora da área visual do cenário.</p>
+<p>O jogo possui zonas de água programadas com física de natação, que não dependem totalmente da geometria visível.
+
+A borda do estágio e a física do Long Jump permitem que o jogador entre nessa zona de água “fora de tela”, ativando a mecânica de natação mesmo sem modelo visual.
+
+Em outras palavras, o jogo reconhece o personagem como estando na água, mas a água que ele “toca” não foi renderizada, por isso parece invisível.</p>
+<p>Tipo de falha: Zona de física ativa sem modelo visual.
+
+Causa: Long Jump fora do mapa + física de água programada.
+
+Efeito principal: Personagem pode nadar em um “pool invisível” fora do estágio.
+
+Nota: Não quebra o jogo, mas é um exemplo clássico de glitch de colisão/física.</p>
+<br>
+<br>
+
+<h3><i>Float with Koopa Shell</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Koopa_Shell_Stuck_Glitch_2.jpg">
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Koopa_Shell_Stuck_Glitch.jpg">
+<p>O glitch “Float with Koopa Shell” em Super Mario 3D World acontece no nível Koopa Troopa Cave e possui duas variações principais.</p>
+<p>1️⃣ Ficar preso em um buraco com a casca
+
+O jogador deve quebrar apenas um dos Brick Blocks no início do nível, revelando uma abertura para a área secreta abaixo.
+
+Se o jogador pegar uma Koopa Shell e cair no buraco, ele ficará temporariamente preso dentro do buraco.
+
+Para sair, basta tentar se movimentar ou girar, liberando o personagem.
+
+2️⃣ Flutuar sobre nuvens com a casca
+
+Mais adiante no nível, se o jogador pegar uma Koopa Shell e pular em uma nuvem, encostando a borda da casca na nuvem, o personagem ficará preso e parecerá flutuar.
+
+É possível cancelar o glitch soltando a casca ou girando.
+
+No Super Mario 3D World + Bowser’s Fury, a nuvem automaticamente empurra o jogador para fora, encerrando o glitch após alguns segundos.</p>
+<p>Física de colisão incompleta: o jogo trata a casca como um objeto sólido, mas a combinação com buracos ou bordas de nuvem cria um ponto onde Mario fica “preso” entre colisões.
+
+Zona de detecção do personagem: enquanto Mario está sobre a borda do objeto (buraco ou nuvem) com a casca, o motor físico não resolve corretamente a posição dele, dando a ilusão de flutuar ou ficar preso.
+
+Correção automática: ao liberar a casca ou ser empurrado pela nuvem, o motor de colisão recalcula a posição de Mario, encerrando o efeito.</p>
+<p>Tipo de falha: Colisão de objeto + detecção de personagem.
+
+Causa: Combinação de casca de Koopa com buraco ou borda de nuvem.
+
+Efeito principal: Mario fica preso ou parece flutuar.
+
+Nota: Não quebra o jogo e pode ser facilmente revertido, mas mostra como o motor de física lida com objetos sobrepostos de forma inesperada.</p>
+<br>
+<br>
+
+<h3><i>Inside the floor</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Inside_Floor_Glitch.jpg">
+<p>O glitch “Inside the Floor” em Super Mario 3D World ocorre quando Mario ou Luigi (geralmente com a Cat Suit) clipam dentro do chão ou de blocos, explorando como o motor de colisão do jogo trata bordas e superfícies.</p>
+<p>1️⃣ Trick Trap Tower
+
+Avance até o final do nível, próximo ao Goal Pole, usando a Cat Suit.
+
+Pule do canto do palco e use um Cat Dive para retornar.
+
+Mario/Luigi irão clipar dentro do chão, ficando parcialmente dentro da superfície.
+
+Para sair do glitch, basta pular, fazendo o motor de colisão recalcular a posição.
+
+2️⃣ Captain Toad Plays Peek-a-Boo
+
+Fique debaixo de um Donut Block e posicione-se no limite entre o chão e um Touchstone block específico.
+
+Quando o Touchstone é ativado, o personagem clipa dentro do bloco.</p>
+<p>Colisão de borda não tratada: O motor físico do jogo calcula colisões baseando-se em caixas delimitadoras (hitboxes). Ao estar no limite entre duas superfícies, o cálculo falha, permitindo que o personagem seja parcialmente inserido na geometria do nível.
+
+Ação do Cat Dive: Movimentos rápidos como o Cat Dive podem forçar a posição de Mario antes que o motor de colisão corrija, resultando no “clip”.
+
+Correção automática: Saltar ou sair da borda força o motor de colisão a recalcular a posição, encerrando o glitch.</p>
+<p>Tipo de falha: Colisão entre bordas + detecção de personagem.
+
+Causa: Movimentos rápidos ou posicionamento preciso na transição entre chão e bloco.
+
+Efeito principal: Mario/Luigi ficam parcialmente dentro do chão ou de blocos.
+
+Nota: Não quebra o jogo, mas mostra vulnerabilidades no motor de física em superfícies limites.</p>
+<br>
+<br>
+
+<h3><i>Midair jump</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Air_Jump_Glitch.jpg">
+<p>O glitch “Midair Jump” em Super Mario 3D World ocorre quando Mario consegue pular no ar sem estar em uma plataforma, explorando como o motor do jogo trata teletransporte de portas e detecção de colisão.</p>
+<p>No nível A Beam in the Dark, entre em uma das portas da esquerda ou central.
+
+Ao sair da porta, Mario aparece no topo da porta de destino, mas sem plataformas abaixo dele.
+
+Se o jogador pular no ar enquanto segura qualquer direção no joystick imediatamente após sair da porta, Mario consegue executar um pulo “normal” no ar, como se tivesse uma plataforma sólida.</p>
+<p>Posição teleportada sem plataforma: O jogo teleporta Mario para o destino da porta sem atualizar imediatamente o estado de colisão do chão.
+
+Atualização de física atrasada: Ao pressionar uma direção + pular, o motor de física aplica o impulso do pulo mesmo sem colisão detectada abaixo, permitindo o “pulo no ar”.
+
+Detecção do chão momentânea: O motor ainda trata o estado do pulo como se Mario estivesse em uma superfície sólida, apesar de ele estar “flutuando” no vazio.</p>
+<p>Tipo de falha: Teleporte + física de pulo.
+
+Causa: O jogo não atualiza imediatamente a presença de chão ao teletransportar Mario entre portas.
+
+Efeito principal: Mario consegue pular no ar, permitindo explorar áreas que normalmente seriam inacessíveis.
+
+Nota: Este glitch é limitado a portas específicas em níveis específicos e depende de timing preciso.</p>
+<br>
+<br>
+
+<h3><i>Snowball slide glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Toad's_run_Glitch.jpg">
+<p>O glitch “Snowball Slide” em Super Mario 3D World acontece quando o jogador combina o movimento de Long Jump com um Snowball de forma que o personagem continue deslizando sem poder pular.</p>
+<p>No nível, pegue um Snowball.
+
+Controle o Small Blue Toad (ou outro personagem que funcione similarmente).
+
+Execute um Long Jump (pulo longo) dentro do Snowball.
+
+Ao aterrissar, o personagem sentará automaticamente sobre o Snowball e começará a deslizar continuamente, mantendo o Snowball nas mãos.
+
+Enquanto estiver deslizando, o personagem não poderá pular, mas continuará ganhando velocidade ao deslizar.
+
+O glitch termina se o jogador soltar o Snowball ou sair de sua posse.</p>
+<p>Prioridade de animação e física: Ao Long Jump dentro do Snowball, o motor do jogo entra em um estado misto de animação, onde Toad está sentado (como se estivesse no solo) e segurando o objeto, mas a colisão ainda permite que ele deslize sobre o chão.
+
+Acúmulo de momentum: A física do Snowball aplica velocidade contínua horizontalmente, mesmo sem permitir pulo, porque o jogo considera que o personagem ainda está em um estado de “deslize sobre objeto”.
+
+Interrupção da mecânica normal de pulo: O estado do Snowball sobrepõe a habilidade de pular, bloqueando o comando de jump até que o Snowball seja liberado.</p>
+<p>Tipo de falha: Interação de Long Jump + objeto (Snowball).
+
+Causa: Prioridade de física e animação sobrepõe as regras normais de pulo.
+
+Efeito principal: O personagem desliza continuamente segurando o Snowball, sem poder pular, e ganha momentum extra.
+
+Cancelamento: Soltar o Snowball ou sair do estado de “segurando objeto”.</p>
+<br>
+<br>
+
+<h3><i>Super Bell inside Brick Blocks</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Super_Bell_Stuck_Glitch.jpg">
+<p>O glitch “Super Bell inside Brick Blocks” em Super Mario 3D World acontece quando o Super Bell é parcialmente inserido dentro de blocos de tijolo, criando uma sobreposição visual e física incomum.</p>
+<p>No nível Mount Beanpole, equipe-se com um Cat Suit.
+
+Encontre um Cat Goomba posicionado embaixo de uma pilha vertical de Brick Blocks.
+
+Ataque o Cat Goomba com a habilidade de arranhar do Cat Mario/Cat Luigi.
+
+Quando o inimigo morre, o Super Bell que ele solta pode clipe parcialmente dentro da pilha de Brick Blocks.
+
+O item fica visível parcialmente dentro do bloco, e às vezes o jogador precisa se posicionar de maneira específica para pegá-lo.</p>
+<p>Interação física do item: Ao destruir o inimigo, o jogo cria o Super Bell com posição baseada na coordenada do inimigo.
+
+Prioridade de colisão: Os blocos têm colisão sólida, mas o motor do jogo permite que o item apareça parcialmente dentro porque ele é instanciado rapidamente no mesmo espaço do bloco antes da física de colisão ajustá-lo.
+
+Sobreposição de hitboxes: O Super Bell ainda pode ser coletado, mesmo estando parcialmente dentro do bloco, porque sua hitbox de coleta é independente da colisão visual.</p>
+<p>Tipo de falha: Sobreposição de objeto/colisão.
+
+Causa: Instanciação do Super Bell no mesmo espaço de um bloco sólido antes do motor corrigir a posição.
+
+Efeito principal: O Super Bell aparece parcialmente dentro dos Brick Blocks, criando um efeito visual estranho, mas ainda coletável.</p>
+<br>
+<br>
+
+<h3><i>Visual artifacts*</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Mount_Beanpole_OOB.jpg">
+<p>O glitch “Visual Artifacts” em Super Mario 3D World acontece quando o jogador sai completamente do mapa, resultando em duplicações visuais e frames de objetos sobrepostos.</p>
+<p>Equipe-se com o Cat Suit, e mantenha um Tanooki Suit no inventário/armazenamento.
+
+Vá ao topo da montanha em Mount Beanpole ou Spiky Mount Beanpole.
+
+Pegue o Tanooki Suit do armazenamento e use o Cat Momentum Glitch para entrar na folha Tanooki e avançar em direção ao início do estágio.
+
+Antes de tocar no chão, aperte o salto imediatamente.
+
+Segurando continuamente a direção para baixo no controle, o personagem voará fora dos limites do mapa.
+
+Se avançar muito, o jogo começa a gerar frames duplicados e sobreposição de objetos, causando os artefatos visuais.</p>
+<p>Sair do bounds do mapa: O motor do jogo não espera que o personagem vá além da área projetada, então ele tenta renderizar o cenário a partir de posições inválidas.
+
+Renderização de objetos: Objetos e texturas do mapa têm coordenadas baseadas no espaço do nível. Fora do mapa, essas coordenadas podem se repetir ou gerar offsets incorretos, duplicando ou sobrepondo frames.
+
+Acúmulo de erros de frame: Como o motor tenta mostrar algo que não existe naquele espaço, o resultado são artefatos visuais até o jogador reiniciar ou o tempo do estágio acabar.</p>
+<p>Tipo de falha: Exploração de limites do mapa / renderização incorreta.
+
+Causa: Saída do personagem fora da área programada, com renderização de objetos baseada em coordenadas inválidas.
+
+Efeito principal: Tela mostra frames duplicados e objetos sobrepostos, criando distorções visuais.</p>
+<br>
+<br>
+
+<h3><i>World Map out of bounds*</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-RosalinaOutOfBoundsGlitch.jpg">
+<p>O glitch “World Map Out of Bounds” em Super Mario 3D World permite que o jogador saia da área segura do mapa do mundo, resultando em comportamento estranho e potencial perda de progresso.</p>
+<p>O jogador deve se posicionar próximo ao Clear Pipe de entrada do mundo Bowser.
+
+Para alcançá-lo, é preciso saltar primeiro em um poste próximo e, a partir dele, pular sobre o pipe.
+
+Ao acertar o movimento, o personagem ficará sobre o topo do pipe.
+
+A partir daí, se o jogador cair deliberadamente para fora dos limites, pode visualizar partes do mapa que normalmente não seriam acessíveis.
+
+Se o jogo for fechado enquanto o personagem está caindo fora dos limites, o progresso não será salvo, mas ao reiniciar, a música do mundo em que o glitch foi ativado toca brevemente, mesmo estando em outro mundo.</p>
+<p>Exploração de limites do mapa: O motor do jogo não está programado para lidar com o personagem acima ou fora do pipe, então não há colisões ou restrições que o impeçam de sair da área.
+
+Persistência da música: Ao sair do mapa, o estado do nível fica “travado” na memória momentaneamente. Por isso, ao reiniciar, a música daquele mundo toca brevemente, mesmo que o progresso real não tenha sido salvo.
+
+Impacto no salvamento: O motor de salvamento só registra a posição do personagem dentro dos limites válidos; ao estar fora do mapa, o jogo ignora o estado do personagem, causando não salvamento do progresso.</p>
+<p>Tipo de falha: Exploração de limites do mapa / comportamento fora dos limites do mundo.
+
+Causa: Pular sobre colisões e objetos para sair da área programada do mapa.
+
+Efeito principal: Personagem pode ficar fora do mapa, progresso não é salvo se o jogo fechar, e a música do mundo continua tocando brevemente.</p>
+<br>
+<br>
+
+<h3><i>Unactivated enemies</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm3dw/200px-SM3DW_Inactive_Fire_Bro.jpg">
+<p>O glitch “Unactivated Enemies” em Super Mario 3D World ocorre quando inimigos não entram em seu comportamento normal de ataque devido à exploração de atalhos no nível.</p>
+<p>Alguns inimigos no jogo, como Fire Bros, dependem de triggers (gatilhos) no mapa para começarem a se mover ou atacar.
+
+Quando o jogador pula ou contorna esses gatilhos — por exemplo, pegando um atalho — os inimigos não recebem o sinal para ativar.
+
+O resultado é que eles permanecem inativos: não perseguem o jogador nem realizam ataques automáticos.
+
+Apesar disso, eles ainda podem causar dano ao toque e podem ser derrotados normalmente se o jogador interagir com eles.</p>
+<p>Dependência de triggers: O motor do jogo não faz os inimigos constantemente ativos; ele espera que o jogador chegue em certos pontos do mapa para “acordá-los”.
+
+Atalhos ignoram triggers: Ao evitar ou pular esses pontos, o código que ativa os inimigos não é executado, então eles permanecem inativos.
+
+Colisão ainda funciona: A física dos inimigos não depende de estarem ativados para colisão, por isso eles ainda podem machucar o jogador ou ser derrotados.</p>
+<p>Tipo de falha: Dependência de triggers do nível.
+
+Causa: Contornar gatilhos que ativam inimigos.
+
+Efeito principal: Inimigos permanecem inativos e não atacam, mas ainda podem interagir fisicamente com o jogador.</p>
+<br>
+<br>
+

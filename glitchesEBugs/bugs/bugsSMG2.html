@@ -1,0 +1,762 @@
+<h2 class="text-warning text-center">Super Mario Galaxy 2</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Chance Cube room wall glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Chance_Cube_Room_Glitch.png">
+<p>O glitch “Chance Cube Room Wall Glitch” em Super Mario Galaxy 2 é um erro visual simples, mas curioso, que ocorre na Chance Cube Room — o local onde Mario pode trocar Star Bits com o Lumalee por itens ou jogar no bloco de sorte (Chance Cube).</p>
+<p>O jogador entra na Chance Cube Room (normalmente acessível a partir da nave de Mario).
+
+Durante a interação com o Lumalee, o jogador deve virar a câmera em direção à tela, ou seja, de forma que Mario e Lumalee fiquem de frente para o jogador.
+
+Ao fazer isso, é possível ver que uma das paredes do cenário não foi completamente renderizada — o que deixa o fundo aparecendo como o céu do ambiente externo em vez da textura interna da sala.</p>
+<p>Esse glitch acontece por causa de um erro de modelagem ou renderização na geometria da sala:
+
+A Chance Cube Room é um ambiente pequeno, e parte das paredes só é carregada ou visível a partir de determinados ângulos de câmera.
+
+Quando o jogador gira a visão de forma não prevista (virando em direção à tela), o jogo mostra um lado do modelo 3D que não tem textura aplicada — o chamado “backface”.
+
+Como o motor gráfico do jogo (Havok + engine da Nintendo) não renderiza o interior de superfícies sem textura, o fundo padrão do espaço — o céu — acaba sendo exibido.
+
+Em resumo, o glitch ocorre porque a parede da sala não foi completamente fechada ou tem a textura aplicada apenas de um lado, e o motor gráfico mostra o ambiente externo em vez da parede sólida.</p>
+<br>
+<br>
+
+<h3><i>Cloud clipping</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Glitch_Cloud_Power_Star_Get.png">
+<p>Esse glitch, conhecido como Cloud clipping, acontece em Super Mario Galaxy 2 na Cloudy Court Galaxy e envolve a transformação Cloud Mario.</p>
+<p>Quando o jogador está na forma de Cloud Mario e cria uma nuvem no exato momento em que coleta uma Power Star, vindo pela lateral ou de cima, o jogo ativa duas animações diferentes ao mesmo tempo:
+
+A animação da criação da nuvem, que adiciona um objeto físico e semitransparente na cena.
+
+A animação de coleta da Power Star, que muda o controle da câmera e do personagem, “congelando” a posição de Mario.
+
+Essas duas ações simultâneas fazem o modelo de Mario ser parcialmente posicionado dentro da nuvem recém-criada, e a câmera, tentando focar no herói e no Power Star ao mesmo tempo, acaba atravessando (clipando) a nuvem, mostrando o interior dela.</p>
+<p>O bug ocorre porque o motor gráfico do jogo não consegue resolver corretamente a colisão e a prioridade de renderização entre:
+
+o corpo de Mario durante a animação da Power Star;
+
+e a nuvem criada no mesmo instante.
+
+Como as nuvens de Cloud Mario não são objetos sólidos “completos” (elas têm colisão simplificada e superfícies parcialmente transparentes), o jogo não impede que Mario ou a câmera atravessem o modelo quando esses eventos acontecem juntos.
+
+Em resumo:
+
+O glitch acontece porque o jogo tenta processar ao mesmo tempo a criação da nuvem e a cutscene da Power Star, resultando em uma sobreposição incorreta dos modelos e da câmera.</p>
+<br>
+<br>
+
+<h3><i>Credit graphics glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Credits_falling_glitch.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Credits_Invisible_Platform_Glitch.png">
+<p>Esse glitch, chamado Credit graphics glitch, acontece durante os créditos finais de Super Mario Galaxy 2, na parte em que o jogador está na lua do tipo gangorra (teeter-totter moon).</p>
+<p>Durante essa sequência, se o jogador:
+
+Der um Ground Pound no lado esquerdo da lua;
+
+E em seguida fizer um backward somersault (salto mortal para trás) enquanto a lua começa a subir —
+
+Mario ou Luigi podem cair para fora da lua. Quando isso acontece, o jogo tenta corrigi-lo automaticamente criando uma bolha de recuperação (a mesma usada para retornar o jogador a uma plataforma segura).
+
+Porém, como a cena dos créditos é um script especial e não uma fase normal, não há superfícies válidas para a bolha pousar. O resultado é que o personagem fica caindo infinitamente dentro da bolha, enquanto o jogo tenta, sem sucesso, reposicioná-lo na lua.
+
+Durante essa queda infinita, os créditos continuam a rodar normalmente, e o jogador passa por várias “cenas” dos créditos com o personagem fora do campo de visão planejado.</p>
+<p>Esse bug ocorre devido a uma falha no sistema de colisão e carregamento de cena durante os créditos.
+Normalmente, o jogo desativa a maioria das físicas e colisões para garantir que o jogador não interfira no roteiro visual dos créditos. Mas ao realizar o Ground Pound e o salto no momento exato:
+
+o jogador rompe a barreira física da lua (que tem colisão parcial e animada);
+
+o motor tenta ativar o sistema de recuperação automática (a bolha), que depende de detectar um chão ativo.
+Como os créditos não contêm plataformas “reais” abaixo, a função de respawn falha e entra em um loop, fazendo Mario cair sem parar.
+
+Além disso, quando o jogo tenta carregar as próximas cenas dos créditos, ele usa o mesmo modelo de câmera e posição quebrada, o que causa:
+
+gráficos ausentes (como plataformas invisíveis na Yoshi Star Galaxy);
+
+planetas fora do campo de visão;
+
+e texturas trocadas ou ausentes.
+
+💡 Resumo:
+
+O glitch acontece porque, durante os créditos, o jogador consegue sair dos limites da lua animada. Como o sistema de bolha tenta retornar Mario para um ponto que não existe fisicamente, ele entra em queda infinita e causa falhas gráficas quando o jogo tenta renderizar as próximas cenas.</p>
+<br>
+<br>
+
+<h3><i>Disappearing platforms</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Haunty_Halls_Platform_Glitch.png">
+<p>Esse glitch chamado Disappearing Platforms acontece na galáxia Haunty Halls Galaxy, durante a missão Sneaking Down the Creepy Corridor, em Super Mario Galaxy 2.</p>
+<p>Perto do final da fase, há uma seção com plataformas móveis que se alternam enquanto o jogador atravessa um corredor cheio de Boo’s.
+Se o jogador cair no espaço entre essas plataformas móveis, o jogo tenta ajustar a câmera para acompanhar o personagem — mas, por causa da proximidade e do movimento das plataformas, o sistema de câmera acaba “entrando” nelas.
+
+Quando isso acontece:
+
+A câmera atravessa as plataformas (clipa através delas);
+
+E as plataformas desaparecem temporariamente da tela, como se tivessem sido removidas.
+
+O jogador ainda pode tecnicamente colidir com as plataformas (elas continuam existindo fisicamente), mas ficam invisíveis até que a câmera volte a uma posição normal.</p>
+<p>Esse bug acontece por uma combinação de erros de renderização e detecção de câmera:
+
+Câmera dinâmica mal posicionada:
+O sistema de câmera de Super Mario Galaxy 2 tenta evitar que o jogador fique bloqueado por objetos sólidos. Quando o personagem cai entre plataformas, a câmera é forçada para dentro das superfícies para tentar “ver” o jogador, o que causa clipping.
+
+Culling e renderização otimizados:
+O jogo utiliza um sistema de culling, que “esconde” objetos que não estão dentro do campo de visão da câmera (para melhorar o desempenho).
+Como a câmera está dentro da geometria das plataformas, o motor gráfico entende que elas estão fora da visão — e, portanto, deixa de renderizá-las.
+Isso dá a impressão de que as plataformas desapareceram.
+
+Falha temporária:
+Assim que o jogador ou a câmera saem dessa posição anormal, o sistema volta a renderizar as plataformas normalmente.
+
+💡 Resumo:
+
+O glitch ocorre porque, ao cair entre plataformas móveis, a câmera entra dentro da geometria delas. O motor gráfico então deixa de renderizá-las por otimização (culling), fazendo-as parecer invisíveis até que a câmera se reposicione.</p>
+<br>
+<br>
+
+<h3><i>Floating hair glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_First_Person_View_Credits_Glitch.png">
+<p>O Floating Hair Glitch é um pequeno erro visual que aparece durante os créditos de Super Mario Galaxy 2, quando o jogador entra no modo de visão em primeira pessoa (FPV).</p>
+<p>Durante os créditos, o jogador pode controlar a câmera livremente em alguns momentos.
+Se o jogador:
+
+Entrar no modo de visão em primeira pessoa,
+
+E mover a câmera para observar ao redor,
+
+verá que o cabelo de Mario (ou Luigi) aparece flutuando na frente da tela, parado no espaço.
+Mesmo girando a câmera, o cabelo não acompanha o movimento, permanecendo fixo no mesmo lugar da tela.</p>
+<p>Esse erro acontece devido a um problema na posição do modelo 3D da cabeça de Mario em relação à câmera em primeira pessoa.
+
+Veja o que ocorre tecnicamente:
+
+O modo em primeira pessoa não foi feito para o personagem jogável:
+Normalmente, o modo FPV em Super Mario Galaxy 2 foi pensado para observar o cenário, não para mostrar o corpo de Mario.
+Quando o modo é ativado, o jogo desativa a renderização do modelo de Mario (para que o jogador não veja o próprio corpo) — mas o cabelo é tratado como um objeto separado.
+
+O cabelo não é ocultado corretamente:
+O cabelo de Mario é um subobjeto com física e animação próprias (para balançar de acordo com o movimento).
+Por um erro de script ou hierarquia, ele não é incluído na lista de partes a esconder quando o modo de primeira pessoa é ativado.
+Assim, o cabelo continua sendo desenhado na tela, preso à origem do modelo da cabeça.
+
+A câmera gira, mas o cabelo permanece fixo na posição original:
+Como a posição da câmera é redefinida para o ponto de vista do jogador, o cabelo fica fora do sistema de rotação, parecendo “flutuar” no ar.
+Isso dá a impressão de que o cabelo está solto e parado, mesmo com o movimento da câmera.
+
+💡 Resumo:
+
+O glitch acontece porque o modo de visão em primeira pessoa não desativa o modelo de cabelo de Mario, que é renderizado de forma independente do corpo. Como a câmera muda de posição, mas o cabelo não acompanha, ele parece flutuar parado na frente da tela.</p>
+<br>
+<br>
+
+<h3><i>Floating Toad glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Sleepfloating_Toad_Glitch.png">
+<p>O Floating Toad Glitch é um erro visual curioso que acontece em Super Mario Galaxy 2, na Battle Belt Galaxy, mais especificamente na missão Mini-Planet Daredevil Run.</p>
+<p>Quando o jogador chega ao Yellow Starshroom — a nave amarela dos Toads — é possível ver um Toad encostado na janela lateral.
+Se o jogador:
+
+Subir na lateral da nave, perto da janela onde o Toad Amarelo está visível, e
+
+Entrar no modo de visão em primeira pessoa (First-Person View),
+
+o jogo renderiza o cenário de um modo diferente — e o Toad aparece flutuando no ar, separado da nave.</p>
+<>Esse bug ocorre por uma falha na perspectiva e no carregamento de modelos em primeira pessoa. Eis o que acontece nos bastidores:
+
+Troca de perspectiva:
+Quando o jogador ativa o modo de primeira pessoa, Super Mario Galaxy 2 muda a posição da câmera para o centro da cabeça de Mario, ignorando a geometria de onde ele está pisando.
+Essa câmera também não respeita as mesmas distâncias e ângulos da visão normal (terceira pessoa), o que pode alterar como os objetos são exibidos.
+
+Posição do modelo do Toad:
+O Toad não está realmente “grudado” na nave — ele está levemente afastado da parede (por questões de animação e colisão).
+Em visão normal, essa diferença é imperceptível, pois a câmera esconde o espaço entre o Toad e a janela.
+Mas na visão em primeira pessoa, o novo ângulo revela o espaço oculto, dando a ilusão de que o Toad está flutuando.
+
+Ausência de correção de profundidade:
+O jogo usa um sistema de Z-depth (profundidade) para decidir o que aparece na frente ou atrás.
+Com a câmera em posição incomum, essa profundidade é calculada de forma diferente, o que reforça a impressão de que o Toad está suspenso no ar.
+
+💡 Resumo:
+
+O glitch acontece porque, ao mudar para a visão em primeira pessoa, a câmera altera o ângulo e a profundidade de renderização, revelando que o Toad está ligeiramente afastado da parede da nave. Isso cria a ilusão de que ele está flutuando no ar.</p>
+<br>
+<br>
+
+<h3><i>Frozen meteors</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-Stopped_comets.png">
+<p>O Frozen Meteors Glitch é um erro visual de Super Mario Galaxy 2 que acontece no planeta Ice Magma Skate Planet, uma área onde Mario patina no gelo enquanto desvia de meteoros caindo.</p>
+<p>Durante essa parte da fase, se o jogador:
+
+Entrar no modo de visão em primeira pessoa, e
+
+Olhar diretamente para os meteoros que caem do céu,
+
+os meteoros param completamente de se mover — como se o tempo tivesse sido congelado.
+Eles permanecem imóveis no ar até que o jogador saia da visão em primeira pessoa ou mude o ângulo da câmera para não olhá-los mais. Assim que a visão volta ao normal, os meteoros retomam seu movimento e caem normalmente.
+
+⚙️ Por que o glitch funciona
+
+Esse glitch acontece por causa de uma limitação na forma como o jogo processa objetos animados durante o modo de primeira pessoa.
+
+Vamos entender passo a passo:
+
+Suspensão das físicas na visão em primeira pessoa:
+Quando o jogador entra nesse modo, o jogo pausa ou desacelera várias rotinas de atualização de objetos dinâmicos (como inimigos e projéteis).
+Isso é feito de propósito — para evitar que o jogador sofra dano ou perca o controle enquanto observa o cenário.
+Como os meteoros são tratados como entidades físicas móveis, suas animações e trajetórias ficam congeladas junto com o resto da física local.
+
+O foco da câmera altera a área ativa:
+Super Mario Galaxy 2 usa um sistema de “streaming de objetos”, onde apenas o que está visível na tela ou perto da câmera é atualizado em tempo real.
+Quando o jogador fixa a câmera diretamente nos meteoros, o jogo trava o cálculo de movimento desses objetos, priorizando a estabilidade da visão em primeira pessoa (para evitar quedas de desempenho).
+Assim, os meteoros ficam “suspensos” até que o foco da câmera mude.
+
+A volta à visão normal reativa o sistema de física:
+Ao sair da visão em primeira pessoa, o jogo volta a atualizar todos os objetos dinâmicos — e os meteoros “descongelam”, caindo normalmente.
+
+💡 Resumo:
+
+O glitch acontece porque o modo de visão em primeira pessoa pausa a atualização das físicas e animações de objetos móveis, como os meteoros. Como resultado, eles ficam congelados no ar até que a câmera volte ao modo normal.</p>
+<br>
+<br>
+
+<h3><i>Low-resolution planet glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Lava_Chomp_Texture_Glitch.png">
+<p>O Low-Resolution Planet Glitch é um erro gráfico curioso que ocorre em Super Mario Galaxy 2, especificamente no planeta Lava Chomp da fase Where the Chomps Are Made of Gold.</p>
+<p>Para reproduzir o glitch, o jogador deve:
+
+Ir até o planeta Lava Chomp;
+
+Virar Mario ou Luigi de forma que ele fique de frente para a câmera (olhando para o jogador);
+
+Fazer um Long Jump (salto longo) para fora do planeta.
+
+Pouco antes de o personagem realmente cair e sair dos limites do planeta, o jogador notará que o planeta perde detalhes gráficos — ele fica embaçado, com texturas simplificadas e menos definição, como se estivesse muito distante da câmera.</p>
+<p>Esse glitch acontece por causa do sistema de Level of Detail (LOD), uma técnica comum em jogos 3D para economizar desempenho.
+O Super Mario Galaxy 2 usa o LOD para substituir modelos detalhados por versões simplificadas quando eles estão longe do jogador.
+
+Aqui está o que acontece tecnicamente:
+
+O jogo calcula a distância da câmera até o planeta:
+Quando o jogador está no planeta, o modelo usado é o de alta resolução, com texturas e polígonos completos.
+
+Durante o salto, a câmera e o personagem se afastam rapidamente:
+Ao fazer o Long Jump e cair, o jogo atualiza a distância entre o planeta e a câmera em tempo real.
+Só que há um pequeno erro na atualização da posição da câmera e do jogador — o jogo pensa que o jogador já está longe, mesmo que ele ainda esteja bem próximo.
+
+O sistema de LOD ativa cedo demais:
+Como o cálculo indica que o planeta está distante, o jogo troca o modelo de alta resolução pelo de baixa resolução antes da hora.
+Isso faz o planeta parecer "embaçado" por um instante, mesmo que o jogador ainda esteja praticamente ao lado dele.
+
+Assim que o personagem cai totalmente fora do planeta, o modelo desaparece:
+Quando o jogador cruza o limite de renderização, o planeta volta ao comportamento normal (desaparece ou é visto de longe em baixa qualidade).
+
+💡 Resumo técnico:
+
+O glitch ocorre porque o sistema de Level of Detail é acionado de forma incorreta durante um salto longo.
+O jogo calcula a distância de maneira imprecisa quando Mario está entre o estado “no planeta” e “fora dele”, ativando prematuramente o modelo de baixa resolução.</p>
+<br>
+<br>
+
+<h3><i>Smeech with Star</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Smeech_Star_Get_Glitch.png">
+<p>O Smeech with Star Glitch é um erro visual e de animação que acontece em Super Mario Galaxy 2, especificamente na Sweet Mystery Galaxy, envolvendo Yoshi e o inimigo Smeech (aquela criatura rosa que gruda em Yoshi para sugar energia).</p>
+<p>Para realizar o glitch:
+
+O jogador deve estar montado em Yoshi.
+
+Deixar um Smeech grudar em Yoshi (eles costumam atacar vindo do ar).
+
+Coletar uma Power Star enquanto o Smeech ainda está grudado em Yoshi.
+
+Quando isso acontece, Mario e Yoshi realizam a animação de vitória normalmente, segurando a Power Star — porém, o Smeech não desaparece. Ele permanece preso em Yoshi, imóvel, flutuando junto durante toda a animação de coleta da estrela.</p>
+<p>Esse glitch ocorre devido a um erro de sincronização nas animações e eventos de estado do jogo.
+
+Durante a coleta de uma Power Star, o jogo executa uma sequência de scripts que:
+
+Congelam o ambiente, parando inimigos, objetos e colisões;
+
+Desanexam entidades ativas de Yoshi e Mario (como frutas, nuvens ou inimigos grudados);
+
+Forçam ambos a entrarem na animação de vitória;
+
+Removem temporariamente os inimigos da área.
+
+No caso do Smeech, há um detalhe técnico:
+ele é programado para ficar “preso” no modelo de Yoshi, e o comando que o remove é disparado apenas quando Yoshi tenta se mover ou balançar o corpo — não quando ele entra diretamente em um estado de animação especial como o da Power Star.
+
+Assim, quando o jogador coleta a estrela com o Smeech grudado:
+
+O script da Power Star interrompe o loop de movimento de Yoshi antes que ele possa executar o comando que remove o Smeech.
+
+Como o inimigo não recebeu o evento de “detach” (soltar), o jogo mantém o modelo do Smeech anexado à posição de Yoshi.
+
+A animação de vitória é iniciada para Mario e Yoshi, mas o Smeech não tem uma animação correspondente, então ele simplesmente fica congelado na posição onde estava, colado a Yoshi.
+
+Em resumo:
+
+O jogo pausa o mundo para a animação de vitória antes que o Smeech seja removido, e como ele está “preso” ao modelo de Yoshi, acaba ficando flutuando junto com ele.</p>
+<p>Resumo técnico:
+
+O glitch ocorre por uma falha na ordem dos scripts de evento.
+O evento de “vitória” da Power Star é executado antes do evento de “soltar o inimigo grudado”.
+Isso faz o modelo do Smeech continuar anexado ao esqueleto de Yoshi, resultando no visual bugado durante a animação.</p>
+<br>
+<br>
+
+<h3><i>Void glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Massive_Dark_Void_Glitch.png">
+<p>O Void Glitch de Super Mario Galaxy 2 é um erro visual que acontece na Melty Monster Galaxy, especificamente na área do pier (o cais). Esse glitch revela parte de um cenário que normalmente deveria estar escondido — o fundo da área do minigame The Chimp’s Bowling Challenge — criando o efeito de um “vazio” (void) no horizonte.</p>
+<p>O jogador deve ir até o pier da Melty Monster Galaxy, onde há um Warp Pipe verde que leva para o desafio The Chimp’s Bowling Challenge (o minigame em que Mario rola como uma bola de pedra).
+
+O jogador entra no cano normalmente, o que carrega o cenário do minigame.
+
+Depois de jogar ou sair, o jogador retorna pelo mesmo Warp Pipe para o pier.
+
+Ao reaparecer na área original, é possível ver, ao fundo, partes do cenário do minigame, que deveriam estar ocultas atrás do céu ou da neblina de fundo.
+
+O resultado é que uma parte do “void” (o espaço vazio usado pelo jogo para transições e fundos) se torna visível, criando uma mistura estranha entre o cenário principal e o ambiente do minigame.</p>
+<p>Esse glitch ocorre por um problema no descarregamento (unloading) de assets e na renderização do background após retornar de um subnível.
+
+Em Super Mario Galaxy 2, cada área principal (galáxia, planeta, minigame, etc.) é composta por múltiplos “subestágios” carregados dinamicamente.
+Quando Mario entra em um Warp Pipe, o jogo:
+
+Carrega o novo subnível (The Chimp’s Bowling Challenge);
+
+Desativa o cenário anterior, mas o mantém parcialmente na memória;
+
+Troca o fundo (skybox) e ajusta a iluminação e efeitos de neblina.
+
+Ao sair do minigame e retornar ao pier, o jogo deveria:
+
+Descarregar completamente o cenário interno do minigame,
+
+Recarregar o skybox da Melty Monster Galaxy.
+
+Porém, nesse caso específico:
+
+O jogo não redefine o skybox corretamente;
+
+O plano de fundo do minigame (parte do modelo 3D do ambiente de boliche) continua carregado e visível, mesmo estando em uma posição fora dos limites da área principal;
+
+Como o sistema de oclusão (occlusion culling) não o reconhece como invisível, ele é renderizado parcialmente ao fundo.
+
+Isso faz com que o jogador veja o que seria “o nada” — um void entre as duas áreas — e fragmentos do cenário do desafio flutuando no horizonte.</p>
+<p>Resumo técnico:
+
+O Void Glitch ocorre porque o jogo não descarrega completamente o subnível do minigame ao retornar para o cenário principal.
+A câmera do jogador então enxerga o modelo de fundo residual do minigame, que fica além dos limites normais de renderização, expondo o “vazio” (void) do mapa.
+
+🧩 Em termos simples:
+
+O glitch mostra uma “falha de transição” entre dois mundos carregados simultaneamente.
+O fundo do minigame não é removido como deveria, e o jogador acaba vendo uma parte de um ambiente que deveria estar invisível.</p>
+<br>
+<br>
+
+<h3><i>Yoshi's long tongue glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Yoshi_Tongue_Glitch.png">
+<p>O Yoshi’s Long Tongue Glitch de Super Mario Galaxy 2 é um erro visual que faz com que a língua do Yoshi fique anormalmente longa e presa a um objeto do cenário, normalmente um Warp Pad.</p>
+<p>O jogador deve estar montado no Yoshi no Starship Mario.
+
+Aproximando-se de um Warp Pad (aquele que leva ao Starshroom), o jogador deve pressionar rapidamente o botão de ataque/usar a língua.
+
+Se feito corretamente, a língua do Yoshi ficará “grudada” no Warp Pad, permanecendo estendida mesmo que o jogador se afaste.
+
+Para desfazer o glitch, o jogador precisa pressionar o botão novamente ou saltar de Yoshi.
+
+O glitch também pode ocorrer de forma breve ao entrar ou sair da Engine Room, fazendo com que a língua do Yoshi apareça maior do que o normal por alguns segundos.</p>
+<p>O glitch ocorre devido a uma falha no sistema de detecção de colisão da língua do Yoshi e na atualização de estados dos objetos ligados a ele:
+
+A língua do Yoshi é programada para projetar-se e se prender temporariamente em objetos interativos (como inimigos ou itens).
+
+Quando o jogador pressiona o botão muito rápido ao se aproximar de um Warp Pad:
+
+O jogo registra o Warp Pad como alvo da língua, mesmo que o estado da língua ainda não tenha sido reiniciado após a última ação.
+
+O Warp Pad não é normalmente considerado um alvo “próprio” da língua, então o objeto não envia o sinal para retraí-la.
+
+O resultado é que a língua fica estendida indefinidamente, presa ao objeto, até que o jogador realize uma ação que force o reset do estado da língua (como saltar de Yoshi ou apertar o botão novamente).
+
+Tecnicamente, é uma condição de corrida (race condition) entre:
+
+A detecção de colisão do Warp Pad,
+
+A atualização do estado da língua de Yoshi,
+
+E o input rápido do jogador.</p>
+<p>O glitch acontece porque o Warp Pad é registrado como alvo da língua antes do Yoshi “liberar” o estado anterior da língua, deixando-a travada estendida.
+É um erro de sincronização entre os estados de animação, colisão e input do jogador.</p>
+<br>
+<br>
+
+<h3><i>Yoshi's puffed cheeks glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Yoshi_Full_Mouth.png">
+<p>O Yoshi’s Puffed Cheeks Glitch em Super Mario Galaxy 2 é um glitch visual que faz com que as bochechas do Yoshi permaneçam inchadas mesmo depois de ele engolir um item, como o Golden Fruit, até que Mario/Luigi aterrisse.</p>
+<p>O jogador deve estar montado no Yoshi na Yoshi Star Galaxy.
+
+Enquanto Yoshi come a Golden Fruit, o jogador deve ativar um Launch Star imediatamente.
+
+Se feito corretamente, a animação de engolir da fruta não é concluída, deixando as bochechas do Yoshi inchadas até que o personagem pouse no chão.</p>
+<p>O glitch ocorre devido a um atraso na atualização da animação de Yoshi causado pela combinação do Launch Star com a animação de comer:
+
+Quando Yoshi engole a fruta, o jogo inicia a animação de bochechas inchadas e registra que ele deve voltar ao estado normal após engolir.
+
+Ativar o Launch Star move Yoshi para um estado de vôo ou impulso, que congela temporariamente a atualização de animação facial.
+
+Como resultado, a animação das bochechas fica “travada” no estado inchado até que o jogo finalize a física do vôo e Yoshi pouse.
+
+Tecnicamente, é uma interferência entre a lógica de animação e a física do Launch Star, causando um estado visual temporário preso.</p>
+<br>
+<br>
+
+<h3><i>Bee in wall glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Bee_Stuck_Glitch.png">
+<p>O Bee in Wall Glitch em Super Mario Galaxy 2 é um glitch de clipping que permite que Mario/Luigi, na forma de Bee Mario, fique parcialmente ou completamente preso dentro de uma parede.</p>
+<p>O jogador deve estar em Bee Form na Honeyhop Galaxy, na área onde aparecem as bolhas caindo.
+
+Existem dois métodos principais:
+
+Método 1: Começar do topo da parede esquerda e pular, pressionando o botão de voo (X/Y) rapidamente em curtos intervalos para alcançar o Bee Mushroom, o que faz Mario/Bee clipar através da parede.
+
+Método 2: Pular para a esquerda de uma plataforma próxima a um Choppah e voar em direção à câmera e depois de volta para a parede.
+
+Dependendo de como é feito, o jogador pode:
+
+Ser puxado para fora da parede, retornando ao normal.
+
+Ficar preso dentro da parede, podendo apenas girar (Spin).
+
+Ser empurrado para cima dentro da parede e não conseguir realizar nenhuma ação além de girar.
+
+Um Ground Pound ou Homing Attack enquanto estiver preso geralmente reforça o estado travado até reiniciar o nível.</p>
+<p>O glitch ocorre devido a uma falha na detecção de colisão enquanto Bee Mario voa:
+
+A Bee Form tem uma mecânica de voo que sobrepõe a colisão normal do personagem com o ambiente.
+
+Quando o jogador se aproxima do Bee Mushroom enquanto voa próximo a uma parede, o jogo atualiza a posição de Mario antes de corrigir a colisão da parede, permitindo que ele “entre” na geometria sólida.
+
+Uma vez dentro, o jogo pode não conseguir reposicionar corretamente Mario, deixando-o preso ou parcialmente movível (apenas girando), porque a física normal e a detecção de colisão entram em conflito.</p>
+<br>
+<br>
+
+<h3><i>Red-Blue Panel jump glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Flip-Swap_Superjump_Glitch.png">
+<p>O Red-Blue Panel Jump Glitch em Super Mario Galaxy 2 é um glitch que permite que Mario ou Yoshi sejam lançados muito alto ao usar os Red-Blue Panels de forma específica.</p>
+<p>O jogador deve correr em direção ao espaço vazio para o qual o painel Red-Blue está virando.
+
+Antes de atingir o espaço, o jogador deve girar (Spin).
+
+Cair no painel enquanto ele está subindo.
+
+Executar um Long Jump antes que o painel pare de se mover.
+
+💡 Alternativa: se o jogador estiver em Cloud Form, o efeito também pode ocorrer se ele pular imediatamente após formar a nuvem.
+
+Quando feito corretamente, o personagem é lançado muito alto no ar, possibilitando alcançar áreas normalmente inacessíveis ou ativar outros glitches.</p>
+<p>O glitch acontece devido a uma interação entre o movimento do painel e a física do personagem:
+
+O painel Red-Blue tem uma posição “subindo/descendo” que o jogo não atualiza perfeitamente em relação à colisão do personagem.
+
+Ao fazer o Long Jump no momento exato, Mario/Yoshi recebe uma força extra combinada do painel em movimento e do salto, multiplicando a altura do lançamento.
+
+O jogo trata o personagem como estando sobre uma superfície sólida que ainda está subindo, então a física “empurra” o personagem para cima de forma exagerada.
+
+Em Cloud Form, a colisão do personagem com o painel é ligeiramente diferente, permitindo que o glitch funcione mesmo sem o spin completo.</p>
+<br>
+<br>
+
+<h3><i>Fly around Cyclone Stone</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Cyclone_Stone_Glitch.png">
+<p>O Fly Around Cyclone Stone Glitch em Super Mario Galaxy 2 permite que Mario ou Yoshi sejam lançados no ar e circulem o planeta várias vezes ao interagir com o Tox Box de forma precisa.</p>
+<p>Vá até o primeiro Green Star na Stone Cyclone Galaxy.
+
+Espere o Tox Box passar pelo ponto desejado.
+
+Faça um Backflip no momento certo.
+
+Caia sobre o Tox Box enquanto ele está plano (horizontal).
+
+Execute um salto novamente quando o Tox Box começar a girar.
+
+Se feito corretamente, Mario/Yoshi será lançado no ar e começará a circular o planeta várias vezes, quase como se estivesse em órbita.</p>
+<p>O glitch acontece devido a uma interação entre a física do personagem e o movimento do Tox Box:
+
+O Tox Box tem uma trajetória rotacional que não é completamente sincronizada com a colisão do personagem.
+
+Cair sobre ele no momento exato em que ele está plano “carrega” a força do salto com o movimento do Tox Box.
+
+Saltar novamente quando o Tox Box começa a girar adiciona um vetor de força extra, lançando o personagem em um ângulo que a física normal não permitiria.
+
+O resultado é que Mario/Yoshi ganha momentum suficiente para orbitar o planeta, porque o jogo não atualiza imediatamente a interação de colisão enquanto está no ar e em movimento circular.</p>
+<br>
+<br>
+
+<h3><i>Stuck Crabber glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Messed_Up_Crabber_Glitch.png">
+<p>O Stuck Crabber Glitch em Super Mario Galaxy 2 ocorre quando um Crabber é lançado em águas profundas de forma específica, fazendo com que ele fique parcialmente congelado e com comportamento anômalo.</p>
+<p>No nível Surf, Sand, and Silver Stars, encontre um Crabber.
+
+Gire (spin) o Crabber e lance-o em uma área de água profunda.
+
+O Crabber tentará voltar à superfície, mas apenas metade dele aparecerá e ele ficará congelado, sem que o jogador possa interagir.
+
+Depois de alguns segundos, ele reaparece completamente, mas logo depois fica parado no ar.
+
+Quando o Crabber finalmente “detecta” Mario/Yoshi, ele cai de volta ao chão.</p>
+<p>Esse glitch acontece devido à interação da IA do Crabber com a colisão e limites da água:
+
+O Crabber possui uma rotina de retorno à superfície, que assume que sempre haverá água para subir.
+
+Quando ele é lançado em profundidade suficiente, parte de seu modelo não é renderizada corretamente enquanto o motor do jogo ainda calcula sua posição.
+
+O tempo em que ele fica “congelado” acontece porque a física e a IA não conseguem atualizar completamente sua posição dentro do volume da água.
+
+Quando a IA finalmente detecta Mario/Yoshi, o jogo força o Crabber a completar sua lógica de movimento, fazendo-o cair no chão de forma abrupta.
+
+Em resumo, é um glitch de sincronização entre física, IA e renderização do modelo, típico de interações fora do esperado pelo motor do jogo.</p>
+<br>
+<br>
+
+<h3><i>Lava skating</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Skating_on_Lava_Glitch.png">
+<p>O Lava Skating Glitch em Super Mario Galaxy 2 permite que Mario deslize sobre a lava sem sofrer dano, desde que certas condições sejam atendidas.</p>
+<p>No nível Prince Pikante's Peppery Mood, o jogador deve obter invencibilidade (por exemplo, pegando uma estrela ou item que concede o efeito).
+
+Enquanto estiver invencível, Mario pode deslizar sobre a lava normalmente, como se fosse chão sólido.
+
+Esse efeito dura apenas um curto período, geralmente enquanto a invencibilidade está ativa.</p>
+<p>O glitch acontece por causa de como o motor do jogo trata áreas perigosas e status de invencibilidade:
+
+A lava é programada para causar dano instantâneo quando Mario toca nela.
+
+Quando Mario está invencível, o jogo ignora os efeitos de dano temporariamente.
+
+Porém, a lógica de colisão da lava continua presente, então o jogador ainda “interage” com a superfície da lava.
+
+Isso faz com que Mario possa andar ou deslizar sobre a lava sem morrer, porque a invencibilidade sobrepõe a morte automática.
+
+Em resumo, o glitch é uma interação entre invencibilidade e a lógica de colisão da lava, permitindo que Mario deslize por um terreno que normalmente seria mortal.</p>
+<br>
+<br>
+
+<h3><i>Upside-down Yoshi glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Upside-down_Yoshi_Glitch.png">
+<p>O Upside-down Yoshi Glitch em Super Mario Galaxy 2 faz com que Yoshi fique de cabeça para baixo no ar, criando um efeito visual estranho e divertido.</p>
+<p>No nível Starship Mario, o jogador deve estar montado em Yoshi.
+
+Ao desmontar Yoshi próximo à porta da sala do motor (engine room) e empurrá-lo contra a porta, Yoshi vira de cabeça para baixo no ar.
+
+Esse glitch também ocorre se o jogador desmonta enquanto entra na porta; Yoshi será invertido automaticamente.</p>
+<p>O glitch acontece por causa de como o jogo trata colisões e animações de Yoshi:
+
+Quando Yoshi está montado, ele herda a posição e rotação de Mario.
+
+Ao desmontar em uma área restrita (como uma porta), o jogo precisa reposicionar Yoshi rapidamente.
+
+O motor do jogo não calcula corretamente a rotação, fazendo Yoshi aparecer invertido no ar.
+
+A física continua funcionando normalmente, então ele permanece suspenso e pode se mover brevemente até o jogo corrigir a posição ou o jogador interagir novamente.
+
+Em resumo, é uma interação entre desmontar Yoshi e a colisão com a porta, que gera uma falha de cálculo na rotação do personagem.</p>
+<br>
+<br>
+
+<h3><i>Yoshi stuck in tree glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Yoshi_in_Tree_Glitch.png">
+<p>O Yoshi Stuck in Tree Glitch em Super Mario Galaxy 2 faz com que Yoshi fique preso em uma árvore, sem poder se mover, mas ainda visível e animado de forma estranha.</p>
+<p>No nível Starship Mario, há uma árvore à esquerda da porta do deck de Luigi.
+
+O jogador deve usar o Flutter Jump (pulo de asa) para alcançar o topo da árvore.
+
+Se feito corretamente, Yoshi fica preso dentro da árvore, aparecendo parcialmente ou com os olhos fechados dependendo da posição do Flutter Jump.
+
+Yoshi volta ao normal ao retornar para seu ovo ou quando o jogador interage com ele novamente (ex.: pular sobre Yoshi).</p>
+<p>O glitch ocorre por causa de como o jogo trata colisões e posições de Yoshi:
+
+Quando o jogador faz o Flutter Jump até o topo da árvore, Yoshi é reposicionado junto com Mario.
+
+A árvore e o topo do deck não têm colisão programada corretamente para Yoshi, então o jogo não consegue resolver a posição de Yoshi dentro da árvore.
+
+Como resultado, Yoshi fica “preso” dentro do modelo da árvore, mas ainda mantém parte de suas animações visuais (como olhos fechados ou abertas).
+
+Ao retornar para o ovo, o jogo recalcula a posição de Yoshi e corrige o problema, restaurando-o ao estado normal.
+
+Em resumo, é uma falha de colisão e reposicionamento quando Yoshi é levado a uma área não projetada para ele.</p>
+<br>
+<br>
+
+<h3><i>Yoshi underground</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Yoshi_Egg_Retreat_Glitch.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Yoshi_Underground_Glitch.png">
+<p>O Yoshi Underground Glitch em Super Mario Galaxy 2 faz com que Yoshi apareça temporariamente abaixo do solo ou da água em certas situações, mas sem causar dano permanente ao jogador.</p>
+<p>Existem duas situações principais:
+
+Retornando ao ovo em águas rasas
+
+No Starshine Beach Galaxy, o jogador vai para uma área rasa onde Yoshi ainda pode ficar em pé.
+
+Ao pular de Yoshi e fazê-lo voltar para o ovo, Yoshi entra brevemente no solo antes de voltar à superfície.
+
+Andando para águas profundas lentamente
+
+Se o jogador caminha lentamente com Yoshi em direção a uma área mais profunda, Yoshi cai temporariamente no chão, pois o jogo tenta colocar Yoshi completamente debaixo d’água antes de ele estar totalmente submerso.</p>
+<p>O glitch ocorre devido à maneira como o jogo calcula a posição de Yoshi:
+
+Yoshi possui colisões próprias e limites de altura para a água e o solo.
+
+Quando o jogador realiza movimentos rápidos ou entra em água rasa/profunda de forma não prevista, o jogo tenta reposicionar Yoshi instantaneamente, levando-o temporariamente para baixo do mapa.
+
+Esse reposicionamento gera a ilusão de Yoshi estar “underground”, mas o motor do jogo corrige sua posição logo em seguida, evitando que ele fique preso permanentemente.
+
+Em resumo, é um erro de sincronização entre colisão de Yoshi e altura da água/solo, causado pelo cálculo antecipado da posição quando ele retorna ao ovo ou entra na água.</p>
+<br>
+<br>
+
+<h3><i>Yoshi underwater glitchr</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Yoshi_Underwater_Glitch.png">
+<p>O Yoshi Underwater Glitch em Super Mario Galaxy 2 permite que Yoshi ande debaixo d’água como se estivesse no chão, um comportamento que normalmente não é possível no jogo.</p>
+<p>No Starshine Beach Galaxy, o jogador desmonta de Yoshi próximo a um corpo de água.
+
+Antes de montar novamente, o jogador empurra Yoshi para dentro da água.
+
+Ao montar Yoshi novamente, ele mantém a habilidade de caminhar normalmente debaixo d’água, mesmo se sair e voltar para a água.
+
+O glitch termina se o jogador ou Yoshi cair de alguma borda ou limite da água.</p>
+<p>O glitch acontece devido a como o jogo gerencia a colisão e o estado da água para Yoshi:
+
+Normalmente, Yoshi entra no estado de natação quando está na água profunda.
+
+Ao empurrar Yoshi para a água fora do contexto normal de natação, o motor do jogo não altera seu estado para nadar, mantendo-o no modo “andar em terra firme”.
+
+Isso permite que ele ande no fundo da água sem a barra de natação ou movimentos de nado.
+
+Cair de bordas ou sair da água força o jogo a recalcular o estado de Yoshi, encerrando o glitch.
+
+Em resumo, é uma inconsistência entre o motor de colisão de Yoshi e o estado da água, permitindo andar submerso sem limitações normais.</p>
+<br>
+<br>
+
+<h3><i>Zero-gravity Whomp King</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Whomp_King_Gravity_Glitch.png">
+<p>O Zero-Gravity Whomp King em Super Mario Galaxy 2 é um glitch que faz com que o Whomp King “pouse no ar” sem cair, mantendo o som de impacto normal, mas sem sofrer gravidade.</p>
+<p>No nível Return of the Whomp King, o jogador deve levar o Whomp King até a borda da plataforma, de modo que os pés dele fiquem quase fora dela.
+
+Em seguida, o jogador posiciona Mario de forma que fique pendurado entre os pés do Whomp King.
+
+Quando o Whomp King realiza o ataque de esmagamento (slam), ele “aterra” no ar, produzindo o som normal do impacto.
+
+Apesar de estar no ar, ele não cai, diferentemente de inimigos normais.</p>
+<p>O glitch ocorre devido à interação entre a colisão do Whomp King, a detecção do chão e a posição de Mario:
+
+Normalmente, o Whomp King verifica se há solo abaixo dele antes de parar seu movimento de slam.
+
+Ao estar pendurado entre os pés de Mario, o jogo confunde a detecção de colisão, interpretando que há “suporte” suficiente para ele, mesmo não existindo chão real.
+
+Isso mantém o Whomp King no estado de slam parado no ar, ignorando a gravidade, mas ainda reproduzindo efeitos sonoros e animação normais.
+
+O glitch termina se a situação de colisão é quebrada (por exemplo, se Mario se move para longe).</p>
+<p>Em resumo, é um problema de lógica de colisão do jogo: o motor acredita que há suporte para o Whomp King, permitindo que ele “pouse no ar” sem cair.</p>
+<br>
+<br>
+
+<h3><i>Dying in credits</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Glitch_Die_in_Credits.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Glitch_Game_Over_in_Credits.png">
+<p>O glitch “Dying in Credits” em Super Mario Galaxy 2 é um fenômeno curioso em que o jogador sai dos limites durante a cena de créditos, fazendo o jogo exibir mensagens de morte mesmo que os créditos continuem normalmente.</p>
+<p>Durante a exibição do Castelo da Peach nos créditos, suba sobre o bolo e faça um Flutter Jump até que a câmera se mova para cima.
+
+Mario sai dos limites do cenário (out of bounds).
+
+Dependendo das vidas restantes:
+
+Se o jogador tem vidas, aparece “Too Bad”.
+
+Se o jogador não tem vidas, aparece “Game Over”.
+
+A tela fica preta e a música para, mas os créditos continuam, com o som das páginas ainda tocando.
+
+Ao final, aparece “The End” com “Too Bad” sobreposto. Depois, o jogo retorna ao normal.
+
+Outro método ocorre na Tall Trunk Galaxy com 120 Power Stars:
+
+Pegue o Bee Mushroom e espere até que a tela de Freezy Flake Galaxy apareça.
+
+Voando na direção da tela enquanto ainda está no ar, Mario sai dos limites e ativa o mesmo efeito de “Too Bad”.</p>
+<p>O glitch acontece por como o jogo lida com a detecção de morte e o limite do cenário:
+
+Durante os créditos, o jogo não espera que Mario interaja com o cenário, então o código que verifica mortes normalmente não deveria rodar.
+
+Ao sair dos limites do cenário:
+
+O jogo ainda checa a posição de Mario.
+
+Ele interpreta que Mario está fora do espaço seguro, acionando a mensagem de morte (“Too Bad” ou “Game Over”).
+
+Como a sequência de créditos é uma animação separada, ela continua tocando independentemente da morte de Mario.
+
+No final, o jogo sobrepõe a mensagem de morte sobre a tela de créditos antes de retornar à interface normal.</p>
+<p>Em resumo, é uma combinação de verificação de morte fora de área com uma cena de créditos que não depende da posição do jogador, criando um efeito visual e sonoro incomum, mas inofensivo.</p>
+<br>
+<br>
+
+<h3><i>Walk in the sky</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/190px-SMG2skyglitch.png">
+<p>O glitch “Walk in the Sky” em Super Mario Galaxy 2 permite que Mario (ou Mario e Yoshi) fiquem de pé no céu, sem nenhum chão visível, criando a ilusão de caminhar no ar.</p>
+<p>No nível Tower Planet da missão Saddle Up with Yoshi, o jogador deve:
+
+Balançar na flor inicial.
+
+Executar um Flutter Jump continuamente para a esquerda ou direita, mantendo a altura.
+
+Após cerca de 3 minutos de movimentos precisos, Mario chega a uma posição onde o jogo permite que ele fique parado no ar, basicamente “em cima do céu”.
+
+É possível ficar parado e andar um pouco, mas se Mario se mover muito, ele cai.</p>
+<p>Este glitch acontece por como o motor de física do jogo calcula colisões e altura:
+
+Durante o Flutter Jump contínuo, o jogo não encontra nenhum chão ou plataforma abaixo de Mario, mas ainda mantém sua posição relativa em relação ao mundo.
+
+O motor de física acaba “congelando” Mario no ar, porque ele está em um estado intermediário entre subir e cair.
+
+O limite de movimento existe, então se Mario se afastar demais, a física normal do jogo se aplica e ele cai através do vazio.
+
+Em essência, o glitch explora uma combinação de colisões não detectadas e o acúmulo de altura, fazendo com que Mario pareça estar caminhando no céu.</p>
+<br>
+<br>
+
+<h3><i>Yoshi in final battle glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Mario_Yoshi_Final_Battle.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/smg2/200px-SMG2_Final_Battle_Flutter_Glitch.png">
+<p>O glitch “Yoshi in Final Battle” em Super Mario Galaxy 2 permite que Yoshi fique preso ou “fundido” com os Lumas durante a batalha final contra Bowser, criando situações de congelamento do jogo ou alterações na física.</p>
+<p>Na fase Bowser’s Galaxy Generator, no planeta onde termina o Snake Block, existe um grande poste que leva à porta da batalha final.
+
+O jogador deve:
+
+Ficar próximo ao poste.
+
+Executar um Flutter Jump até o topo do planeta.
+
+Ground Pound sobre os meteoros e abrir a porta da batalha.
+
+Voltar para Yoshi antes que o portal se abra.
+
+Durante a cutscene:
+
+Quando Bowser ruge e o jogador + Luma caem no planeta, o jogador fica congelado.
+
+Para prosseguir, é necessário pular de Yoshi, Ground Pound nos meteoros e pousar novamente em Yoshi em pleno ar.
+
+Se Bowser for derrotado nesse estado, Yoshi se funde com um dos Lumas, criando uma situação visual bizarra.</p>
+<p>Este glitch ocorre devido à manipulação da física e das cutscenes:
+
+Durante o Flutter Jump, Mario/Yoshi se movem fora do caminho previsto pelo motor do jogo.
+
+O portal da batalha tenta reposicionar o jogador, mas como Mario está em Yoshi, o jogo não consegue calcular corretamente a posição, levando ao congelamento do jogador.
+
+O vínculo com Yoshi persiste, e ao final, quando Bowser é derrotado, o motor de física “funde” Yoshi com um Luma, pois o jogo ainda considera ambos como objetos ativos no mesmo espaço.
+
+Outros efeitos colaterais incluem meteoritos aparecendo do nada e alterações na gravidade se o jogador se afastar demais do planeta.</p>
+<p>Em resumo, o glitch explora problemas de sincronização entre cutscene, física de Yoshi e manipulação do portal, criando efeitos visuais e mecânicos inesperados na batalha final.</p>
+<br>
+<br>
+

@@ -1,0 +1,994 @@
+<h2 class="text-warning text-center">Super Mario 64</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Below Mario in Bob-omb Battlefield</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-SM64_Camera_underneath_Mario_in_BOB.png">
+<p>O “Below Mario” glitch em Super Mario 64, que ocorre em Bob-omb Battlefield, é um erro de câmera — e não de colisão ou física como muitos outros glitches.
+Ele faz com que a câmera fique posicionada embaixo do chão, mostrando Mario de um ângulo totalmente incorreto, quase “por baixo do mapa”.</p>
+<p>O jogador precisa estar usando o modo de câmera Lakitu (aquele em que Lakitu o segue atrás de Mario).
+
+Em Bob-omb Battlefield, há uma plataforma de gangorra (seesaw platform) próxima a uma rampa branca no sopé da montanha.
+
+Mario deve se posicionar na base dessa rampa e realizar Wall Kicks (saltos na parede) — pulando na parede e quicando para cima várias vezes.
+
+Se os saltos forem executados rapidamente, a câmera tenta acompanhar o movimento vertical de Mario, mas colide com o chão ou com a rampa.
+
+Como resultado, a câmera é empurrada para baixo do solo e passa a enquadrar Mario por baixo da fase, criando um ângulo estranho que mostra o cenário “por dentro”.</p>
+<p>Esse bug acontece por causa da forma como o sistema de câmera de Super Mario 64 tenta evitar que o jogador veja através das paredes.
+
+A câmera de Lakitu é um objeto tridimensional invisível que o jogo move e posiciona constantemente de acordo com:
+
+A posição de Mario;
+
+A direção em que ele está olhando;
+
+E os obstáculos do cenário.
+
+Para evitar que a câmera atravesse paredes ou fique presa, o jogo faz testes de colisão a cada frame:
+
+Ele tenta mover a câmera para uma posição “ideal” atrás de Mario;
+
+Se essa posição estiver bloqueada por uma parede, o jogo empurra a câmera para frente até encontrar um ponto livre.
+
+O problema é que, na área específica de Bob-omb Battlefield:
+
+A rampa branca e o chão abaixo dela formam um ângulo irregular;
+
+Quando o jogador faz Wall Kicks rapidamente, a câmera tenta se ajustar, mas a colisão é calculada de forma errada, levando Lakitu para baixo do piso;
+
+O jogo não tem uma verificação que impede a câmera de atravessar o chão por baixo, apenas pelas laterais — e é por isso que ela acaba “caindo” sob o mapa e olhando de baixo para cima.</p>
+<p>Causa: Erro de colisão na câmera Lakitu ao tentar se reposicionar durante Wall Kicks.
+
+Condição: Fazer Wall Kicks na base da rampa branca sobre a plataforma de gangorra.
+
+Efeito: A câmera atravessa o chão e mostra Mario de baixo do cenário.
+
+Versões afetadas: Todas as versões originais de Super Mario 64 (Nintendo 64, Virtual Console, e 3D All-Stars).
+
+Correção: Em ports ou engines refeitas (como Super Mario 64 PC Port), esse bug pode não acontecer se a câmera for reprogramada com colisão completa de piso.</p>
+<br>
+<br>
+
+<h3><i>Dead Mario softlock</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/120px-Zombie_Freeze.gif">
+<p>O Dead Mario softlock em Super Mario 64 é um glitch que causa um travamento parcial do jogo (“softlock”), deixando Mario morto, porém ainda na tela, incapaz de se mover ou encerrar sua animação de morte.
+
+Ele acontece quando dois eventos importantes do jogo ocorrem ao mesmo tempo — por exemplo, Mario morrendo e uma Estrela sendo gerada — o que confunde o sistema de eventos do jogo e faz com que ele entre em um estado indefinido.</p>
+<p>O jogador vai até Bob-omb Battlefield e equipa o Wing Cap (o boné alado).
+
+Ele deve voar acima da pequena ilha flutuante, onde há um bloco amarelo que contém uma Estrela.
+
+Mario deve então cair de uma altura suficiente para que a queda cause dano letal.
+
+Antes de atingir o chão, o jogador faz um Ground Pound (pisão).
+
+No exato momento em que Mario atinge o bloco:
+
+O bloco libera a Estrela,
+
+Mas Mario morre pelo impacto da queda.
+
+Como esses dois eventos acontecem no mesmo frame, o jogo não sabe qual deles priorizar:
+
+A rotina de morte tenta encerrar o nível e tocar a animação de Game Over;
+
+A rotina da Estrela tenta interromper o controle do jogador para tocar a animação de “você conseguiu uma Estrela”.
+
+O resultado é um impasse: nenhuma das duas animações termina, e Mario fica morto e travado, incapaz de desaparecer ou interagir.
+
+Esse mesmo comportamento também acontece se Mario:
+
+Morre ao mesmo tempo em que coleta a 100ª moeda,
+
+E o jogo tenta gerar a Estrela de 100 moedas no exato instante da morte.</p>
+<p>O erro vem da forma como Super Mario 64 gerencia eventos concorrentes — ações que ocorrem no mesmo frame (1/30 de segundo no N64).
+
+No código do jogo, existem rotinas separadas para:
+
+Gerar uma Estrela;
+
+Matar Mario;
+
+Mostrar animações de vitória e derrota.
+
+Essas rotinas não foram projetadas para acontecer simultaneamente.
+O problema é que ambas alteram os mesmos flags de controle, como:
+
+marioObj->actionState (estado atual de Mario — andar, morrer, coletar estrela, etc.);
+
+camera->mode (modo de câmera da cena);
+
+E o controle do jogador (input->enabled).
+
+Quando o jogo tenta processar duas mudanças de estado no mesmo instante:
+
+Ele ativa as flags de ambas as rotinas,
+
+Mas nenhuma delas é concluída, pois uma depende do término da outra para prosseguir.
+Isso coloca o jogo em um loop sem saída (softlock), no qual Mario:
+
+Fica visível;
+
+A música e o cenário continuam;
+
+Mas o jogador não pode se mover nem pausar o jogo.</p>
+<p>Causa: Conflito entre as rotinas de “morte de Mario” e “spawn de estrela” ocorrendo no mesmo frame.
+
+Condição: Mario morre no exato momento em que uma Estrela é liberada (por Ground Pound ou coleta de 100 moedas).
+
+Efeito: Softlock — Mario morto, imóvel, sem término de animação ou tela de fim de fase.
+
+Versões afetadas: Todas as versões originais de Super Mario 64 (N64, DS, Virtual Console, 3D All-Stars).
+
+Corrigido: Apenas em Super Mario 64 PC decompilation mods ou versões reprogramadas.</p>
+<br>
+<br>
+
+<h3><i>Frozen head*</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/170px-SM64_Frozen_Head.png">
+<p>Esse glitch, conhecido como “Frozen Head”, ocorre em Super Mario 64 (versão japonesa) e afeta o comportamento da cabeça de Mario durante a cutscene em que ele coleta a chave deixada por Bowser após uma batalha.</p>
+<p>Depois de derrotar Bowser no Dark World ou Fire Sea, ele solta uma chave que cai lentamente no chão. Normalmente, quando o jogador coleta a chave, o jogo entra em uma cutscene automática, durante a qual a câmera foca Mario pegando a chave e força a cabeça dele a olhar para frente (para o ponto de destaque da cena).
+
+Porém, na versão japonesa, há um erro no código de atualização da animação de Mario:
+
+Se o jogador pressionar o botão C (para mover a câmera) exatamente no momento em que Mario coleta a chave,
+
+O jogo não redefine corretamente a direção do olhar de Mario durante a transição da gameplay para a cutscene.
+
+Isso faz com que a cabeça de Mario “congele” na última direção que estava olhando antes da cutscene começar — por exemplo, virada para o lado, para cima ou para trás.</p>
+<p>O bug ocorre porque o jogo usa dois sistemas diferentes de controle de câmera e animação:
+
+Um para o modo de jogo normal, onde o jogador pode mover a câmera livremente.
+
+Outro para as cutscenes, que usa ângulos e poses fixos.
+
+Na versão japonesa, o código que deveria sincronizar a direção do olhar de Mario com a cutscene não é executado se o jogador muda a câmera no mesmo frame em que o evento da chave é acionado. Como resultado, o valor da rotação da cabeça de Mario permanece “congelado” com o último ângulo da jogabilidade, e não é sobrescrito pelo script da cutscene.</p>
+<p>Onde: Bowser in the Dark World / Fire Sea (versão japonesa)
+
+Como fazer: correr até onde a chave cairá → pressionar o botão C para olhar em alguma direção no exato momento da coleta
+
+Efeito: Mario coleta a chave, mas sua cabeça permanece virada, parecendo “travada” ou “olhando fixamente” para o lado.
+
+Causa técnica: falha de sincronização entre os sistemas de câmera e animação no frame de transição para a cutscene.</p>
+<br>
+<br>
+
+<h3><i>Invisible Bowser</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/100px-SM64_Invisible_Bowser.png">
+<p>O glitch “Invisible Bowser” em Super Mario 64 ocorre durante a batalha contra Bowser no Fire Sea, e faz com que o próprio Bowser fique invisível visualmente, embora ainda esteja presente no mundo e possa ser atacado.</p>
+<p>Durante a luta no Fire Sea, Bowser teleporta de tempos em tempos.
+
+Enquanto ele está se teleportando, se Mario agarrar a cauda de Bowser (o que normalmente permite girá-lo e arremessá-lo), algo incomum acontece:
+
+Bowser permanece invisível mesmo depois de Mario soltar ou girar.
+
+Bowser permanece funcional: ele ainda se move, ataca e reage normalmente, mas o sprite dele não é desenhado na tela.
+
+Bowser só volta a ficar visível quando:
+
+Ele teleporta novamente, ou
+
+É arremessado para fora da plataforma.</p>
+<p>O bug é causado por uma falha no gerenciamento do sprite de Bowser durante a teletransportação:
+
+Quando Bowser teleporta, o jogo desativa temporariamente o sprite dele enquanto recalcula sua posição.
+
+Normalmente, ao terminar a teletransportação, o sprite é reativado automaticamente.
+
+Ao agarrar Bowser no exato momento da teletransportação, o jogo entra em um estado intermediário:
+
+A função que reativa o sprite não é chamada imediatamente,
+
+Mas as rotinas de física e colisão continuam ativas.
+
+O resultado: Bowser fica “invisível” visualmente, mas continua interagindo com o jogador e o ambiente.</p>
+<p>Causa: Interrupção do processo de reativação do sprite durante a teletransportação quando Mario agarra a cauda.
+
+Condição: Luta no Fire Sea; agarrar Bowser enquanto ele teleporta.
+
+Efeito: Bowser fica invisível, mas mantém todas as colisões e ataques.
+
+Correção: Esse bug não foi corrigido nas versões clássicas de N64, mas pode ser tratado em ports ou engines reprogramadas.</p>
+<br>
+<br>
+
+<h3><i>1-Up Mushroom circling Mario glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/100px-SM64_Chasing1Up.gif">
+<p>O glitch do 1-Up Mushroom circulando Mario em Super Mario 64 é um exemplo clássico de como pequenos erros na IA do jogo podem gerar comportamentos estranhos e divertidos.</p>
+<p>Em certas fases, existem 1-Up Mushrooms que seguem Mario automaticamente (homing).
+
+Quando Mario fica agachado (crouch) em um ponto específico:
+
+O cogumelo tenta continuar alcançando Mario, mas não consegue ajustar sua posição vertical corretamente.
+
+O resultado é que o cogumelo não desce até Mario e, em vez disso, começa a dar voltas circulares sobre a cabeça dele.
+
+Enquanto Mario permanecer agachado, ele nunca será atingido, tornando possível “segurar” o cogumelo acima dele indefinidamente.</p>
+<p>O bug acontece por causa de uma falha na lógica de movimento vertical da IA do 1-Up Mushroom:
+
+A função que calcula a direção do cogumelo prioriza a distância horizontal em relação a Mario.
+
+Quando Mario está agachado, sua posição vertical não muda suficientemente para que o cogumelo se mova para baixo.
+
+Como o cogumelo ainda tenta ajustar a posição horizontal constantemente, ele entra em um loop de movimento circular ao redor de Mario, sem nunca “cair” sobre ele.
+
+Em termos simples:
+
+O cogumelo está programado para se mover em direção a Mario, mas o cálculo vertical falha enquanto ele está agachado, criando um movimento apenas lateral que resulta em círculos acima da cabeça do jogador.</p>
+<p>Causa: Falha no algoritmo de homing da IA do 1-Up Mushroom, que não considera corretamente a posição vertical de Mario quando ele está agachado.
+
+Condição: Mario agachado em certas áreas; cogumelo homing presente.
+
+Efeito: 1-Up Mushroom circula sobre a cabeça de Mario indefinidamente.
+
+Versões afetadas: Todas as versões, incluindo o Nintendo DS remake, que manteve o bug.</p>
+<br>
+<br>
+
+<h3><i>Climb slippery slopes</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/100px-Climb_Slippery_Slopes_1.gif">
+<p>O glitch “Climb Slippery Slopes” em Super Mario 64 permite que Mario suba encostas que normalmente seriam intransponíveis devido à sua superfície escorregadia.</p>
+<p>Mario se posiciona em frente a uma encosta escorregadia.
+
+O jogador deve alternar ritmicamente entre:
+
+Empurrar o analógico ou direcional para frente (em direção à encosta)
+
+Deixar o controle neutro (não pressionar nada)
+
+Repetindo esse movimento, Mario ganha pequenos avanços para cima, que somados permitem que ele suba totalmente a encosta.
+
+No remake (Nintendo DS, 3D All-Stars), o mesmo efeito pode ser alcançado apenas movendo o analógico na direção da subida sem pressionar o botão de abaixar ou agachar.</p>
+<p>O glitch ocorre por causa da forma como Super Mario 64 lida com movimento e colisão em superfícies inclinadas:
+
+Cada encosta escorregadia possui um coeficiente de atrito muito baixo, que normalmente faz Mario deslizar para trás quando tenta subir.
+
+O código calcula a velocidade de Mario como:
+
+<p>velocidade_real = velocidade_input * atrito_superficie - gravidade * componente_inclinacao</p>
+
+
+Quando o jogador solta o analógico, o código de movimento não aplica a força do input, mas a gravidade ainda empurra Mario para baixo em uma quantidade muito pequena.
+
+Ao pressionar novamente, a força do input empurra Mario um pequeno passo para frente, que é ligeiramente maior do que o recuo causado pelo atrito.
+
+Repetindo isso, Mario faz “micro-passos” que acumulam progressivamente, permitindo subir inclinações que seriam impossíveis com movimento contínuo.
+
+Em termos simples:
+
+O movimento rítmico explora a combinação entre atrito mínimo e cálculo discreto de velocidade por frame, permitindo “escalar” a inclinação sem escorregar.</p>
+<p>Causa: Interação entre atrito baixo em superfícies inclinadas e atualização de velocidade por frame.
+
+Condição: Superfície escorregadia; alternância entre input e controle neutro.
+
+Efeito: Mario consegue subir a encosta que normalmente seria impossível.
+
+Versões afetadas: Todas as versões de Super Mario 64, incluindo remakes.</p>
+<br>
+<br>
+
+<h3><i>Stuck behind door</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/100px-SM64_Cameraglitch.png">
+<p>O glitch “Stuck Behind Door” em Super Mario 64 é um bug de câmera que faz com que a visão do jogador fique temporariamente presa atrás de uma porta, dando a impressão de que a câmera travou.</p>
+<p>Mario entra em uma porta do castelo normalmente (exceto as portas do lobby principal).
+
+Logo em seguida, o jogador deve voltar rapidamente pela mesma porta, antes que a transição da câmera termine.
+
+Se feito corretamente:
+
+A câmera não consegue reposicionar-se normalmente e fica “presa” atrás da porta por alguns instantes.
+
+O jogo continua funcionando: Mario pode se mover e interagir, mas a câmera está fora de posição, mostrando o cenário parcialmente obstruído pela porta.</p>
+<p>O bug ocorre devido a como o sistema de câmera de Super Mario 64 lida com transições de porta:
+
+Cada porta tem um ponto de spawn para a câmera e um script de transição que determina como a visão deve se mover ao atravessá-la.
+
+Quando Mario atravessa rapidamente a porta de volta, a função da câmera recebe dois comandos de reposicionamento em frames consecutivos:
+
+Um para entrar na sala,
+
+Outro para voltar imediatamente.
+
+O motor de câmera não consegue atualizar a posição corretamente, e mantém a câmera na posição anterior (atrás da porta), antes que o script finalize a transição.
+
+Em termos simples:
+
+A câmera está tentando “seguir Mario”, mas o script de movimentação não tem tempo para recalcular o novo ponto de visão, ficando momentaneamente presa em um ponto inválido.</p>
+<p>Causa: Conflito entre scripts de transição de porta e atualização da câmera.
+
+Condição: Entrar e sair rapidamente de uma porta dentro do castelo (não funciona no lobby principal).
+
+Efeito: Câmera fica presa atrás da porta, visão parcialmente obstruída.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Não há correção nas versões clássicas; em remakes, pode variar dependendo de como a câmera foi reimplementada.</p>
+<br>
+<br>
+
+<h3><i>Crate clip</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/120px-SM64_WFswim.png">
+<p>O glitch “Crate Clip” em Super Mario 64 é um clássico exemplo de clipping, onde Mario consegue atravessar paredes sólidas usando caixas (crates) como ferramenta.</p>
+<p>Existem duas formas principais de realizar o Crate Clip:
+
+Ground Pound entre a caixa e a parede
+
+O jogador posiciona uma caixa próxima de uma parede.
+
+Mario deve realizar um Ground Pound (pisão) entre a caixa e a parede.
+
+A colisão entre Mario, a caixa e a parede gera um empurrão incorreto, permitindo que Mario “clip” através da parede.
+
+Interação com a parede ao jogar a caixa
+
+Se Mario estiver encostado de costas na parede e lançar a caixa para frente,
+
+O contato rápido entre a caixa e Mario cria uma força que empurra Mario para dentro da parede, permitindo atravessá-la por alguns frames.</p>
+<p>O bug ocorre por causa de como SM64 trata colisões entre objetos e paredes:
+
+O jogo calcula colisões de Mario e objetos frame a frame, mas trata cada objeto separadamente.
+
+Quando dois objetos (Mario e a caixa) são empurrados simultaneamente contra uma parede:
+
+O motor de colisão não consegue resolver corretamente a posição de ambos,
+
+Mario é “empurrado” para dentro da parede antes que a lógica de colisão o reposicione.
+
+Esse estado de “sobreposição parcial” permite que Mario atravesse a parede sólida, até que ele saia dela ou que o motor de colisão recalcule a posição.
+
+Em termos simples:
+
+A caixa age como uma ferramenta de empurrão, explorando uma falha no cálculo de colisão, permitindo que Mario ultrapasse limites que deveriam ser sólidos.</p>
+<p>Causa: Falha no cálculo de colisão quando Mario, uma caixa e uma parede interagem simultaneamente.
+
+Condição: Caixa posicionada próxima à parede; Mario faz Ground Pound ou joga a caixa com as costas na parede.
+
+Efeito: Mario atravessa a parede por alguns frames, podendo acessar áreas bloqueadas.
+
+Versões afetadas: Todas as versões originais de Super Mario 64.
+
+Correção: Remakes ou ports podem ajustar colisão de objetos ou paredes, impedindo o glitch.</p>
+<br>
+<br>
+
+<h3><i>Death out-of-bounds</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/120px-SM64_Killeredge.png">
+<p>O glitch “Death Out-of-Bounds” em Super Mario 64 acontece quando Mario consegue ultrapassar os limites físicos de uma fase ou do castelo, entrando em áreas onde o chão não existe. Apesar de não ser um glitch visual, ele explora falhas na verificação de limites do jogo.</p>
+<p>Cada fase e o castelo possuem boundaries invisíveis que impedem Mario de sair da área jogável.
+
+Essas boundaries são mais restritivas que paredes normais: se não houver chão abaixo de um ponto, o espaço é considerado out-of-bounds (fora dos limites).
+
+Normalmente, Mario não pode atravessar essas áreas, mas interações específicas do jogo — como clipes com caixas, saltos precisos ou glitches de movimento — podem permitir que ele ultrapasse essas barreiras.
+
+Ao estar fora dos limites, o jogo aciona automaticamente um failsafe:
+
+O Power Meter de Mario é esvaziado imediatamente,
+
+Isso resulta em morte instantânea, reiniciando-o no checkpoint ou início da fase.</p>
+<p>O glitch ocorre por causa de como o motor de colisão e o sistema de limites tratam o espaço “out-of-bounds”:
+
+O jogo possui duas camadas de verificação:
+
+Colisão de objetos e piso – impede Mario de atravessar superfícies sólidas.
+
+Verificação de out-of-bounds – detecta quando não há chão abaixo de Mario e dispara a rotina de morte.
+
+Algumas interações, como clipes com objetos, exploits de física ou movimentos rápidos, não são completamente bloqueadas pela colisão normal, permitindo que Mario se mova para fora do mapa antes do motor de colisão reagir.
+
+Quando o jogo detecta que Mario está em uma posição inválida, ele ignora todas as animações e efeitos, simplesmente esvaziando o Power Meter para garantir que Mario “morra” de forma segura, evitando travamentos ou corrupções de memória.
+
+Em termos simples:
+
+Mario explora falhas de colisão para atravessar limites que deveriam ser intransponíveis, e o jogo força a morte como medida de segurança.</p>
+<p>Causa: Falhas na detecção de colisão ao interagir com objetos ou explorar limites do mapa.
+
+Condição: Mario entra em um espaço onde não há piso e as colisões normais não o bloqueiam.
+
+Efeito: Power Meter é esvaziado instantaneamente; Mario morre fora do mapa.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem reforçar colisões ou limitar movimentos fora do mapa, mas o conceito de “morte automática fora dos limites” geralmente permanece.</p>
+<br>
+<br>
+
+<h3><i>Burn into drowning</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/120px-SM64_Burn_n'_Drown_glitch.gif">
+<p>O glitch “Burn into Drowning” em Super Mario 64 é um exemplo de como o jogo lida com morte por múltiplos efeitos consecutivos, permitindo que Mario morra afogado imediatamente após ter sido queimado.</p>
+<p>Mario precisa estar com pouca vida (por exemplo, dois “wedges” restantes no Power Meter).
+
+Ele é atingido por um inimigo ou efeito de dano que queima (por exemplo, uma Keronpa Ball) e perde quase toda a vida.
+
+Logo após, Mario é transportado (spawned) para uma área como o moat do castelo, enquanto ainda possui 0 ou quase 0 de saúde.
+
+Como ele já não tem saúde suficiente para sobreviver à água, Mario afunda imediatamente e morre por afogamento, perdendo uma vida.</p>
+<p>O bug acontece por causa de como SM64 gerencia múltiplas rotinas de morte e transporte:
+
+O jogo possui rotinas separadas para:
+
+Dano por inimigos (que queima ou reduz o Power Meter).
+
+Spawn em áreas específicas (como ao ser transportado para o moat).
+
+Dano ambiental (como afogamento ou queda).
+
+Quando Mario é queimado e transportado para o moat:
+
+A rotina de spawn não restaura automaticamente a saúde mínima;
+
+O jogo calcula imediatamente a presença de água e aplica a lógica de afogamento, que é mais prioritária do que qualquer outro estado de morte temporário.
+
+Como resultado, Mario morre quase instantaneamente, combinando dois tipos diferentes de falha: “morte por dano” + “morte ambiental”.
+
+Em termos simples:
+
+O jogo não consegue “sequenciar corretamente” os dois estados de morte, então Mario é imediatamente afogado ao aparecer na água com pouca ou nenhuma vida.</p>
+<p>Causa: Interação entre dano por inimigos, transporte e lógica de afogamento sem restauração de saúde.
+
+Condição: Mario com pouca vida, queimado por inimigo, spawn em água (como o moat).
+
+Efeito: Mario afunda e morre imediatamente, perdendo uma vida.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Em remakes, rotinas de spawn podem restaurar saúde mínima para evitar morte instantânea, mas o bug original permanece possível em versões clássicas.</p>
+<br>
+<br>
+
+<h3><i>Death exit</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-Death_teleporting.png">
+<p>O glitch “Death Exit” em Super Mario 64 combina dano por queda e transições de área para fazer Mario morrer ao sair de uma fase, mesmo sem inimigos por perto.</p>
+<p>O jogador deve reduzir a saúde de Mario para dois wedges restantes.
+
+Entrar na fase Tower of the Wing Cap.
+
+Quando o Wing Cap começar a perder efeito:
+
+Mario deve voar até a borda da plataforma central e deslizar para fora.
+
+Isso aplica dano de queda.
+
+Mario é então transportado de volta para o castelo (lobby central).
+
+Como ele já estava com pouca saúde e sofreu dano de queda, Mario morre instantaneamente ao aterrissar, mesmo sem contato com inimigos ou obstáculos.</p>
+<p>O bug ocorre por causa de como o motor de física e de transição de áreas lida com dano e spawn:
+
+Dano de queda: Calculado com base na altura de onde Mario cai e sua velocidade vertical.
+
+Transição de área: Ao sair da Tower of the Wing Cap, Mario é transportado para o lobby do castelo, mas o jogo não cancela o estado de dano de queda.
+
+Como Mario estava com saúde mínima, o dano acumulado ao aterrissar na transição faz com que ele morra imediatamente, antes mesmo de poder se mover ou interagir.
+
+Em termos simples:
+
+A sequência de dano + transporte cria um estado onde Mario chega no lobby já “morto”, sem que o jogo precise aplicar colisão ou inimigos.</p>
+<p>Causa: Acúmulo de dano de queda e transição de área com saúde mínima.
+
+Condição: Saúde de dois wedges, Wing Cap ativo, pouso na borda da plataforma, retorno ao lobby do castelo.
+
+Efeito: Mario morre instantaneamente ao chegar no lobby, sem contato com inimigos.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem ajustar dano de queda ou restaurar saúde mínima ao sair de fases, mas o bug original permanece nas versões clássicas.</p>
+<br>
+<br>
+
+<h3><i>Invisible walls</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-SM64_InvisibleWall.gif">
+<p>O glitch “Invisible Walls” em Super Mario 64 é um fenômeno em que Mario parece bater em paredes invisíveis, impedindo seu movimento, mesmo sem haver uma parede visível no cenário.</p>
+<p>Mario se aproxima de certas áreas, como:
+
+Lados de escadas,
+
+Cantos de plataformas,
+
+Espaços próximos a limites de mapa.
+
+Ao tentar atravessar essas áreas, o jogador percebe que Mario não consegue se mover além de um ponto, como se houvesse uma parede invisível.
+
+Na realidade, essas barreiras não são paredes intencionais, mas efeitos da colisão com superfícies expostas (como tetos ou partes inclinadas).
+
+O resultado é que Mario fica bloqueado temporariamente, dando a impressão de que há uma parede invisível.</p>
+<p>O bug ocorre devido a como SM64 calcula colisões de superfícies:
+
+O jogo armazena todas as superfícies em 3D com coordenadas e ângulos.
+
+Mario possui colisões baseadas em caixas de colisão (hitboxes).
+
+Quando a hitbox de Mario entra em contato com uma superfície irregular ou exposta, como:
+
+Parte de um teto de escada,
+
+Uma inclinação de plataforma,
+
+Um limite de mapa próximo ao out-of-bounds,
+
+O motor de colisão impede o movimento, mesmo que não haja “parede” visível para o jogador.
+
+Em termos simples:
+
+O que parece uma “parede invisível” é, na verdade, uma colisão com um teto ou superfície exposta, que bloqueia Mario sem ser aparente visualmente.</p>
+<p>Causa: Colisão entre a hitbox de Mario e superfícies expostas (tetos, inclinações ou limites do mapa).
+
+Condição: Aproximação de cantos, escadas ou áreas fora do limite visível do mapa.
+
+Efeito: Mario não consegue atravessar o ponto, dando a impressão de paredes invisíveis.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem suavizar colisões ou ajustar superfícies expostas para reduzir incidência de “invisible walls”.</p>
+<br>
+<br>
+
+<h3><i>Slide on dangerous surfaces</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/120px-Lava_Sidekick.gif">
+<p>O glitch “Slide on Dangerous Surfaces” em Super Mario 64 permite que Mario deslize sobre superfícies normalmente letais (como lava, água congelante ou areia movediça) sem sofrer dano, explorando a física do movimento e colisões do jogo.</p>
+<p>Mario deve deslizar de um declive ou executar um slide kick.
+
+Ao fazer isso, o primeiro impacto da colisão com a superfície perigosa (lava, água congelante, quicksand) é tratado de forma especial pelo motor de física.
+
+Em vez de sofrer dano imediato, Mario “quica” levemente e continua deslizando sobre a superfície.
+
+Esse efeito dura apenas enquanto a colisão inicial mantém Mario em um estado de slide ou quique, permitindo que ele cruze a superfície sem perder saúde.</p>
+<p>O bug ocorre por causa de como o jogo calcula colisões e dano em superfícies perigosas:
+
+Cada superfície perigosa tem um flag de dano, que normalmente aplica perda de vida assim que Mario entra em contato.
+
+Quando Mario está em estado de slide ou quicando:
+
+O motor de física aplica uma prioridade diferente às colisões, tratando o movimento como “não-terminal” para que ele continue o slide.
+
+O dano não é aplicado instantaneamente no primeiro frame de contato.
+
+Isso cria uma janela de alguns frames em que Mario pode permanecer sobre a superfície letal sem ser afetado.
+
+Em termos simples:
+
+O motor de colisão prioriza o movimento de slide de Mario sobre o cálculo de dano inicial, permitindo que ele “raspe” na superfície perigosa sem morrer imediatamente.</p>
+<p>Causa: Interação entre o estado de slide/slide kick de Mario e flags de dano de superfícies perigosas.
+
+Condição: Deslizar de um declive ou executar slide kick sobre lava, quicksand ou água congelante.
+
+Efeito: Mario quica e desliza sobre a superfície sem sofrer dano.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem ajustar prioridades de colisão ou dano para impedir que o slide “ignore” superfícies letais.</p>
+<br>
+<br>
+
+<h3><i>Platform crush glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/120px-SM64_Brutal_Death.gif">
+<p>O glitch “Platform Crush” em Super Mario 64 explora a interação entre Mario, plataformas móveis e superfícies perigosas (como lava), causando dano excessivo ou esmagamento de formas inesperadas.</p>
+<p>Localize a seção da Fire Sea com plataformas que se deslocam sobre a lava.
+
+O jogador deve posicionar Mario na lava enquanto a plataforma se move em direção a ele.
+
+Se o timing for correto:
+
+A plataforma “crusha” Mario enquanto ele está na lava, causando dano massivo.
+
+Alternativamente, se Mario estiver muito próximo da plataforma, ele pode ser apenas gentilmente esmagado, sem dano extremo, devido à colisão parcial.</p>
+<p>O bug ocorre por causa de como o motor de colisão trata múltiplas superfícies e flags de dano:
+
+Cada plataforma móvel possui uma hitbox sólida, e a lava possui uma flag de dano contínuo.
+
+Quando Mario está simultaneamente em contato com:
+
+Lava (flag de dano ambiental),
+
+Plataforma móvel (hitbox sólida que pode se mover),
+
+O motor tenta aplicar dano de lava e força de colisão da plataforma ao mesmo tempo.
+
+Se a plataforma se move exatamente para o local onde Mario está na lava, o cálculo de colisão faz com que ele seja esmagado de forma abrupta, multiplicando o efeito do dano da lava.
+
+Se o contato for parcial (apenas na borda da plataforma), o motor resolve a colisão suavemente, resultando apenas no efeito de “gentilmente esmagado”.
+
+Em termos simples:
+
+A plataforma e a lava interagem no mesmo espaço, e o motor de física não consegue separar os dois efeitos corretamente, causando dano anormal.</p>
+<p>Causa: Colisão simultânea entre plataforma móvel e lava com flags de dano.
+
+Condição: Mario posicionado na lava ou muito próximo da base da plataforma móvel.
+
+Efeito: Dano massivo (esmagamento) ou contato suave (gentilmente esmagado).
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem ajustar prioridade de colisões ou separar cálculo de dano ambiental e colisão de plataforma para evitar o efeito de esmagamento extremo.</p>
+<br>
+<br>
+
+<h3><i>Cap in hand glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/100px-SM64_Capinhand.png">
+<p>O glitch “Cap in Hand” em Super Mario 64 é um exemplo clássico de interação incorreta entre coleta de itens e atributos de Mario, permitindo que ele segure o chapéu na mão em vez de colocá-lo na cabeça, enquanto mantém os poderes do item.</p>
+<p>Mario deve acertar um Cap Block e deixar o item respawnar para golpeá-lo novamente.
+
+Isso cria duas caps coletáveis brevemente.
+
+Se Mario pegar a primeira cap e, antes que ela desapareça, a segunda cap cair sobre ele:
+
+Mario mantém a primeira cap na cabeça ou ativa o efeito especial,
+
+E segura a segunda cap na mão em vez de colocá-la na cabeça.
+
+Alternativamente, é possível criar várias caps no mesmo lugar:
+
+Ao tentar pegar os chapéus, Mario coloca um de cada vez na cabeça,
+
+Mas quando pega o segundo, o chapéu da cabeça desaparece e Mario segura o segundo na mão.</p>
+<p>O bug acontece por causa de como o motor do jogo gerencia itens coletáveis e os estados de Mario:
+
+Cada cap tem atributos separados:
+
+Flag de efeito (por exemplo, Vanish Cap ou Wing Cap),
+
+Modelo visual e posição na cabeça de Mario.
+
+Normalmente, ao coletar a cap, o modelo é aplicado na cabeça e o efeito ativado.
+
+Quando duas caps aparecem simultaneamente e Mario interage com ambas:
+
+O motor aplica o efeito da cap corretamente,
+
+Mas falha em atualizar qual modelo deve estar na cabeça, mantendo a segunda cap na mão.
+
+Isso gera várias consequências no jogo:
+
+Cap não pode ser roubada ou soprada, porque está na mão, não na cabeça.
+
+Dano ainda é aumentado, pois Mario não está “usando” a cap visualmente.
+
+Interações com NPCs ou objetos podem corrigir a posição do chapéu (por exemplo, Bob-omb Buddy).
+
+Objetos que Mario coleta depois não aparecem nas mãos, permitindo lançá-los “remotamente”.
+
+Ao salvar e recarregar, Mario fica sem cap na cabeça nem na mão, mas os efeitos podem permanecer ativos temporariamente.</p>
+<p>Causa: Coleta simultânea de duas caps, falha no motor ao atualizar o modelo da cabeça de Mario.
+
+Condição: Cap Block respawnado; coleta de duas caps quase simultaneamente.
+
+Efeito: Mario segura cap na mão, mantendo os efeitos da cap.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem sincronizar estado visual e atributos do cap, impedindo que a cap fique na mão.</p>
+<br>
+<br>
+
+<h3><i>Cloning</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/SM64_Cloning.png">
+<p>O glitch “Cloning” em Super Mario 64 é um dos mais complexos e impressionantes, permitindo que Mario segure visualmente um objeto que não deveria poder ser segurado, criando uma cópia (clone) aparente do item no mundo.</p>
+<p>Cada objeto em SM64 possui uma slot na memória e uma relação dupla com Mario:
+
+Mario mantém um referência ao slot do objeto,
+
+O objeto permanece carregado, mas oculto na mão de Mario, até ser largado.
+
+Se o objeto descarregar ou desaparecer no exato momento em que Mario tenta pegá-lo (por exemplo:
+
+uma caixa quebrando,
+
+uma Bob-omb explodindo),
+
+Mario continua referenciando uma slot agora vazia.
+
+Quando um novo objeto carrega nesse slot vazio, ele é renderizado tanto no mundo quanto na mão de Mario.
+
+Isso faz parecer que Mario está segurando um clone do objeto, mesmo que ele não seja originalmente segurável.</p>
+<p>O bug ocorre devido a como o motor gerencia objetos e slots de memória:
+
+Objetos têm uma slot fixa na memória com dados e flags de renderização.
+
+Mario pode manter uma referência à slot mesmo após o objeto original ser descarregado.
+
+Quando outro objeto ocupa a mesma slot, o motor não sabe que Mario já está “segurando” algo, então ele desenha o objeto no mundo e nas mãos de Mario ao mesmo tempo.
+
+Isso gera várias consequências:
+
+Objetos não seguráveis podem ser clonados visualmente.
+
+Eventos de scripting não funcionam corretamente para clones:
+
+Por exemplo, coins clonadas não avisam o spawner que foram coletadas, permitindo coletar novamente.
+
+Clones de inimigos só interagem uma vez antes de ficarem inertes.
+
+Clones permanecem carregados até que Mario passe por uma zona de carregamento ou saia da fase.
+
+É possível encher todos os 240 slots de memória com clones, causando um loop infinito, equivalente a um crash do jogo.
+
+Em termos simples:
+
+Mario segura “o espaço de memória” que um objeto ocupava, e qualquer novo objeto que ocupar essa memória aparece como um clone, porque o motor não atualiza corretamente a relação entre Mario e o objeto.</p>
+<p>Causa: Manipulação de slots de memória quando objetos são descarregados ou destruídos enquanto Mario tenta pegá-los.
+
+Condição: Interações com objetos que desaparecem ou são substituídos rapidamente (caixas, Bob-ombs, moedas).
+
+Efeito: Mario segura clones de objetos; eventos de objetos podem falhar; possíveis crashes se slots se esgotarem.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Remakes podem separar referência de Mario e slots de memória, garantindo que objetos não “duplicam” visualmente.</p>
+<br>
+<br>
+
+<h3><i>Negative lives*</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-SM64_BitDW_M25.png">
+<p>O glitch “Negative Lives” em Super Mario 64 é um erro curioso que ocorre somente na versão japonesa do jogo, resultando na exibição de Mario com vidas negativas (“M25”) após coletar muitas moedas.</p>
+<p>Durante uma fase, o jogador coleta 1.000 moedas ou mais.
+
+O jogo deveria limitar o contador de moedas a 999 para evitar problemas.
+
+Na versão japonesa, ao ultrapassar 999 moedas, o jogo tenta ajustar o total de vidas para 999.
+
+O contador de vidas em SM64 é armazenado como um número de 8 bits (0 a 255).
+
+Quando o valor 999 é colocado em um contador de 8 bits:
+
+Ele “estoura” e o sistema interpreta o valor como negativo.
+
+O display mostra “M25”, onde M significa menos, representando -25 vidas.
+
+Se o contador continuar caindo, ao atingir -128, ocorre um underflow, e o total é ajustado para 100 vidas.</p>
+<p>O bug ocorre devido a limitações do armazenamento de variáveis e lógica incorreta do jogo:
+
+Variável de vidas: Um inteiro de 8 bits só pode armazenar valores de 0 a 255.
+
+Overflow: Quando o jogo tenta armazenar 999, o valor excede 255, e o contador “rola” para números negativos (em complemento de dois).
+
+Erro de programação: O código japonês não corrigiu o excesso de moedas antes de atualizar as vidas, ao contrário das versões posteriores, que limitam corretamente as moedas e evitam o overflow.
+
+Em termos simples:
+
+O jogo tenta colocar 999 vidas em uma variável de 8 bits; como isso é impossível, o número “transborda” e aparece como negativo no display.</p>
+<p>Causa: Overflow da variável de vidas de 8 bits ao ultrapassar 999 moedas.
+
+Condição: Apenas na versão japonesa; coletar 1.000 moedas ou mais em uma fase.
+
+Efeito: Display mostra vidas negativas (“M25”), podendo underflow até ajustar para 100.
+
+Versões afetadas: Apenas a versão japonesa do Nintendo 64.
+
+Correção: Versões posteriores limitam moedas a 999 antes de atualizar vidas, evitando o overflow.</p>
+<br>
+<br>
+
+<h3><i>Star dance in sky</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-SM64_100cglitch.png">
+<p>O glitch “Star Dance in Sky” em Super Mario 64 permite que Mario realize a animação de vitória no ar, acima de grandes abismos ou “death barriers”, criando a ilusão de que ele está dançando no céu.</p>
+<p>O jogador deve coletar uma Power Star em um local acima de um grande pit (abismo), como:
+
+Tiny-Huge Island, Tick Tock Clock, Whomp's Fortress, Rainbow Ride, Cool, Cool Mountain, Tall, Tall Mountain ou Hazy Maze Cave.
+
+Ao coletar a Star, Mario normalmente cai para o death barrier (uma área invisível que mata instantaneamente qualquer objeto ou personagem).
+
+Mesmo estando sobre a death barrier, Mario executa sua animação de vitória (Star Dance).
+
+Após a animação, o jogo transporta Mario de volta para o chão ou finaliza a fase, como se tivesse seguido o fluxo normal.
+
+Esse glitch é mais fácil de executar usando uma 100-Coin Star, pois a posição da Star é determinada pelo local onde Mario coleta sua 100ª moeda.</p>
+<p>O glitch acontece devido a como o jogo gerencia a coleta de Stars e as death barriers:
+
+Cada Star ativa um evento de vitória, que inicia a animação de dança independentemente da posição vertical de Mario.
+
+O motor do jogo não checa se Mario está sobre o chão real antes de iniciar a Star Dance.
+
+Mesmo que Mario esteja sobre a death barrier (que normalmente mataria instantaneamente o jogador), o evento da Star Dance tem prioridade sobre a morte.
+
+Depois que a animação termina, o código do jogo corrige a posição de Mario, colocando-o de volta no chão ou teleportando-o para a saída da fase.
+
+Em termos simples:
+
+A Star Dance é um evento que ignora a posição física de Mario, permitindo que ele dance “no ar” acima de abismos mortais.</p>
+<p>Causa: A Star Dance ignora colisões com death barriers.
+
+Condição: Coletar uma Star acima de grandes pits ou death barriers.
+
+Efeito: Mario executa a animação de vitória no ar; depois é teleportado de volta à fase normalmente.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Nenhuma correção necessária; é um comportamento emergente do motor do jogo.</p>
+<br>
+<br>
+
+<h3><i>Zero second finish</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-Koopazeroglitch.png">
+<p>O glitch “Zero Second Finish” em Super Mario 64 permite que Mario complete uma corrida contra Koopa the Quick com o cronômetro marcando 0 segundos, criando um efeito visual e de speedrun impressionante.</p>
+<p>No curso Bob-omb Battlefield, Mario deve equipar a Wing Cap.
+
+Execute um triple jump logo à frente de Koopa the Quick.
+
+Em seguida, Mario deve entrar em um canhão próximo.
+
+Use o canhão para voar até o cume da fase, podendo usar outro canhão para ganhar mais altura se necessário.
+
+Ao chegar próximo de Koopa the Quick, ele oferecerá a corrida.
+
+Aceitando a corrida, Mario vence instantaneamente, e o cronômetro da corrida mostra zero segundos, mesmo que o percurso tenha sido feito de forma “não convencional”.</p>
+<p>O bug ocorre por causa de como o jogo calcula o tempo da corrida e a posição do jogador:
+
+O cronômetro da corrida é ativado apenas quando Mario cruza o ponto de partida da corrida “normal” perto de Koopa.
+
+Ao voar até o cume da fase e aceitar a corrida fora do ponto normal de início, o jogo registra Mario como vencedor imediatamente, sem contabilizar o tempo de viagem.
+
+O motor do jogo não decrementa ou calcula o tempo gasto fora do percurso normal, resultando em 0 segundos no cronômetro.
+
+Em termos simples:
+
+Mario vence a corrida antes que o jogo comece a medir o tempo corretamente, fazendo com que o cronômetro exiba zero segundos.</p>
+<p>Causa: Aceitar a corrida de Koopa the Quick fora do ponto de início normal da corrida.
+
+Condição: Wing Cap + uso de canhões para alcançar a meta antes que a corrida seja ativada.
+
+Efeito: Vitória imediata; cronômetro da corrida mostra 0 segundos.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Nenhuma correção necessária; é um comportamento emergente do motor da corrida.</p>
+<br>
+<br>
+
+<h3><i>Zombie Mario</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-SM64_Zombiemarioglitch.png">
+<p>O glitch “Zombie Mario” em Super Mario 64 permite que Mario continue se movendo mesmo com a barra de vida completamente zerada, antes que a animação de morte seja executada.</p>
+<p>Mario precisa estar com o Power Meter (barra de vida) totalmente esgotado.
+
+Normalmente, o jogo inicia imediatamente uma animação de morte apropriada ao contexto:
+
+Morte por afogamento na água → animação de afogamento.
+
+Morte por queda ou knockback → animação de cair e falhar ao se levantar.
+
+Algumas dessas animações têm um pequeno delay antes de serem executadas, o que pode ser explorado pelo jogador.
+
+Se Mario entrar em uma porta ou continuar se movendo durante esse delay, ele pode andar ou interagir com o mundo mesmo estando tecnicamente “morto”.</p>
+<p>O glitch acontece devido a como o motor de SM64 gerencia a morte e animações:
+
+O jogo marca Mario como morto quando o Power Meter chega a zero, mas a animação de morte não é instantânea.
+
+Durante o delay, Mario ainda tem controle parcial sobre seus movimentos, porque o estado de entrada do jogador ainda não foi bloqueado.
+
+Entrar em portas ou interagir com objetos não reinicia ou cancela imediatamente a morte, permitindo que Mario se mova “como zumbi” antes que a animação de morte seja processada.
+
+Em termos simples:
+
+Mario está tecnicamente morto, mas o motor demora para executar a animação de morte, permitindo controle temporário do personagem.</p>
+<p>Causa: Delay entre esgotamento do Power Meter e execução da animação de morte.
+
+Condição: Vida zerada + movimento ou interação durante o delay.
+
+Efeito: Mario continua se movendo e interagindo como se estivesse vivo, antes de morrer oficialmente.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Nenhuma correção, é um comportamento emergente do motor de morte do jogo.</p>
+<br>
+<br>
+
+<h3><i>Climb the castle without 120 Stars</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/130px-Climb_The_Castle.gif">
+<p>O glitch “Climb the Castle Without 120 Stars” em Super Mario 64 permite que Mario alcance o telhado do castelo de Peach sem coletar todas as 120 Power Stars, algo que normalmente seria impossível.</p>
+<p>Mario deve se posicionar no lado direito do castelo de Peach.
+
+Execute um triple jump (tríplice salto) na rampa gramada do castelo.
+
+Durante o segundo salto, mova-se levemente para a esquerda.
+
+Se feito corretamente, Mario começará a deslizar pela rampa de forma contínua.
+
+Aproveitando o deslize, execute outros pulos para alcançar o telhado do castelo, contornando a necessidade de coletar todas as 120 Stars.</p>
+<p>O glitch funciona por causa de como o motor do jogo gerencia colisões, rampas e impulso:
+
+O triple jump combina impulso vertical e horizontal, permitindo que Mario “ignore” certas limitações de colisão do terreno.
+
+A rampa gramada e o movimento lateral no segundo salto criam uma situação de deslize contínuo, onde Mario ganha altura suficiente para alcançar áreas que normalmente exigiriam todas as Stars.
+
+O motor do jogo não impede Mario de ultrapassar limites verticais enquanto ele estiver em movimento de salto contínuo sobre uma rampa.
+
+Em termos simples:
+
+A combinação de triple jump, movimento lateral e deslizamento cria altura suficiente para Mario contornar as restrições normais de acesso ao telhado do castelo.</p>
+<p>Causa: Impulso combinado do triple jump + colisões das rampas do castelo.
+
+Condição: Posicionamento correto no lado direito do castelo + movimentos precisos.
+
+Efeito: Mario alcança o telhado do castelo sem precisar das 120 Stars.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Nenhuma correção; é um comportamento emergente do motor de física do jogo.</p>
+<br>
+<br>
+
+<h3><i>Lakitu skip</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/200px-Lakitu_glitch.png">
+<p>O glitch “Lakitu Skip” em Super Mario 64 permite que o jogador ignore a introdução de Lakitu no início do jogo e fique com ele preso fora de seu comportamento normal.</p>
+<p>Antes de atravessar a ponte para o castelo de Peach pela primeira vez, Lakitu normalmente para Mario e inicia a introdução do jogo.
+
+O jogador deve executar um Long Jump (salto longo) na borda da ponte.
+
+Se realizado corretamente, o gatilho da introdução não é ativado, permitindo que Mario continue sem interrupção.
+
+Lakitu fica parado em frente à porta de entrada do castelo, sem sua nuvem.
+
+Ao retornar para o Castle Grounds, Lakitu desaparece, deixando o jogo livre de sua intervenção inicial.</p>
+<p>O glitch acontece devido a como o motor do jogo gerencia gatilhos de eventos:
+
+Lakitu é ativado por uma trigger específica de posição próxima à borda da ponte.
+
+O Long Jump move Mario rapidamente para fora do alcance da trigger antes que o jogo registre a introdução.
+
+Como o evento não é disparado, Lakitu não entra em seu comportamento padrão, ficando parado e sem a nuvem.
+
+Em termos simples:
+
+Mario se move rápido o suficiente para “escapar” do ponto que acionaria a introdução de Lakitu, quebrando o fluxo normal do evento.</p>
+<p>Causa: Long Jump que ultrapassa o gatilho de evento da introdução.
+
+Condição: Primeira travessia da ponte do castelo + salto longo preciso.
+
+Efeito: Introdução de Lakitu é ignorada; Lakitu fica parado sem nuvem.
+
+Versões afetadas: Todas as versões de Super Mario 64.
+
+Correção: Nenhuma correção; é um comportamento emergente do sistema de triggers do jogo.</p>
+<br>
+<br>
+
+<h3><i>Cartridge tilting</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sm64/150px-SM64_Lying_on_the_Floor_Glitch_2.png">
+<p>O glitch “Cartridge Tilting” em Super Mario 64 explora uma interrupção física da comunicação entre o cartucho e o console Nintendo 64, causando diversos efeitos inesperados no jogo.</p>
+<p>Inclinar ou balançar o cartucho durante o jogo pode interromper parcialmente o fluxo de dados entre o cartucho e o console.
+
+Essa interrupção pode causar vários tipos de glitches visuais e de jogabilidade, incluindo:
+
+Partes do corpo de Mario desaparecendo ou girando de forma estranha.
+
+Música e efeitos sonoros corrompidos.
+
+Texturas corrompidas, clipping ou atravessar colisões.
+
+Gráficos borrados e travamentos ao interagir com certos objetos.
+
+Um exemplo específico sem desconectar o cartucho:
+
+Nas versões americana e europeia, vá ao telhado do castelo de Peach, pegue a Wing Cap e posicione-se à esquerda da imagem da Peach.
+
+Mario repentinamente deita no telhado e desaparece por um instante após pular.
+
+O efeito dura até que o console seja desligado.</p>
+<p>O glitch ocorre devido a como o N64 lê dados do cartucho em tempo real:
+
+O jogo depende de um fluxo constante de dados do cartucho para atualizar gráficos, física e eventos.
+
+Inclinar o cartucho interrompe ou corrompe temporariamente esses dados, criando resultados imprevisíveis no motor do jogo.
+
+Como o motor de SM64 não tem verificações de integridade para essas leituras corrompidas, qualquer dado ausente ou alterado pode:
+
+Mudar a posição e rotação de Mario.
+
+Corromper texturas, sons e colisões.
+
+Criar comportamentos físicos impossíveis, como Mario deitado no telhado.
+
+Em termos simples:
+
+A interrupção do fluxo de dados do cartucho “engana” o motor do jogo, que processa informações incorretas e cria glitches gráficos e de física.</p>
+<p>Causa: Inclinação física do cartucho interrompendo a leitura de dados.
+
+Condição: Apenas consoles Nintendo 64, não aplicável em DS ou Switch.
+
+Efeito: Glitches gráficos, de física, som corrompido, clipping, travamentos e comportamentos estranhos de Mario.
+
+Versões afetadas: N64 (América, Europa e Japão).
+
+Risco: Pode corromper o save do jogo; use com cuidado.</p>
+<br>
+<br>
+

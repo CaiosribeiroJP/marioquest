@@ -1,0 +1,402 @@
+<h2 class="text-warning text-center">Super Mario Sunshine</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Invisible Delfino Plaza</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-Invisible_Delfino_Plaza.jpg">
+<p>O glitch “Invisible Delfino Plaza” em Super Mario Sunshine faz com que toda a praça desapareça visualmente, mostrando apenas objetos interativos, criando um efeito estranho de mundo “transparente”.</p>
+<p>Mario deve usar o Rocket Nozzle (o jato de água) em frente à entrada do boathouse, enquanto estiver encostado na parede ao lado da entrada.
+
+Ao fazer isso, o jogador consegue ver o interior do boathouse mesmo estando fora dele.
+
+Se Mario cair fora do boathouse, o Delfino Plaza inteiro desaparece, ficando visíveis apenas os objetos interativos (como inimigos, moedas, e plataformas).
+
+O glitch termina automaticamente se o jogador entrar em qualquer nível ou missão do jogo.</p>
+<p>O efeito acontece por causa de como o jogo renderiza Delfino Plaza:
+
+Delfino Plaza é uma área grande com múltiplos objetos e camadas de cenário.
+
+Quando Mario ativa o Rocket Nozzle próximo a certos limites do boathouse, o jogo altera incorretamente a renderização das camadas de fundo.
+
+Isso faz com que a malha do cenário principal (a praça) não seja desenhada, mas objetos interativos independentes ainda sejam renderizados.
+
+Basicamente, o glitch explora uma falha de culling (técnica que o jogo usa para não desenhar objetos fora da tela), fazendo a praça “sumir” enquanto mantém itens interativos ativos.</p>
+<p>Causa: Uso do Rocket Nozzle junto à parede da entrada do boathouse.
+
+Condição: Mario deve estar posicionado corretamente; permanecer fora do boathouse.
+
+Efeito: Delfino Plaza invisível; apenas objetos interativos visíveis.
+
+Como encerrar: Entrar em qualquer nível ou missão.
+
+Versões afetadas: Super Mario Sunshine.</p>
+<br>
+<br>
+
+<h3><i>Tiny tree</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_Tiny_Tree_Glitch.png">
+<p>O glitch “Tiny Tree” em Super Mario Sunshine cria uma árvore visivelmente pequena, mas com uma trunk (tronco) invisível do tamanho normal para Mario interagir.</p>
+<p>Mario deve usar o FLUDD para molhar o chão próximo a uma árvore que pode crescer.
+
+Ele deve virar-se para longe enquanto a árvore cresce.
+
+Ao olhar novamente para a árvore, ela aparecerá muito menor do que o tamanho normal.
+
+No entanto, se Mario tentar subir o tronco, ele agarrará o tronco “invisível” que corresponde ao tamanho normal da árvore, não ao que está visível.</p>
+<p>O efeito acontece devido a como o jogo separa a renderização da árvore e sua colisão física:
+
+Quando a árvore cresce, o jogo calcula dois componentes:
+
+Modelo visual (o que você vê na tela).
+
+Tronco para colisão e interações (onde Mario pode subir).
+
+Virar-se enquanto a árvore cresce interrompe a atualização do modelo visual, mas não altera a posição ou o tamanho da colisão do tronco.
+
+O resultado é que o modelo parece pequeno, mas a trunk usada para subir mantém o tamanho original, permitindo que Mario suba normalmente.</p>
+<p>Causa: Interromper a atualização do modelo da árvore durante o crescimento (virando-se).
+
+Efeito visual: Árvore aparece minúscula.
+
+Efeito de colisão: Tronco invisível permanece do tamanho normal.
+
+Versões afetadas: Super Mario Sunshine.</p>
+<br>
+<br>
+
+<h3><i>Death by Pianta</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_death_by_Pianta_glitch.gif">
+<p>O glitch “Death by Pianta” em Super Mario Sunshine faz Mario morrer fora da área normal do nível ao interagir com um Pianta de maneira específica.</p>
+<p>No estágio Red Coins in the Hotel, Mario deve ir para a sala da piscina.
+
+Ele precisa executar um Ground Pound atrás do Pianta, posicionando-se corretamente. Isso pode exigir algumas tentativas para acertar o ponto exato.
+
+Depois, Mario deve falar com o Pianta enquanto está nessa posição.
+
+Ao fazer isso, Mario será expulso da sala, caindo fora da área jogável e perdendo uma vida.</p>
+<p>O efeito ocorre devido à manipulação da colisão e da posição do Pianta:
+
+Quando Mario realiza o Ground Pound atrás do Pianta, ele é colocado em uma posição que o jogo não espera — basicamente, fora da zona válida da sala.
+
+Interagir com o Pianta ativa a rotina de diálogo, mas o jogo tenta reposicionar Mario de acordo com os limites normais da sala.
+
+Como Mario já está fora dos limites normais, o jogo não consegue corrigir sua posição e considera que ele caiu fora da área jogável, resultando em morte automática.</p>
+<p>Causa: Colisão de Mario com Pianta em um ponto não previsto pelo jogo.
+
+Efeito: Mario é lançado para fora do mapa e perde uma vida.
+
+Versões afetadas: Super Mario Sunshine.</p>
+<br>
+<br>
+
+<h3><i>Red pipe camera glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-Camera_Glitch_3.png">
+<p>O glitch “Red Pipe Camera Glitch” em Super Mario Sunshine altera o comportamento normal da câmera ao entrar no cano vermelho que leva à Pianta Village, criando uma visão incomum do ambiente.</p>
+<p>O jogador deve chegar ao topo do Shine Gate antes de desbloquear o Rocket Nozzle.
+
+Em seguida, Mario deve cair dentro do cano vermelho que leva à Pianta Village.
+
+Normalmente, a câmera faria um movimento de zoom de cima (bird’s eye view) em direção ao cano para mostrar a transição de forma suave.
+
+Com o glitch, a câmera continua seguindo Mario diretamente, como se estivesse “presa” a ele, mostrando a chegada ao fundo do cano sem o zoom característico.</p>
+<p>O efeito acontece por causa de como o jogo lida com o controle da câmera durante transições de canos:
+
+Cada cano tem um script de câmera que define o movimento durante a transição.
+
+Quando Mario entra no cano antes de desbloquear o Rocket Nozzle, o jogo não ativa corretamente o script da câmera associado ao cano.
+
+Isso faz com que a câmera não execute o movimento de aproximação planejado e permaneça seguindo Mario como se estivesse no mundo normal.
+
+Essencialmente, é um problema de inicialização de script de câmera causado por uma condição não prevista pelo jogo (entrar no cano sem o Rocket Nozzle desbloqueado).</p>
+<p>Causa: Entrar no cano vermelho antes de desbloquear o Rocket Nozzle.
+
+Condição: Mario deve estar no topo do Shine Gate.
+
+Efeito: A câmera segue Mario diretamente, ignorando o movimento de zoom normal.
+
+Como encerrar: Entrar em qualquer outro cano ou área faz a câmera voltar ao comportamento normal.
+
+Versões afetadas: Super Mario Sunshine.</p>
+<br>
+<br>
+
+<h3><i>Hit into space</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_Rocket_Nozzle_Glitch.png">
+<p>O glitch “Hit into Space” em Super Mario Sunshine faz Mario ser lançado muito alto no ar, praticamente fora do alcance normal do nível.</p>
+<p>Em Bianco Hills, vá até a caixa do Rocket Nozzle na plataforma perto do lago.
+
+Mario deve subir na corda bamba e usar o Rocket Nozzle várias vezes sem pular.
+
+Em seguida, Mario precisa ser atingido pelo Cyclo.
+
+Se feito corretamente, o impacto com o Cyclo lança Mario muito alto no ar, acima da área jogável do nível.</p>
+<p>O efeito ocorre devido à interação entre o Rocket Nozzle e a física do jogo:
+
+Usar o Rocket Nozzle enquanto Mario está sobre a corda bamba modifica seu vetor de movimento vertical, acumulando impulso sem que o jogo aplique limitações normais de altura.
+
+Quando o Cyclo atinge Mario, o jogo aplica uma força de repulsão baseada na física normal.
+
+Como Mario já possui um vetor vertical alto do Nozzle, o impacto do Cyclo multiplica a altura, lançando-o muito acima do que seria possível.</p>
+<p>Causa: Combinação de impulso do Rocket Nozzle e força de impacto do Cyclo.
+
+Efeito: Mario é lançado fora da área jogável.
+
+Versões afetadas: Super Mario Sunshine.</p>
+<br>
+<br>
+
+<h3><i>Literal blue screen of death</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SunshineTunnelDownwarp.gif">
+<p>O glitch “Literal Blue Screen of Death” em Super Mario Sunshine é um dos mais curiosos do jogo — ele leva Mario para uma área azul abaixo dos mapas, onde o personagem perde toda a vida automaticamente.</p>
+<p>Existem várias formas de alcançar essa área oculta, mas todas envolvem atravessar colisões (paredes, pisos ou objetos) para cair embaixo do cenário de Delfino Plaza.
+
+Exemplos:
+
+Usar o Turbo Nozzle perto das barracas de frutas e atravessar a parede, fazendo Mario cair no subsolo.
+
+Entrar pela janela acima da árvore de bananas, chegando em uma sala chamada Blue Room of Death.
+
+Passar por um canto do túnel subterrâneo perto da entrada de Pinna Park, que faz Mario ser “teletransportado” verticalmente para baixo.
+
+Quando chega nessa área azul, Mario precisa continuar se movendo ou morre automaticamente após alguns segundos — o chão invisível dessa região drena sua energia.</p>
+<p>Esse glitch acontece por causa de erros de colisão e limites de mapa:
+
+O mundo de Super Mario Sunshine é formado por camadas de colisão invisíveis que definem onde Mario pode andar.
+
+Quando o jogador atravessa uma dessas camadas por falha de detecção (geralmente com o impulso do Turbo Nozzle ou um salto em canto mal definido), Mario cai fora da área jogável.
+
+Abaixo do cenário, há um plano azul infinito usado pelo motor do jogo como “fundo” do mapa. Esse plano também inclui uma função de morte automática, programada para eliminar Mario se ele sair dos limites normais.</p>
+<p>Causa: Falha de colisão em superfícies ou cantos do mapa.
+
+Efeito: Mario cai para uma área azul (o “submundo” do jogo) e perde toda a vida.
+
+Razão visual: O plano de fundo azul é a textura padrão usada fora da área jogável.
+
+Curiosidade: Essa área é chamada de “Blue Screen of Death” como uma referência humorística ao erro de sistema do Windows.</p>
+<br>
+<br>
+
+<h3><i>Swim in the lava in Corona Mountain</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_lavaglitch.png">
+<p>O glitch “Swim in the lava in Corona Mountain” em Super Mario Sunshine permite que Mario nade livremente sob a lava — algo impossível nas condições normais do jogo. Esse erro acontece por causa de como a superfície da lava foi programada, e mostra uma limitação interessante na forma como o jogo detecta áreas perigosas.</p>
+<p>O jogador vai até Corona Mountain, a fase final do jogo.
+
+No início da fase, perto do primeiro cogumelo 1-Up, há um inimigo Lava Cheep Cheep.
+
+Mario precisa colidir com o inimigo de forma precisa, no momento em que ele está prestes a tocar a superfície da lava.
+
+Se o golpe for cronometrado corretamente, o impacto empurra Mario para baixo da superfície da lava — antes que o jogo aplique o dano instantâneo de queimadura.
+
+Uma vez abaixo da camada superficial, Mario pode nadar como se estivesse na água.
+
+No entanto, ao tentar voltar à superfície para respirar, o jogo reconhece novamente a área letal, e Mario morre instantaneamente.</p>
+<p>O erro está no sistema de colisão e detecção de dano da lava:
+
+Em Super Mario Sunshine, a lava é apenas perigosa na camada superior — uma fina superfície que aplica dano imediato a Mario.
+
+Abaixo dessa camada, o jogo trata o ambiente como água, pois os desenvolvedores usaram a mesma física líquida para ambos (água e lava), apenas alterando a textura e as propriedades de dano da superfície.
+
+Quando o Lava Cheep Cheep empurra Mario para baixo rapidamente, ele atravessa essa camada perigosa antes do motor do jogo poder reagir, entrando diretamente na zona tratada como “água normal”.</p>
+<p>Causa: Mario é empurrado para baixo da camada superficial de lava antes da detecção de dano ser aplicada.
+
+Efeito: O jogo passa a tratá-lo como se estivesse nadando na água.
+
+Limite: Ao retornar à superfície, Mario toca novamente a camada letal e morre instantaneamente.
+
+Curiosidade: Esse glitch demonstra que o motor do jogo reutiliza a mesma “física de fluido” para diferentes tipos de líquidos (água, lama e lava), apenas trocando o comportamento da superfície.</p>
+<br>
+<br>
+
+<h3><i>Through the branch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_Land_Under_Village_Glitch.png">
+<p>Esse glitch, chamado “Through the Branch”, ocorre em Pianta Village, em Super Mario Sunshine, e envolve uma falha na colisão entre Mario e uma das grandes galhos (branches) da vila.</p>
+<p>Mario precisa pular da ponte e aterrissar sobre um dos galhos grandes das árvores gigantes da vila. Se o jogador fizer isso no ponto exato, o jogo não reconhece corretamente a colisão entre Mario e o galho, fazendo com que ele atravesse o objeto como se ele não existisse.
+Ao cair, Mario para de gritar por um instante, o que indica que o jogo detectou uma “superfície sólida” momentaneamente, mas logo em seguida reinicia o grito de queda, pois ele continua atravessando o cenário e morre ao tocar o vazio.
+
+Em alguns casos, Mario não morre imediatamente, e o jogador pode cair em uma área branca cercada por paredes invisíveis, conhecida como uma “sala de fora do mapa”. Ali é possível usar a câmera para ver as áreas do jogo empilhadas em cima dos cogumelos gigantes, o que revela parte da estrutura do mundo de Super Mario Sunshine.</p>
+<p>O erro acontece porque a colisão do galho não está completamente modelada — em outras palavras, o objeto 3D visível não corresponde perfeitamente ao hitbox (a área que define onde Mario deve colidir).
+Isso pode acontecer por:
+
+Erro de alinhamento entre o modelo e sua colisão, o que cria áreas “vazias” onde o personagem pode cair.
+
+Limitações do motor gráfico do Super Mario Sunshine, que tenta economizar processamento simplificando colisões de objetos grandes e complexos como árvores.
+
+O momento exato do impacto pode enganar o sistema de física, especialmente se Mario estiver em uma animação de queda, fazendo o jogo ignorar a colisão temporariamente.</p>
+<br>
+<br>
+
+<h3><i>Under the cannon</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SuperMarioSunshineCanonGlitch.jpg">
+<p>O glitch “Under the Cannon” de Super Mario Sunshine é uma falha curiosa que permite a Mario entrar dentro do canhão em Pinna Park (ou até no de Delfino Plaza, antes de ele funcionar). Esse comportamento ocorre devido a problemas na detecção de colisão e hierarquia de objetos móveis no jogo.</p>
+<p>Para realizar o glitch em Pinna Park, Mario deve:
+
+Ir até o Pianta que trabalha no canhão.
+
+Dar um Ground Pound (pulo e ataque com o corpo) exatamente atrás ou sobre o Pianta.
+
+Após algumas tentativas, Mario atravessa o Pianta e a superfície do canhão, ficando embaixo dele ou até dentro da estrutura.
+
+No caso da missão “The Beach Cannon’s Secret”, o processo é parecido, mas envolve o Monty Mole que está controlando o canhão:
+
+Mario deve usar o Hover Nozzle para se posicionar sobre a abertura do canhão enquanto o Monty Mole atira bombas.
+
+Assim que estiver sobre a abertura, o jogador precisa fazer um Ground Pound rapidamente.
+
+Se feito no momento exato, Mario atravessa o Monty Mole e cai direto dentro do canhão, ativando o portal para o nível secreto.</p>
+<p>Esse glitch ocorre devido a falhas na forma como o jogo processa colisões entre múltiplos objetos dinâmicos (como NPCs e o canhão) durante o Ground Pound.
+Aqui está o que provavelmente acontece nos bastidores:
+
+Quando Mario faz um Ground Pound, o jogo desativa temporariamente parte da checagem de colisão vertical para permitir que ele atravesse ligeiramente o solo antes de parar — um efeito que dá mais naturalidade ao impacto.
+
+O Pianta e o Monty Mole têm hitboxes móveis e imprecisas, que não estão perfeitamente alinhadas com o modelo visual.
+
+Se Mario atinge o Pianta exatamente entre o modelo do NPC e o modelo do canhão, o jogo se confunde sobre qual objeto deve aplicar a colisão, resultando em uma falha no cálculo da superfície sólida.
+
+Assim, Mario é empurrado para baixo do mapa local, o que o coloca dentro ou abaixo da estrutura do canhão.
+
+No caso do Monty Mole, a situação é ainda mais propensa ao erro porque:
+
+O canhão é considerado um portal ativo (um tipo especial de objeto interativo);
+
+O Monty Mole está em movimento constante e atacando;
+
+Quando Mario executa o Ground Pound nesse instante, o jogo interpreta erroneamente sua posição como “dentro da área de ativação do portal”, levando-o imediatamente para o nível secreto.</p>
+<p>Esse tipo de bug é um exemplo clássico de "clipping glitch" — quando um personagem atravessa sólidos devido a ordem incorreta de detecção de colisão.
+Em Super Mario Sunshine, a engine Delfino, usada pela Nintendo, tinha problemas com objetos empilhados ou sobrepostos, e os NPCs (como os Piantas) muitas vezes tinham colisões simplificadas para economizar processamento, o que tornava essas falhas possíveis.</p>
+<br>
+<br>
+
+<h3><i>Walking underwater</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_Underwaterglitch.png">
+<p>O glitch “Walking Underwater” de Super Mario Sunshine é um dos mais conhecidos de Delfino Plaza, e permite que Mario ande debaixo da água como se estivesse em terra firme, sem acionar o modo de natação nem perder oxigênio.
+Esse comportamento ocorre por causa de falhas na forma como o jogo alterna entre os estados “andar” e “nadar”, que são controlados por colisões e zonas de detecção de profundidade da água.</p>
+<p>Existem várias formas de realizar esse glitch, todas baseadas em enganar o jogo sobre a posição exata de Mario em relação à superfície da água:
+
+💧 Método 1 – Piscina atrás do Shine Gate
+
+Mario deve entrar nos esgotos (sewers) e seguir até a saída atrás do Shine Gate, onde há algumas pequenas poças de água.
+
+Ao nadar até a poça mais baixa, bloqueada por um portão, e pressionar o botão de mergulho (B), o jogo pode reagir de três maneiras:
+
+Mario anda debaixo da água sem o medidor de oxigênio;
+
+Mario atravessa o portão e cai atrás da cachoeira;
+
+Mario atravessa o chão e volta para os esgotos.
+
+No caso do primeiro resultado, Mario fica preso em um estado de “andar”, mesmo estando completamente submerso, permitindo que ele ande normalmente dentro da água.
+
+🌊 Método 2 – Usando o Hover Nozzle
+
+Se Mario cair parcialmente sob o chão e usar o Hover Nozzle para se mover até a área em frente à cachoeira, ele pode se estabilizar na superfície errada, fazendo o jogo acreditar que ele está “em terra” dentro da água. Assim, ele pode caminhar por todo o oceano de Delfino Plaza, até sair da água e retornar ao estado normal de natação.
+
+🪵 Método 3 – Debaixo do tronco flutuante
+
+Depois de derrotar Shadow Mario e liberar todos os Nozzles, Mario pode nadar até o tronco flutuante em frente ao Shine Gate.
+Ao tentar emergir sob o tronco, o jogo às vezes posiciona Mario na camada errada de colisão da água, o que resulta em dois efeitos possíveis:
+
+Mario anda debaixo da água;
+
+Ou cai na “Blue Screen of Death” (a área vazia embaixo do mapa).
+
+🛢️ Método 4 – Carregando um barril
+
+Mario deve pegar um barril na praia e carregá-lo até a parte rasa da água.
+
+Colocando o barril e depois pegando-o novamente pelo lado oposto, Mario é empurrado ligeiramente abaixo da superfície da água.
+
+O jogo então mantém o estado “em pé” de Mario, permitindo que ele ande normalmente sob a água.
+Esse mesmo método também funciona em Sirena Beach.</p>
+<p>Esse glitch é causado por um erro na detecção de profundidade da água e na transição entre estados de movimento.
+O motor de Super Mario Sunshine mantém duas checagens principais para decidir se Mario deve nadar:
+
+Colisão com a superfície da água — o ponto exato onde o jogo decide se o personagem está “molhado”.
+
+Altura do corpo de Mario em relação a essa superfície — se ele está acima, ele anda; se está abaixo, ele nada.
+
+Quando o glitch ocorre:
+
+O jogo desalinha temporariamente a posição da superfície da água e o ponto de colisão de Mario (por causa de um empurrão, objeto ou erro de física);
+
+Isso faz com que o código falhe ao atualizar o estado “andar → nadar”;
+
+Assim, Mario continua no modo “andar” mesmo que visualmente esteja completamente submerso.
+
+Em outras palavras, o jogo pensa que Mario está no chão, mesmo estando dentro da água — e por isso ele anda, pula e até usa o FLUDD normalmente, até tocar novamente uma superfície de água válida.</p>
+<p>Esse tipo de falha é conhecido como “state desync” (dessincronização de estado).
+Ela acontece quando o jogo não atualiza corretamente as variáveis de status do personagem por causa de uma transição interrompida — algo muito comum em engines com física complexa, especialmente quando há vários tipos de superfícies sobrepostas (terra, água e colisões invisíveis, como grades ou portões).</p>
+<br>
+<br>
+
+<h3><i>Double Yoshi juice</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-SMS_Yoshi_Juice_Glitch.jpg">
+<p>O glitch “Double Yoshi Juice” de Super Mario Sunshine é um bug curioso que faz o Yoshi cuspir suco (Juice) tanto pela frente quanto por trás ao mesmo tempo, criando um efeito visual bizarro e divertido. Ele só pode acontecer quando o jogador leva o Yoshi para fora dos limites do mapa (out-of-bounds) — algo que normalmente não é possível sem explorar outros glitches antes.</p>
+<p>Primeiro, o jogador precisa levar o Yoshi para fora dos limites do cenário (por exemplo, através de glitches como o Blue Screen of Death ou o Walking Underwater).
+
+Uma vez fora do mapa, se o jogador pressionar o botão para cuspir suco, Yoshi lança Juice simultaneamente para frente e para trás.
+
+O suco se comporta normalmente — ele pode ainda pintar o chão ou atingir inimigos —, mas o que sai “para trás” é apenas um efeito visual que não deveria existir.</p>
+<p>Esse bug acontece porque, ao sair dos limites do mapa, as referências espaciais (direção e colisão) do Yoshi se perdem.
+Em Super Mario Sunshine, o código que controla o suco do Yoshi é baseado em duas coordenadas principais:
+
+A posição atual do Yoshi, que determina onde o suco começa;
+
+A direção para a qual ele está virado, usada para projetar o suco à frente.
+
+Quando Yoshi está fora da área jogável, o jogo não encontra uma superfície válida para basear sua orientação (por exemplo, o solo ou o chão invisível que define a direção “para cima”).
+Como resultado:
+
+O vetor de direção (frente/trás) do Yoshi é calculado incorretamente — ele aponta em dois sentidos opostos ao mesmo tempo;
+
+O jogo, sem uma checagem adequada, executa as duas animações de cuspe simultaneamente;
+
+Assim, o motor do jogo cria dois fluxos de partículas: um indo para frente (como deveria) e outro para trás (um reflexo involuntário do erro de direção).
+
+Em termos técnicos, é um erro de cálculo de normal vector, que ocorre quando o personagem está em um ponto onde o terreno ou a colisão não existem — ou estão definidos como “nulos”.</p>
+<p>Esse glitch só ocorre fora dos limites do mapa.
+
+O jogo perde a referência de direção do Yoshi, fazendo-o cuspir suco em dois eixos opostos.
+
+É uma consequência direta de como Super Mario Sunshine lida com colisões, vetores de orientação e posições inválidas no espaço 3D.</p>
+<br>
+<br>
+
+<h3><i>No hat NPC death</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/sms/200px-NokiGlitch.png">
+<p>O glitch “No Hat NPC Death” de Super Mario Sunshine é um bug curioso que acontece quando Mario morre enquanto está conversando com um NPC (personagem não jogável) — mas o jogo não reconhece imediatamente a morte, fazendo com que ele caia no chão “morto” durante o diálogo, sem que a tela de Game Over apareça até o jogador encerrar a conversa.</p>
+<p>O jogador deve estar na missão “Shadow Mario in the Park”, no Pinna Park.
+
+Um inimigo Swipin' Stu precisa roubar o boné (cap) de Mario.
+
+Sem o boné, Mario perde energia gradualmente devido ao calor do sol.
+
+Enquanto Mario está sem o chapéu e perdendo vida, o jogador deve iniciar uma conversa com um NPC.
+
+Durante o diálogo, o contador de vida continua caindo.
+
+Quando Mario chega a 0 de HP, ele entra na animação de morte, mas a conversa continua ativa.
+
+Só depois que o jogador pressiona o botão para terminar o diálogo, o jogo reconhece a morte e executa a tela de Game Over normalmente.</p>
+<p>Esse bug ocorre porque o sistema de diálogo e morte de Super Mario Sunshine não estão sincronizados corretamente.
+Durante as conversas, o jogo “congela” o controle do jogador, mas o código de perda de vida por calor continua sendo processado em segundo plano.
+
+Tecnicamente, isso significa que:
+
+O loop de atualização do HP (health points) continua rodando, diminuindo gradualmente o valor da vida;
+
+Entretanto, o loop de eventos de morte (que verifica quando Mario chega a 0 de HP para disparar a animação de derrota e a tela de Game Over) é temporariamente suspenso enquanto o modo de diálogo está ativo.
+
+Assim, Mario “morre” no sentido de que sua energia chega a 0, mas o evento de morte não é executado até o diálogo terminar.
+
+Como resultado, o jogo tenta aplicar duas animações conflitantes — o estado de “em conversa” e o estado de “morte” —, o que faz Mario cair no chão durante a fala, um comportamento que normalmente nunca deveria acontecer.</p>
+<p>O Swipin’ Stu rouba o boné → Mario começa a perder vida por calor.
+
+Mario fala com um NPC → o diálogo pausa o jogo parcialmente, mas o dano por calor continua ativo.
+
+Mario morre durante a conversa → a animação de morte acontece sem Game Over imediato.
+
+O jogo só reconhece a morte após o diálogo terminar, criando a cena estranha de Mario “morrendo enquanto conversa”.</p>
+<br>
+<br>
+

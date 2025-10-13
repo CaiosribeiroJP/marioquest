@@ -1,0 +1,469 @@
+<h2 class="text-warning text-center">Paper Mario</h2>
+<br>
+<br>
+<br>
+
+<h3><i>Captured as a Koopatrol</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-Koopatrol_Peach.png">
+<p>Durante o interlúdio do Capítulo 6, Peach pode usar o Sneaky Parasol para se transformar em um Koopatrol (os guardas do castelo).
+
+Se o jogador usar o Parasol exatamente no momento em que um Koopatrol a detecta, ocorre uma sobreposição de eventos:
+
+O jogo registra que Peach foi pega.
+
+Mas também aplica a transformação de disfarce antes da captura terminar.
+
+O resultado é que:
+
+Peach aparece visualmente como um Koopatrol,
+
+Mas o jogo ainda a reconhece internamente como Peach.
+
+Então, os próprios guardas “capturam” a Koopatrol (Peach disfarçada) e a levam de volta ao quarto, tratando-a como se fosse Peach sem disfarce.
+
+Esse mesmo comportamento também pode ser observado com um Hammer Bro na biblioteca, já que o modelo do Koopatrol não possui todas as animações de “captura” programadas.</p>
+<p>Esse glitch ocorre por causa de um erro de timing e priorização de eventos na engine do jogo:
+
+O jogo executa dois scripts simultaneamente — o da detecção de Peach e o da transformação com o Parasol.
+
+O sistema de captura foi programado para reconhecer apenas o status “Peach”, sem verificar se ela está disfarçada.
+
+Como resultado, o estado de disfarce é mantido no modelo visual, mas a lógica de captura continua ativa, levando os guardas a cumprir o script normal.
+
+A ausência de certas animações (como a de “ser levada enquanto disfarçada”) faz com que o jogo use sprites incorretos ou reaproveite frames errados, causando o efeito de Peach sendo levada enquanto ainda parece um Koopatrol.
+
+Além disso, se o glitch for feito fora do Capítulo 6 (usando sequence breaks), os guardas não têm código para reagir à Peach disfarçada, então sempre a capturam, independentemente da forma que ela assuma.</p>
+<p>Em resumo:
+➡️ O glitch funciona porque o jogo não consegue decidir se Peach é um Koopatrol ou ela mesma.
+➡️ E funciona dessa forma porque os scripts de detecção e transformação acontecem ao mesmo tempo, sem uma verificação que bloqueie um deles.</p>
+<br>
+<br>
+
+<h3><i>Herringway glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/120px-Herringway_Bumpty.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/120px-Herringway_Invisible.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/120px-HerringwayGlitch.png">
+<p>O Herringway glitch em Paper Mario 64 é um erro curioso que afeta o comportamento de um personagem importante do Capítulo 7 — o Herringway, um escritor pinguim que ajuda Mario a investigar um “crime” em Shiver City. Esse glitch faz com que ele mude de forma, desapareça ou até congele o jogo, dependendo do momento e da versão do jogo.</p>
+<p>O evento ocorre quando Mario e Herringway entram na sala do Prefeito — uma cena programada com movimentos e falas automáticas.
+
+Se o jogador pausar o jogo no exato momento em que o evento começa (logo após abrir a porta ou antes de o diálogo com o detetive iniciar), o jogo interrompe o script de evento, congelando parcialmente a sequência de transformações e animações.
+
+Quando o jogo é retomado:
+
+Herringway pode assumir o modelo de um pinguim comum,
+
+ou ficar totalmente invisível.</p>
+<p>Esse glitch ocorre por causa de um conflito entre o sistema de scripts de evento e o carregamento de sprites (modelos visuais) — algo comum em jogos Nintendo 64 que usavam scripts sequenciais.
+
+Vamos dividir o que acontece internamente:
+
+🧩 1. O jogo carrega o modelo “Herringway” com estados específicos
+
+Durante a cena, Herringway não é um NPC genérico — ele tem modelos e animações únicas, como expressões faciais e frames de “carregar presente”.
+
+🧩 2. Pausar interrompe o script de inicialização
+
+Quando o jogador pausa, o script da cutscene é congelado no meio da execução, mas o estado do personagem (como o modelo em uso) pode ficar inconsistente.
+Isso faz com que o jogo substitua o modelo personalizado de Herringway pelo modelo padrão de “penguin.npc” ou o deixe sem modelo visível.
+
+🧩 3. O resultado depende da versão do jogo:
+
+🕹️ Versão original do Nintendo 64:
+Quando o modelo de pinguim comum é usado, o jogo tenta aplicar a animação especial de “entregar presente” — que esse modelo não possui.
+Isso causa um erro fatal, travando o jogo e exibindo uma tela de debug (uma ferramenta interna usada pelos desenvolvedores para identificar falhas).
+
+💻 Versão Virtual Console (Wii):
+A Nintendo removeu o código de debug e melhorou a tolerância a erros.
+Então, em vez de travar, o jogo apenas faz Herringway desaparecer momentaneamente durante as animações problemáticas, ou o mostra com uma expressão “feliz” e asas se movendo rapidamente, devido a quadros de animação incorretos sendo lidos.</p>
+<p>➡️ O glitch funciona porque pausar o jogo interrompe o script de evento antes de ele carregar corretamente o modelo de Herringway.
+➡️ E ele acontece dessa forma porque o jogo tenta continuar o evento com dados incompletos — o que faz o modelo ser trocado, desaparecer ou causar falha na execução.</p>
+<br>
+<br>
+
+<h3><i>Shiver City pond glitch</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/120px-PM_Shiver_City_pond_glitch_1.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/120px-PM_Shiver_City_pond_glitch_2.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/120px-PM_Shiver_City_pond_glitch_3.png">
+<p>O Shiver City Pond Glitch em Paper Mario 64 é um dos glitches mais técnicos e fascinantes do jogo, pois ele mexe diretamente com como o jogo controla o estado de objetos no mapa — neste caso, o lago congelado de Shiver City. Ele mostra claramente como o jogo usa valores numéricos simples (bytes) para representar mudanças visuais e físicas no ambiente, e o que acontece quando o jogador manipula isso de forma não intencional.</p>
+<p>Quando Mario chega em Shiver City, há um lago congelado que pode ser rachado usando o Tornado Jump.
+
+Normalmente:
+
+Após o primeiro salto, o gelo mostra pequenas rachaduras.
+
+Após o segundo salto, o gelo quebra completamente, e os pinguins aparecem e expulsam Mario da área.
+
+Ao retornar, o lago é resetado, ficando congelado novamente.
+
+No glitch, o jogador usa uma técnica chamada loading zone storage, que interrompe o teleporte (ou “transição de mapa”) para que Mario saia do mapa no exato momento em que o jogo tenta expulsá-lo.
+
+Isso impede que o jogo execute o comando que restaura o estado do lago, então, ao retornar, o gelo permanece rachado.
+Assim, o jogador pode continuar usando Tornado Jump para incrementar o contador de rachaduras além do limite normal.</p>
+<p>O jogo controla o estado do lago congelado com uma única variável (um byte, ou seja, um número que vai de 0 a 255).
+Cada vez que Mario dá um Tornado Jump sobre o lago, o valor aumenta em 1.
+O problema é que esse valor não tem limite definido (sem “cap”) — o que significa que ele continua subindo, mesmo após o lago teoricamente “quebrar”.</p>
+<p>Quando o jogador usa o glitch para impedir o reset do mapa, o contador continua subindo indefinidamente — e o jogo não sabe lidar com esses valores “ilegais”.
+Por isso, o lago passa a:
+
+Mostrar texturas sobrepostas ou piscando (quando há mistura de estados como gelo e água);
+
+Ter colisões bugadas, permitindo que Mario ande sobre a água ou caia num buraco invisível;
+
+Desaparecer completamente após muitos incrementos.</p>
+<p>O sistema do jogo segue esta lógica simplificada:
+
+<p>if (Mario_uses_TornadoJump_on_pond) {</p>
+    <p> pond_state += 1; // incrementa o estado do lago</p>
+    <p>if (pond_state == 2) trigger_penguin_event();</p>
+<p>}</p>
+
+
+<p>E quando o jogador é expulso do mapa:</p>
+
+<p>reset_pond_state(); // retorna o estado para 0</p>
+
+
+O loading zone storage cancela o reset_pond_state(), mas deixa pond_state como está.
+Assim, o jogo continua aplicando o efeito de “+1” sem nunca reiniciar, criando estados visuais e físicos que não foram programados para existir.</p>
+<p>Mostra uma falha clássica de design de variáveis: falta de “limite” para o contador (sem cap).
+
+Permite acessar texturas e estados nunca vistos normalmente, como um terceiro estágio de rachadura e até um lago inexistente.
+
+Demonstra como Paper Mario 64 manipula o ambiente de forma baseada em scripts simples, sem checagens de segurança — algo que jogadores habilidosos podem explorar para criar efeitos inesperados.</p>
+<br>
+<br>
+
+<h3><i>Odd Key early</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Odd_Key_Early.png">
+<p>O Odd Key Early glitch em Paper Mario 64 é um ótimo exemplo de como pequenas falhas na detecção de colisão e no gerenciamento da hitbox (área de alcance) podem ser exploradas para burlar restrições do jogo.</p>
+<p>Normalmente, o Odd Key (Chave Estranha) só pode ser obtido após entrar na casa onde ela está, algo que o jogo pretende impedir até certo ponto da história.
+Porém, ao seguir uma sequência específica de movimentos, o jogador consegue “enganar” o sistema de colisão do martelo de Mario:
+
+O jogador posiciona Mario encostado na parede leste da casa (do lado de fora).
+
+Ele usa o Spin Dash (a investida giratória) sem mudar de posição, o que inicia uma animação de movimento rápido.
+
+Durante a animação — antes que o giro termine — o jogador rapidamente vira Mario para o lado oposto (oeste) e usa o martelo.
+
+Se o tempo for perfeito, o martelo ignora a colisão da parede e “atravessa” o objeto sólido, atingindo a chave que está dentro da casa.</p>
+<p>Esse glitch acontece por causa de uma falha no sincronismo entre a animação de movimento (Spin Dash) e o cálculo de colisão do martelo:
+
+Durante o Spin Dash, o jogo desativa momentaneamente certas verificações de colisão para permitir que Mario acelere e gire livremente.
+
+O martelo, por sua vez, é programado para atingir qualquer objeto dentro de uma área fixa na frente de Mario, sem verificar novamente se há uma parede bloqueando o alcance.
+
+Quando o jogador ativa o martelo antes que o Spin Dash finalize, o jogo ainda considera Mario como estando em “movimento livre” e não aplica as colisões de parede naquele quadro.
+
+O resultado é que o golpe do martelo “atravessa” a parede e interage com o item que está do outro lado — neste caso, a Odd Key.</p>
+<p>Embora o jogador consiga pegar a chave mais cedo, a porta da casa ainda não pode ser aberta, pois o jogo exige que ela seja destrancada por dentro.
+Isso significa que o glitch só antecipa a coleta do item, mas não quebra a sequência de eventos principal.</p>
+<p>Tipo de falha: colisão e sincronização de animações.
+
+Causa: o martelo verifica o alcance, mas não a barreira física, quando ativado durante o Spin Dash.
+
+Efeito: permite “estender” o golpe do martelo através de paredes e coletar o item de forma antecipada.</p>
+<br>
+<br>
+
+<h3><i>Out of bounds</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Outofbounds.png">
+<p>O Out of Bounds glitch em Paper Mario 64 é um dos tipos de falha mais comuns em jogos 3D — e também um dos mais interessantes para entender tecnicamente. Ele ocorre quando Mario sai dos limites da área jogável, e o jogo precisa decidir o que fazer com ele.</p>
+<p>Em condições normais, o jogo mantém Mario dentro de uma área delimitada por colisões invisíveis — o chamado map boundary. Porém, usando certas manobras (como saltos com parceiros, Spin Dash, ou interações erradas com o cenário), é possível “escapar” dessas barreiras e cair no vazio (void).
+
+Quando isso acontece, o jogo tenta corrigir a situação automaticamente, seguindo uma série de verificações internas:
+
+Ele verifica se Mario ainda está acima de alguma superfície sólida (collision floor).
+
+Se estiver, o jogo recoloca Mario em cima dessa superfície.
+
+Caso contrário, o jogo tenta levá-lo de volta à última posição válida registrada antes da queda.
+
+Se essas verificações falharem, o comportamento se torna imprevisível — e é aí que o glitch acontece.
+
+Dependendo do local e da velocidade da queda, Mario pode atravessar o mapa, ficar suspenso no ar, ou até acessar áreas que normalmente não seriam alcançáveis.</p>
+<p>A causa está na forma como o motor do jogo gerencia colisões e posições no espaço 3D:
+
+O mapa do jogo é essencialmente uma “caixa” de polígonos, com áreas sólidas (onde há colisão) e vazias (onde não há).
+
+Quando Mario sai de uma área com colisão, o jogo não possui uma verificação imediata de “morte” ou reinício, como outros jogos fariam.
+
+Em vez disso, ele tenta reposicionar Mario automaticamente, com base em uma lógica de “correção” de posição.
+
+Essa lógica, no entanto, não leva em conta limites verticais extremos, o que permite que o personagem caia além do fundo do mapa e atinja regiões onde o jogo guarda dados temporários.</p>
+<p>Uma curiosidade é que o jogo armazena NPCs e inimigos cerca de 1.000 unidades abaixo da origem do mapa quando eles não estão sendo usados.
+Isso é uma técnica comum chamada object pooling — usada para economizar processamento mantendo objetos “adormecidos” fora da área visível.
+
+Assim, quando Mario cai próximo dessa região, é possível ver grupos de NPCs e inimigos juntos no vazio.
+Em alguns casos, o jogador pode até iniciar batalhas contra inimigos ou chefes nesse local — o que normalmente só aconteceria em cutscenes.
+Quando isso acontece, o jogo toca a música de batalha normal, já que o script da luta especial não foi carregado.</p>
+<p>Tipo de falha: erro de detecção de colisão e posição fora dos limites.
+
+Causa: ausência de verificação adequada de altura e colisão vertical.
+
+Efeito: permite que Mario explore regiões fora do mapa, veja objetos ocultos e até entre em batalhas imprevistas.
+
+Comportamento adicional: NPCs e inimigos “armazenados” aparecem a 1.000 unidades abaixo da origem do mapa.</p>
+<br>
+<br>
+
+<h3><i>Harry's Shop out of bounds</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Harry_Shop_OoB.png">
+<p>O Harry’s Shop Out of Bounds glitch em Paper Mario 64 é um ótimo exemplo de como o sistema de colisão e renderização do jogo pode se comportar de forma inesperada quando o jogador sai dos limites previstos pelo mapa.</p>
+<p>O jogador precisa ter acesso ao depósito da loja do Harry (a loja de badges em Toad Town).
+
+Com o parceiro Parakarry, Mario pode “clipar” (atravessar) a parede de trás próxima à roda no depósito — uma área onde as colisões foram mal ajustadas.
+
+Uma vez fora do limite, o jogador pode se mover cuidadosamente pelo espaço “vazio” atrás das paredes, explorando áreas que normalmente não seriam acessíveis.
+
+Se Mario cair nesse espaço fora dos limites, o jogo detecta que ele não está sobre uma superfície sólida e, como mecanismo de segurança, o reposiciona de volta ao último ponto sólido em que ele estava. Esse comportamento evita que o jogador trave o jogo, mas também permite experimentar visualizações incomuns do mapa.
+
+Quando o jogador consegue se manter no espaço “fora do mapa”, ele observa algo curioso:
+
+Apenas a loja do Harry permanece visível.
+
+O restante da cidade (Toad Town) desaparece, pois o jogo para de renderizar as outras partes do cenário.
+
+No entanto, alguns objetos específicos, como a mola que leva ao Shy Guy’s Toy Box, ainda aparecem se o jogador se aproximar da área correspondente.
+
+Se o jogador tentar entrar em outros prédios nesse estado, as paredes permanecerão invisíveis, mas os objetos internos (como móveis e NPCs) ainda estarão lá.
+Por exemplo, ao entrar no prédio à esquerda da loja, os Toads continuam invisíveis — o jogo carrega seus dados, mas não as texturas associadas àquele cenário.
+Ao sair, Toad Town volta a aparecer normalmente, mas a loja de Harry permanece “quebrada”, com falhas gráficas e renderização parcial.</p>
+<p>Esse glitch acontece por uma combinação de problemas de colisão e carregamento condicional de objetos:
+
+Erro de colisão na parede do depósito
+
+O jogo usa polígonos invisíveis para definir onde Mario pode ou não passar.
+
+Próximo à roda, há uma pequena brecha na colisão, permitindo que Mario e Parakarry ultrapassem o limite do cenário.
+
+Sistema de renderização baseado em zonas
+
+O jogo carrega e desenha apenas os objetos e partes do mapa que o jogador “deveria” estar vendo.
+
+Ao sair dos limites, Mario se move para uma zona não reconhecida pelo sistema de câmera, fazendo o jogo não renderizar a maior parte da cidade.
+
+Apenas os modelos carregados no momento da saída (como a loja do Harry) continuam visíveis.
+
+Reposicionamento automático
+
+Se Mario cair no vazio, o jogo tenta detectar a última posição válida.
+
+Isso cria a sensação de “voltar” ao cenário em vez de cair indefinidamente, o que mantém o glitch jogável.
+
+Desreferência de objetos e texturas
+
+Quando Mario reentra em prédios enquanto o mapa está parcialmente descarregado, as referências visuais (texturas) não são atualizadas corretamente.
+
+O resultado é que os NPCs e objetos existem, mas não são desenhados na tela.</p>
+<p>Tipo de falha: clipping + falha de renderização por zonas.
+
+Causa: brecha na colisão do depósito e sistema de carregamento baseado em posição.
+
+Efeito: partes do cenário desaparecem, NPCs ficam invisíveis e a loja de Harry permanece “bugada” até o mapa ser recarregado.
+
+Curiosidade: esse glitch mostra claramente como Paper Mario divide seus mapas em blocos de carregamento e renderização — algo comum em jogos do Nintendo 64 para economizar memória.</p>
+<br>
+<br>
+
+<h3><i>Swim on land</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Sushie_Swim_on_Land.png">
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Toad_Town_swimming_on_land.png">
+<p>O Swim on Land glitch em Paper Mario 64 é um dos mais conhecidos e interessantes do jogo, pois permite que Mario nade em terra firme com a parceira Sushie, algo que normalmente só deveria ser possível dentro d’água. Esse glitch mistura erros de persistência de estado, falta de verificação de colisão correta, e comportamento incorreto da transição entre mapas.</p>
+<p>Em determinadas áreas, é possível ativar o glitch de modo que Mario e Sushie entrem no estado de natação em terra.
+Isso ocorre quando o jogo não reseta corretamente o “estado de movimento” de Mario ao sair da água, e o estado de “nadando” permanece ativo mesmo após carregar uma nova área.
+
+Quando Mario está montado na Sushie, o jogo muda sua movimentação para o modo de natação, desativando colisões de solo, escadas e rampas.
+
+Porém, se o jogador sair da água em um momento exato — normalmente durante a troca de tela (loading zone) — o jogo mantém o estado de “Mario nadando”, mesmo que ele esteja agora sobre o chão.
+
+Assim, Mario parece flutuar e se mover como se ainda estivesse na água, mas em plena terra.
+
+O glitch pode persistir ao longo de várias áreas, desde que o jogador entre nelas por zonas de transição normais (portas, bordas de mapa etc.).</p>
+<p>Mario e Sushie não podem subir rampas, nem usar portas ou canos, já que o modo de natação desativa esses tipos de interação.
+
+Entretanto, o jogador pode mergulhar sob obstáculos ou até sair dos limites do mapa, nadando “por baixo” das barreiras e reaparecendo do outro lado.
+
+Inimigos não perseguem Mario nesse estado, pois a IA deles é programada para ignorar Mario enquanto ele está montado em Sushie.
+
+Se o jogador encontrar um inimigo e terminar a batalha com Sushie ainda ativa, o glitch é temporariamente desativado. Mas ele reativa automaticamente ao trocar de tela novamente.
+
+Por outro lado, há um risco:
+👉 Se o jogador enfrentar três inimigos seguidos na mesma sala sem trocar de tela, o jogo entra em softlock (congela).
+Isso acontece porque o contador interno de “cutscenes ativas” subtrai um valor incorretamente, gerando um underflow — ou seja, o contador vai para um número negativo que o jogo não consegue interpretar.
+
+O glitch termina se Mario:
+
+Retorna a um píer ou doca (onde Sushie é programada para desmontar automaticamente);
+
+Ou troca de parceiro após uma batalha.</p>
+<p>O Swim on Land glitch é resultado de três sistemas do jogo interagindo de forma incorreta:
+
+Persistência de estado incorreta
+
+O jogo usa um valor interno para marcar o “estado atual” de Mario (andar, pular, nadar, conversar, etc.).
+
+Quando o jogador muda de tela enquanto ainda está montado em Sushie antes que o jogo redefina o estado, o novo mapa é carregado sem resetar o estado de natação.
+
+Ausência de checagem de terreno após carregamento
+
+Ao carregar uma nova área, o jogo não verifica se o chão sob Mario é água ou terra.
+
+Isso faz com que Mario “continue nadando” mesmo sobre um terreno sólido.
+
+IA dos inimigos e flags de colisão desativadas
+
+O modo “Mario montado em Sushie” desativa colisões com certos objetos e faz os inimigos ignorarem Mario.
+
+Isso explica por que ele pode atravessar paredes, nadar sob o mapa e não ser detectado por inimigos.
+
+Underflow de cutscenes
+
+O sistema de batalhas usa um contador de eventos (cutscenes) que deve zerar após cada luta.
+
+Quando Mario está em estado incorreto (nadando no chão), o jogo não remove corretamente o valor do contador, e depois de algumas batalhas, ele transborda e trava.</p>
+<p>Tipo de falha: erro de persistência de estado + ausência de verificação de terreno + underflow de variáveis.
+
+Causa principal: transição de mapa antes do jogo redefinir o estado de natação de Mario.
+
+Efeitos: Mario e Sushie nadam sobre o chão, ignoram colisões, ficam invisíveis para inimigos e podem atravessar o cenário.
+
+Riscos: o jogo pode travar após múltiplas batalhas consecutivas nesse estado.
+
+Correção natural: trocar de parceiro ou retornar à água.</p>
+<br>
+<br>
+
+<h3><i>Shiver Snowfield letter crash</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Shiver_Snowfield_Letter_Crash.png">
+<p>O glitch “Shiver Snowfield letter crash” em Paper Mario 64 acontece devido a uma falha de lógica no script responsável por controlar a animação da carta caindo.</p>
+<p>Em Shiver Snowfield, há uma carta escondida em uma árvore. Quando Mario bate na árvore, a carta cai lentamente até o chão. Porém, se o jogador for rápido o suficiente e pegar a carta antes que ela toque o solo, o jogo tenta executar uma parte do código que ainda depende da queda estar completa — algo que não aconteceu.</p>
+<p>O jogo usa um pinguim invisível para calcular a trajetória da carta enquanto ela cai. Basicamente, a posição da carta está sendo mapeada às coordenadas desse pinguim invisível.
+Quando o jogador coleta a carta cedo demais, o script tenta continuar manipulando a posição do pinguim (que já não deveria mais existir ou estar ativo), o que causa um erro de acesso à memória — um “TLB Exception On Store”. Esse é um tipo de falha comum em jogos do Nintendo 64 quando o código tenta escrever dados em um endereço de memória inválido.</p>
+<p>O jogo cria um pinguim invisível para animar a carta.
+
+A carta deve tocar o chão antes de ser coletada.
+
+Se for coletada antes, o script tenta acessar o pinguim já removido.
+
+Isso faz o jogo travar (crashar) com o erro “TLB Exception On Store”.</p>
+<br>
+<br>
+
+<h3><i>Herringway visited early</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_warehouse_clip.gif">
+<p>O glitch “Herringway visited early” em Paper Mario 64 permite que Mario acesse a casa do personagem Herringway antes do momento correto na história, pulando parte do enredo do “mistério do assassinato do pinguim”.</p>
+<p>Na cidade de Shiver City, há um armazém trancado que normalmente só pode ser aberto depois de pegar a Warehouse Key (chave) encontrada em um lago congelado. No entanto, é possível explorar uma falha de colisão no canto esquerdo do armazém.
+Se o jogador posicionar Mario levemente dentro da quina e montar no parceiro Lakilester, ele consegue atravessar (“clipar”) a parede e entrar no armazém, mesmo sem a chave.</p>
+<p>Na cidade de Shiver City, há um armazém trancado que normalmente só pode ser aberto depois de pegar a Warehouse Key (chave) encontrada em um lago congelado. No entanto, é possível explorar uma falha de colisão no canto esquerdo do armazém.
+Se o jogador posicionar Mario levemente dentro da quina e montar no parceiro Lakilester, ele consegue atravessar (“clipar”) a parede e entrar no armazém, mesmo sem a chave.</p>
+<p>O jogador entra no armazém sem precisar da chave.
+
+A câmera permanece do lado de fora, pois o jogo não foi programado para mostrar o interior nessa situação.
+
+Apesar disso, o jogador pode alcançar o trampolim que leva à chaminé de Herringway.
+
+Ao entrar na casa, ela aparece completamente escura, porque a iluminação do interior só é carregada quando o acesso é feito normalmente.
+
+Falar com Herringway atualiza o progresso da história, permitindo avançar o enredo antes do previsto — pulando toda a primeira parte do mistério.</p>
+<p>Há uma falha de colisão no canto do armazém.
+
+O uso de Lakilester altera temporariamente a posição de Mario, permitindo atravessar a parede.
+
+O jogo carrega áreas e scripts fora de ordem, resultando em bugs visuais (como a escuridão) e avanços de história indevidos.</p>
+<p>Esse glitch é um ótimo exemplo de como pequenas falhas em colisões 3D podem ser exploradas para sequence breaks (quebras de sequência), algo comum em speedruns de jogos do Nintendo 64.</p>
+<br>
+<br>
+
+<h3><i>Peach in Bowser's Castle</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Peach_Bowser's_Castle_battle.png">
+<p>O glitch “Peach in Bowser’s Castle” em Paper Mario 64 é um dos mais curiosos do jogo, pois permite que a Princesa Peach — personagem normalmente limitada às suas seções de interlúdio — entre no castelo de Bowser, algo totalmente impossível no jogo original sem usar falhas na lógica de sequência.</p>
+<p>Durante o interlúdio do Capítulo 6, Peach pode sair do Castelo dela disfarçada com o Sneaky Parasol, depois de receber uma chave da entrada de um Koopatrol. Essa é a única vez no jogo em que ela pode deixar o seu castelo. Se o jogador tentar entrar na porta de Bowser’s Castle, Twink impede, dizendo que a porta está trancada.
+
+O glitch acontece quando o jogador usa quebras de sequência (“sequence breaks”) — ou seja, manipula a ordem dos eventos do jogo. Se o jogador termina o Capítulo 6 e depois força o jogo a repetir um interlúdio anterior da Peach (por meio de outros glitches ou manipulação de save), o jogo “se confunde”:
+
+Ele mantém as portas destrancadas de interlúdios anteriores.
+
+E não reativa o bloqueio de Twink.
+
+Assim, Peach pode sair livremente e entrar em Bowser’s Castle, algo que o jogo não deveria permitir.</p>
+<p>O erro está na lógica de eventos e flags do jogo:
+
+Cada interlúdio da Peach tem suas próprias variáveis de progresso, indicando o que está trancado ou destrancado.
+
+Normalmente, quando um interlúdio termina, essas flags são reiniciadas.
+
+Mas se o jogador volta a um interlúdio anterior fora de ordem, as flags de portas abertas permanecem ativas, e o bloqueio da entrada do castelo não é verificado novamente.
+
+Em outras palavras, Peach consegue sair porque o jogo acredita que a porta ainda está aberta de um evento anterior e não sabe que deveria impedir sua entrada em Bowser’s Castle.</p>
+<p>Como os desenvolvedores nunca programaram interações da Peach dentro do castelo de Bowser, diversos comportamentos bugados ocorrem:
+
+Inimigos e NPCs tratam Peach como se fosse o Mario.
+
+Entrar em batalhas causa travamentos (crashes), pois Peach não tem animações de dano — o jogo tenta exibir uma que não existe.
+
+Se um inimigo acerta um First Strike, o jogo trava pelo mesmo motivo.
+
+Peach pode dormir em uma cela, mas parte de seu sprite desaparece na animação.
+
+Empurrar blocos de Bowser também trava o jogo.
+
+Se o Jr. Troopa ainda não foi derrotado, ele aparecerá para lutar — o que também causa travamento.
+
+Ela só consegue chegar até a sala dos Bullet Bill Blasters, pois o design estreito impede a passagem.</p>
+<p>O jogo foi feito assumindo que Peach nunca poderia sair do castelo depois do Capítulo 6, então nada foi programado para essa situação. Quando o jogador “enganha” o sistema e força o jogo a permitir isso, o motor do jogo não sabe como reagir — resultando em uma das falhas mais bizarras e instáveis de Paper Mario 64.</p>
+<br>
+<br>
+
+<h3><i>Peach in Bowser's Castle</i></h3>
+<img width="70%" src="./src/assets/images/glitchesEBugs/pm/200px-PM_Peach_fighting_Bowser.png">
+<p>O glitch “Peach fighting Bowser” em Paper Mario 64 é uma continuação do glitch que permite que Peach entre no castelo de Bowser. Ele acontece quando a Peach chega a uma situação que o jogo não deveria jamais permitir, ou seja, lutar contra Bowser diretamente como Peach.</p>
+<p>Entrada em Bowser’s Castle como Peach:
+
+Usando a sequência de glitches do interlúdio do Capítulo 6, Peach consegue entrar no castelo, algo que normalmente não é permitido.
+
+Saindo pelo lado errado ou avançando o storyline:
+
+Ao sair do castelo pela porta de trás ou chegar ao topo sem seguir o fluxo normal, o jogo define automaticamente o progresso da história como estado de “final de jogo”.
+
+Isso remove todos os guardas, altera a música de fundo para a música do endgame e faz NPCs reagirem como se Peach fosse Mario.
+
+Chegando à batalha contra Bowser:
+
+Se Bowser não foi derrotado anteriormente, ele aparecerá e iniciará a batalha contra Peach.
+
+Se o jogador tenta usar Twink para atacá-lo, Twink voa e não retorna, causando softlock.
+
+Se Bowser já foi derrotado anteriormente, Peach pode prosseguir até a batalha final.</p>
+<p>O problema central é que Peach nunca foi programada para lutar contra Bowser. O motor do jogo assume que apenas Mario está ativo nas batalhas principais. Consequentemente:
+
+As animações de dano e efeitos de status (como envenenamento) não existem para Peach, ou são mal processadas.
+
+O jogo usa variáveis de Mario (HP, comandos de batalha) para a Peach, resultando em crashes ou softlocks.
+
+Ataques específicos de Bowser (como o ataque de fogo) tentam executar funções que Peach não possui, causando travamentos imediatos.
+
+Outros ataques (stomp, claw) afetam Peach de formas inesperadas:
+
+Claw: descolore o sprite e aplica envenenamento que não é processado corretamente.
+
+Stomp: remove comandos de batalha que Peach nem tem, mas a batalha continua.
+
+Em resumo, o glitch explora o fato de que o jogo não tem nenhuma rotina para Peach participando de batalhas normais ou finais, e tenta usar a lógica de Mario para ela.</p>
+<p>Além disso:
+
+Guardas e NPCs não aparecem corretamente.
+
+Objetos interativos, como espelhos ou camas, usam textos e animações de Mario.
+
+A música de fundo muda para o estado final do jogo.</p>
+<p>Tipo de falha: Falta de programação para Peach em batalhas principais.
+
+Causa: O jogo assume que apenas Mario pode lutar contra Bowser; todas as variáveis e animações de Peach não existem para isso.
+
+Efeito principal: Permite que Peach entre no castelo e lute contra Bowser, causando crashes e softlocks.
+
+Por que funciona: Sequence breaks e manipulação de flags permitem que Peach alcance áreas que o jogo não deveria deixar; o motor tenta tratá-la como Mario, mas sem suporte completo.
+
+🧠 Em essência: Peach lutando contra Bowser é totalmente não planejado pelos desenvolvedores, e o glitch é um exemplo clássico de “unexpected behavior” causado pela ausência de código para uma situação impossível no fluxo normal do jogo.</p>
+<br>
+<br>
