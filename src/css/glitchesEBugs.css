@@ -1,0 +1,39 @@
+.bg-bugs {
+    background: url(../assets/images/glitchesEBugs/bg-bugs.jpg) repeat 100%;
+    animation: moveBugs 40s linear infinite;
+}
+@keyframes moveBugs {
+	from { background-position: top left; }
+	to { background-position: bottom right; }
+}
+
+.list {
+    border: 3px solid transparent;
+}
+
+.list:hover {
+    cursor: pointer !important;
+    border-left-color: red !important;
+    border-right-color: red !important;  
+    color: rgb(255, 0, 0) !important;
+}
+
+.listActived {
+    border-left: 3px solid red !important;
+    border-right: 3px solid red !important;  
+    color: rgb(255, 0, 0) !important;
+}
+
+#pageBugs {
+    width: 80%;
+    background-image: url(../assets/images/glitchesEBugs/bugs-page.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    /* background-color: rgba(222, 224, 236, 0.5); */
+    background-color: rgba(255, 166, 0, 0.5);
+    padding: 10%;
+    border: 20px orange;
+    border-style: solid double ; 
+    border-spacing: 5px;
+    color: white;
+}

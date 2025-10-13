@@ -1,0 +1,151 @@
+@import url(curisositiesOptions/characters.css);
+
+ul {
+    list-style-type: none;
+}
+
+.bg-curiosities {
+    background-image: url('../assets/images/curiosities/background.png');
+    background-color: white;
+    background-repeat: repeat;
+    background-size: 8%;
+    width: 100%;
+    font-family: sans-serif;
+    animation: moveCuriosities 3s linear infinite;
+    border: 1px solid transparent;
+}
+
+ @keyframes moveCuriosities {
+    50%{
+        background-image: url('../assets/images/curiosities/background1.png');
+        background-color: black;
+    };
+ }
+
+.navbar.container {
+    position: relative;
+    right: 7%;
+}
+
+#cloud {
+    position: relative;
+    left: 30%;
+    width: 50%;
+}
+
+.backgroundOp {
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 10%; 
+    padding: 4%;
+    background-color: rgb(240, 234, 234);
+    width: 30%;
+    font-size: 30px;
+    transition: all 0.5s ease-in-out;
+    color: black;
+    cursor: pointer;
+}
+
+.backgroundOp:hover{
+    background-color: red;
+    color: white;
+}
+
+.backgroundOp::after {
+    content:"";
+    position:absolute;
+    bottom: -40px;
+    left: -0.2%; 
+    width:0;
+    height:0;
+     border-width: 1rem;
+    border-right: 30px solid transparent;
+    border-top: 50px solid rgb(240, 234, 234);
+    transition: border-top-color 0.5s ease-in-out;
+    transform: ro0tate(45deg);
+}
+
+.backgroundOp:hover::after {
+    border-top-color: red;
+}
+
+ .options-open {
+    font-size: 35px;
+    color: white;
+    background-color: red;
+    transition: all 0.5s ease-in-out;
+} 
+
+ .options-open::after {
+    border-top-color: red;
+}
+.characters, .games, .consoles { cursor: pointer; display: none; }
+
+.img-curiosity {
+    width: 70px ;
+    height: 70px ;
+    transition: width 0.5s, height 0.5s, margin 0.5s;
+    margin: 10px;
+}
+
+.img-curiosity:hover {
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+}
+
+.modal-footer button {border: 1px solid transparent; border-radius: 50%;}
+
+.modal-footer button:hover {border: 1px solid gold; background-color: gold;}
+
+.curiosities {background: url(../assets/images/curiosities/modalsHeaderBackground.png);}
+
+.modal-header h1 {
+    font-style: italic;
+    font-size: 30px;
+    border-bottom: 5px solid white;
+    color: yellow;
+}
+
+.curiosity button {font-weight: bolder; background-color: white;}
+
+.modal-body {color: black; background: whitesmoke;}
+
+#background-characters {
+    position: relative;
+    padding: 5%;   
+    border: 5px solid white;
+    border-radius: 10%;
+    background: url(../assets/images/curiosities/background-characters.webp) no-repeat;
+    opacity: 0.9;
+    background-size: 100% 100%;
+    width: 100%;
+    height: auto;
+    background-color: rgba(238, 233, 225, 0.5);
+}
+
+#background-games {
+    position: relative;
+    padding: 5%;   
+    border: 5px solid white;
+    border-radius: 10%;
+    background: url(../assets/images/curiosities/background-games.webp) no-repeat;
+    opacity: 0.9;
+    background-size: 100% 100%;
+    width: 100%;
+    height: auto;
+    background-color: rgba(238, 233, 225, 0.5);
+}
+
+#background-consoles {
+    position: relative;
+    padding: 5%;   
+    border: 5px solid white;
+    border-radius: 10%;
+    background: url(../assets/images/curiosities/background-consoles.jpg) no-repeat;
+    opacity: 0.9;
+    background-size: 100% 100%;
+    width: 100%;
+    height: auto;
+    background-color: rgba(238, 233, 225, 0.5);
+}
