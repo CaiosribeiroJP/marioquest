@@ -44,7 +44,7 @@ O projeto combina vídeos, áudios e textos explicativos para oferecer uma exper
 Clone este repositório:
 
 ```bash
-git clone https://github.com/seuusuario/marioquest.git
+git clone https://github.com/CaiosribeiroJP/marioquest.git
 ```
 </li>
 
@@ -88,3 +88,4 @@ Se quiser trocar ideias ou ver outros projetos:
 Este projeto é de uso livre para fins de estudo e portfólio.
 
 Caso utilize alguma parte do código, mantenha os créditos ao autor.
+
